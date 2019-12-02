@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http"
+import {environment} from "../../environments/environment"
 
 @Injectable({
   providedIn: 'root'
@@ -11,10 +12,10 @@ export class AuthService {
   ) { }
 
   login(data){
-      return this.http.post("dashboard/login",data)
+      return this.http.post(`${environment.staticUrl}dashboard/login`,data)
     }
-  
+
   addUser(user){
-    return this.http.post("dashboard/adduser",user)
+    return this.http.post(`${environment.staticUrl}dashboard/adduser`,user)
   }
 }

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http"
+import {environment} from "../../environments/environment"
 import { from } from 'rxjs';
 
 @Injectable({
@@ -11,6 +12,6 @@ export class ManageUsersService {
     private http:HttpClient
   ) { }
   getUsers(){
-    return this.http.get("dashboard/users")
+    return this.http.get(`${environment.staticUrl}dashboard/users`)
   }
 }
