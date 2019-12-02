@@ -1,0 +1,230 @@
+<mat-tab-group dynamicHeight class="wrapper">
+    <mat-tab label="Ingredients">
+        <button class="add_menu" (click)="dialogOpened=true;dialogType='Ingredient Menu'">Add Ingredient Menu</button>
+            <div class="no_ingr" *ngIf='!ingr_menus?.length'>No Ingredient Menu Yet</div>
+        <mat-accordion *ngIf='ingr_menus&&ingr_menus.length'>            
+            <mat-expansion-panel *ngFor="let ingr_menu of ingr_menus" >
+                <mat-expansion-panel-header>
+                    <mat-panel-title class="menu_title">
+                        {{ingr_menu.title}}
+                    </mat-panel-title>                   
+              </mat-expansion-panel-header>
+              <div class="body">
+                    <button class="add_ingr" (click)="dialogOpened=true;dialogType='Ingredient'; ingredient.ingredient_ids=ingr_menu._id">Add Ingredient</button>
+                    <div class="no_ingr_t" *ngIf='!getIngrByMenu(ingr_menu._id)?.length'>No Ingredients Yet</div>
+                    <table class="ingr_table" cellspacing="0" *ngIf="getIngrByMenu(ingr_menu._id)&&getIngrByMenu(ingr_menu._id).length">
+                        <thead>
+                            <tr>
+                                <th>Ingredient Image</th>
+                                <th>Ingredient Title</th>
+                                <th>Ingredient Light Price</th>
+                                <th>Ingredient Price</th>
+                                <th>Ingredient Double Price</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tr *ngFor="let ingr of getIngrByMenu(ingr_menu._id)">
+                            <td><img [src]="imgurl+'/'+ingr.image" alt="" style="width:50px;height:50px; object-fit: contain"></td>
+                            <td>{{ingr.title}}</td>
+                            <td>$ {{ingr.light_price}}</td>
+                            <td>$ {{ingr.price}}</td>
+                            <td>$ {{ingr.double_price}}</td>
+                            <td><i class="far fa-edit" style="color:#F2AC21 "></i></td>
+                            <td  (click)="deleteIngredient(ingr._id)"><i class="fas fa-trash" style="color:red"></i></td>
+                        </tr>
+                    </table>
+              </div>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </mat-tab>
+    <mat-tab label="Products">    
+            <button class="add_menu" (click)="dialogOpened=true;dialogType='Product Menu'">Add Product Menu</button> 
+            <div class="no_ingr" *ngIf='!prod_menus?.length'>No Product Menu Yet</div>
+            <mat-accordion *ngIf='prod_menus&&prod_menus.length'>            
+                <mat-expansion-panel *ngFor="let prod_menu of prod_menus" >
+                    <mat-expansion-panel-header>
+                        <mat-panel-title class="menu_title">
+                            {{prod_menu.title}}
+                        </mat-panel-title>                   
+                  </mat-expansion-panel-header>
+                  <div class="body">
+                        <button class="add_ingr" (click)="dialogOpened=true;dialogType='Product';product.menu_ids[0]=prod_menu._id">Add Product</button>
+                        <div class="no_ingr_t" *ngIf='!getProdByMenu(prod_menu._id).length'>No Products Yet</div>   
+                        <table class="ingr_table" cellspacing="0" *ngIf="getProdByMenu(prod_menu._id)&&getProdByMenu(prod_menu._id).length">
+                            <thead>
+                                <tr>
+                                    <th>Product Image</th>
+                                    <th>Product Title</th>
+                                    <th>Product Price</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tr *ngFor="let prod of getProdByMenu(prod_menu._id)">
+                                <td><img [src]="imgurl+'/'+prod.image" alt="" style="width:50px;height:50px; object-fit: contain;"></td>
+                                <td>{{prod.title}}</td>
+                                <td>$ {{prod.price}}</td>
+                                <td><i class="far fa-edit" style="color:#F2AC21 "></i></td>
+                                <td  (click)="deleteIngredient(prod._id)"><i class="fas fa-trash" style="color:red"></i></td>
+                            </tr>
+                        </table>                 
+                  </div>
+                </mat-expansion-panel>
+            </mat-accordion>
+        </mat-tab>
+        <mat-tab label="Combo Menus">  
+                <button class="add_menu" (click)="dialogOpened=true;dialogType='Combo Menu'">Add Combo Menu</button>  
+                <div class="no_ingr" *ngIf='!comboMenus.length'>No Combo Menu Yet</div>     
+                <mat-accordion *ngIf='comboMenus&&comboMenus.length'>            
+                    <mat-expansion-panel *ngFor="let comboMenu of comboMenus" >
+                        <mat-expansion-panel-header>
+                            <mat-panel-title class="menu_title">
+                                {{comboMenu.title}}
+                            </mat-panel-title>                   
+                      </mat-expansion-panel-header>
+                      <div class="body">
+                            <button class="add_ingr" (click)="dialogOpened=true;dialogType='Combo Product';comboProd.special_menu_id=comboMenu._id">Add Combo Product</button>
+                            <!--<div class="no_ingr_t" *ngIf='!getComboProdByMenu(comboMenu._id).length'>No Products Yet</div> -->    
+                            <table class="ingr_table" cellspacing="0" *ngIf="getComboProdByMenu(comboMenu._id)&&getComboProdByMenu(comboMenu._id).length">
+                                <thead>
+                                    <tr>
+                                        <th>Product Image</th>
+                                        <th>Product Title</th>
+                                        <th>Product Price</th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tr *ngFor="let prod of getComboProdByMenu(comboMenu._id)">
+                                    <td><img [src]="imgurl+'/'+prod.image" alt="" style="width:50px;height:50px; object-fit: contain;"></td>
+                                    <td>{{prod.title}}</td>
+                                    <td>$ {{prod.price}}</td>
+                                    <td><i class="far fa-edit" style="color:#F2AC21 "></i></td>
+                                    <td  (click)="deleteIngredient(prod._id)"><i class="fas fa-trash" style="color:red"></i></td>
+                                </tr>
+                            </table>                                      
+                      </div>
+                    </mat-expansion-panel>
+                </mat-accordion>
+        </mat-tab>
+    <mat-tab label="Combo Products">  
+            <button class="add_menu" (click)="dialogOpened=true;dialogType='Combo'">Add Combo</button>      
+    </mat-tab>
+</mat-tab-group>
+
+<div class="dialog" *ngIf="dialogOpened">
+    <div class="dialog_form">
+       <div class="ribon">
+           <div class="header">Add New {{dialogType}}</div>
+           <div class="close" (click)="dialogOpened=false;dialogType='';resetform()"> <i class="far fa-times"></i></div>           
+       </div>
+       <div class="body">
+           <input type="text" placeholder="Menu Title" name="mt" [(ngModel)]="ingrMenuTitle" *ngIf="dialogType=='Ingredient Menu'||dialogType=='Product Menu'||dialogType=='Product Menu'" autocomplete="off">
+           <input type="text" placeholder="Ingredient Title" name="it" [(ngModel)]="ingredient.title" *ngIf="dialogType=='Ingredient'" autocomplete="off">
+           <input type="text" placeholder="Ingredient Light price" name="it" [(ngModel)]="ingredient.light_price" *ngIf="dialogType=='Ingredient'" autocomplete="off">
+           <input type="text" placeholder="Ingredient  Normal price" name="it" [(ngModel)]="ingredient.price" *ngIf="dialogType=='Ingredient'" autocomplete="off">
+           <input type="text" placeholder="Ingredient Double price" name="it" [(ngModel)]="ingredient.double_price" *ngIf="dialogType=='Ingredient'" autocomplete="off">           
+           <input type="text" placeholder="Product Title" name="it" [(ngModel)]="product.title" *ngIf="dialogType=='Product'" autocomplete="off">
+           <input type="text" placeholder="Product Price" name="it" [(ngModel)]="product.price" *ngIf="dialogType=='Product' &&product.sizable=='false' && product.customizable=='false'"  autocomplete="off">
+           <div *ngIf="dialogType=='Product'">Does product has different sizes?</div>
+           <mat-radio-group [(ngModel)]="product.sizable" *ngIf="dialogType=='Product'" (change)="product.customizable='false'">
+                <mat-radio-button class="sizable" value="false">No</mat-radio-button>
+                <mat-radio-button class="sizable" value="true">Yes</mat-radio-button>                 
+            </mat-radio-group>
+           <div *ngIf="dialogType=='Product'">Is product customizable?</div>
+           <mat-radio-group [(ngModel)]="product.customizable" *ngIf="dialogType=='Product'" (change)="product.sizable='false'">
+                <mat-radio-button class="customizable" value="false">No</mat-radio-button>
+                <mat-radio-button class="customizable" value="true">Yes</mat-radio-button>                 
+            </mat-radio-group>
+            <input type="text" placeholder="Small Price" name="it" [(ngModel)]="product?.sizes[0].price" *ngIf="dialogType=='Product'&&product.sizable=='true'" autocomplete="off">
+            <input type="text" placeholder="Medum Price" name="it" [(ngModel)]="product?.sizes[1].price" *ngIf="dialogType=='Product'&&product.sizable=='true'" autocomplete="off">
+            <input type="text" placeholder="Large Price" name="it" [(ngModel)]="product?.sizes[2].price" *ngIf="dialogType=='Product'&&product.sizable=='true'" autocomplete="off">
+            <mat-form-field *ngIf="product.customizable=='true'&&dialogType=='Product'" style="display:block;  width:calc(100% - 32px); margin:auto">
+                <mat-select placeholder="Ingredients for making product" [formControl]="prodIngr" multiple>
+                    <mat-select-trigger>
+                        {{prodIngr.value ? prodIngr.value[0]?.title : ''}}
+                        <span *ngIf="prodIngr.value?.length > 1" class="example-additional-selection">
+                          (+{{prodIngr.value.length - 1}} {{prodIngr.value?.length === 2 ? 'other' : 'others'}})
+                        </span>
+                    </mat-select-trigger>
+                      <mat-option *ngFor="let ingr of ingr_menus" [value]="ingr">{{ingr.title}}</mat-option>
+                </mat-select>
+            </mat-form-field>        
+            <mat-form-field *ngIf="product.customizable=='true'&&dialogType=='Product'" style="display:block;  width:calc(100% - 32px); margin:auto">
+                <mat-label>Default Ingredients</mat-label>
+                <mat-select [formControl]="defaultIngr" multiple>                 
+                  <mat-optgroup *ngFor="let ingr of prodIngr.value" [label]="ingr.title">
+                    <mat-option *ngFor="let ingr_type of getIngrByMenu(ingr._id)" [value]="ingr_type">
+                      {{ingr_type.title}}
+                    </mat-option>
+                  </mat-optgroup>
+                </mat-select>
+              </mat-form-field>
+
+              <input type="text" placeholder="Combo Title" name="it" [(ngModel)]="combo.title" *ngIf="dialogType=='Combo'" autocomplete="off">
+              <input type="text" placeholder="Combo Menu Title" name="it" [(ngModel)]="comboMenu.title" *ngIf="dialogType=='Combo Menu'" autocomplete="off">
+              <div *ngIf="dialogType=='Combo Menu'">Is combo customizable?</div>
+              <mat-radio-group [(ngModel)]="comboMenu.configurable" *ngIf="dialogType=='Combo Menu'" >
+                   <mat-radio-button class="customizable" value="false">No</mat-radio-button>
+                   <mat-radio-button class="customizable" value="true">Yes</mat-radio-button>                 
+               </mat-radio-group>
+
+               <mat-form-field *ngIf="dialogType=='Combo Product'" style="display:block;  width:calc(100% - 32px); margin:auto">
+                <mat-select placeholder="Product For Making Combo Menu" [formControl]="combo_prod" multiple>
+                    <mat-select-trigger>
+                        {{prodIngr.value ? prodIngr.value[0]?.title : ''}}
+                        <span *ngIf="prodIngr.value?.length > 1" class="example-additional-selection">
+                          (+{{prodIngr.value.length - 1}} {{prodIngr.value?.length === 2 ? 'other' : 'others'}})
+                        </span>
+                    </mat-select-trigger>
+                      <mat-option *ngFor="let prod of products" [value]="prod">{{prod.title}}</mat-option>
+                </mat-select>
+            </mat-form-field> 
+
+            <mat-form-field *ngIf="dialogType=='Combo'" style="display:block;  width:calc(100% - 32px); margin:auto">
+                <mat-select placeholder="Menu For Making Combo" [formControl]="combo_menu" multiple>
+                    <mat-select-trigger>
+                        {{combo_menu.value ? combo_menu.value[0]?.title : ''}}
+                        <span *ngIf="combo_menu.value?.length > 1" class="example-additional-selection">
+                          (+{{combo_menu.value.length - 1}} {{combo_menu.value?.length === 2 ? 'other' : 'others'}})
+                        </span>
+                    </mat-select-trigger>
+                      <mat-option *ngFor="let menu of comboMenus" [value]="menu">{{menu.title}}</mat-option>
+                </mat-select>
+            </mat-form-field> 
+            <mat-form-field *ngIf="dialogType=='Combo'" style="display:block;  width:calc(100% - 32px); margin:auto">
+                <mat-select placeholder="Products For Making Combo" [formControl]="combo_prod" multiple>
+                    <mat-select-trigger>
+                        {{combo_prod.value ? combo_prod.value[0]?.title : ''}}
+                        <span *ngIf="combo_prod.value?.length > 1" class="example-additional-selection">
+                          (+{{combo_prod.value.length - 1}} {{combo_prod.value?.length === 2 ? 'other' : 'others'}})
+                        </span>
+                    </mat-select-trigger>
+                    <mat-optgroup *ngFor="let menu of combo_menu.value" [label]="menu.title">
+                        <mat-option *ngFor="let prod of getComboProdByMenu(menu._id)" [value]="prod">
+                          {{prod.title}}
+                        </mat-option>
+                      </mat-optgroup>
+                </mat-select>
+            </mat-form-field> 
+            <mat-form-field *ngIf="dialogType=='Combo'" style="display:block;  width:calc(100% - 32px); margin:auto">
+                <mat-select placeholder="Default Products For Making Combo" [formControl]="combo_default" multiple>
+                    <mat-select-trigger>
+                        {{combo_default.value ? combo_default.value[0]?.title : ''}}
+                        <span *ngIf="combo_default.value?.length > 1" class="example-additional-selection">
+                          (+{{combo_default.value.length - 1}} {{combo_default.value?.length === 2 ? 'other' : 'others'}})
+                        </span>
+                    </mat-select-trigger>
+                    <mat-optgroup *ngFor="let menu of combo_menu.value" [label]="menu.title">
+                        <mat-option *ngFor="let prod of getComboDefProdByMenu(menu._id)" [value]="prod">
+                          {{prod.title}}
+                        </mat-option>
+                      </mat-optgroup>
+                </mat-select>
+            </mat-form-field> 
+              <input type="file"  name="avatar" accept="image/png, image/jpeg" *ngIf="dialogType=='Ingredient'||dialogType=='Product' ||dialogType=='Combo'" (change)="getImage($event.target.files)">
+           <button style="display:block; margin:auto"  (click)="add(dialogType)">Add  {{dialogType}}</button>
+       </div>
+    </div>
+</div>

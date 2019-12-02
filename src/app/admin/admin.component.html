@@ -1,0 +1,9 @@
+<div class="dashboard-wrapper">
+    <div class="sidebar">
+        <div class="nav" *ngFor='let nav of menu'  [routerLink]="nav?.link"><i [class]="nav?.icon" ></i> {{nav.title}}</div>
+        <div class="nav" (click)="logout()"><i class="fas fa-sign-out-alt"></i> Log Out</div>
+    </div>
+    <div class="route">
+            <router-outlet></router-outlet>
+    </div>   
+</div>

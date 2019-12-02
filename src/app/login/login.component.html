@@ -1,0 +1,10 @@
+
+<div class="login-wrapper">
+    
+    <form action="" class="login-form">
+            <div class="welcome">Welcome! Please sign in</div>
+        <input type="text" class="username" placeholder="Username or Email" [(ngModel)]="loginData.userName"  name="usename">
+        <input type="password" placeholder="Password"  class="password" [(ngModel)]="loginData.password" name="password">
+        <button class="login-button" (click)="login()">Login</button>
+    </form>
+</div>

@@ -1,0 +1,24 @@
+.dashboard-wrapper{
+    font-weight: 500;
+    .sidebar{
+        position: absolute;
+        height: 100%;
+        width:270px;
+        display:inline-block;        
+        background-color: #5E5B58;
+        padding:20px 0;
+        .nav{
+            color:white;
+            cursor: pointer;
+            padding:10px 15px;
+            font-size:24px
+        }
+    }
+    .route{
+        position: absolute;
+        left:270px;
+        width:calc(100% - 270px);
+        height:100%;
+        overflow:auto
+    }
+}

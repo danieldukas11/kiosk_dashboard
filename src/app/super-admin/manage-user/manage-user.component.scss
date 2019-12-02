@@ -1,0 +1,23 @@
+.user-wrapper{
+    height:100%;
+    font-weight:600;
+    .add-user{
+        font-size:24px;
+        margin:24px;
+        padding:16px;
+        border-radius:100px;
+        border:0;
+        background-color:#F2AC21 ;
+        color:white;
+        outline:0
+    }
+   
+    .users{
+        overflow:auto;
+        .no-user{
+            margin:20px;
+            font-size:40px;
+            color:#5E5B58;
+        }
+    }
+}

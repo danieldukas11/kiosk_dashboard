@@ -1,0 +1,282 @@
+import { Component, OnInit } from '@angular/core';
+import {ManageProductsService} from "../../services/manage-products.service"
+import{environment} from '../../../environments/environment'
+import {FormControl} from '@angular/forms';
+import { fromEvent } from 'rxjs';
+@Component({
+  selector: 'app-product-management',
+  templateUrl: './product-management.component.html',
+  styleUrls: ['./product-management.component.scss']
+})
+export class ProductManagementComponent implements OnInit {
+  imgurl=environment.staticUrl+"images";
+
+  dialogOpened=false ;
+  dialogType="" ;
+
+  ingr_menus=[];
+  ingredients=[];
+  prod_menus=[];
+  products=[];
+  combos=[];
+  comboMenus=[]
+  ComboProds=[]
+
+  prodIngr = new FormControl();
+  defaultIngr = new FormControl();
+  combo_prod=new FormControl();
+  combo_menu=new FormControl();
+  combo_default=new FormControl();
+  ingrMenuTitle="";
+  img;
+
+  ingredient={
+    title:"",    
+    light_price:"",
+    price:"",
+    double_price:"",
+    ingredient_ids:"",
+    
+  };
+  product={
+    title:"",
+    price:"",
+    sizable:"false",   
+    customizable:"false",
+    menu_ids:[],
+    sizes:[
+      {
+        title:"Small",
+        price:""
+      },
+      {
+        title:"Medium",
+        price:""
+      },
+      {
+        title:"Large",
+        price:""
+      }
+    ]
+  };
+  comboMenu={
+    title:"",
+    configurable:"false"
+  }
+  combo={
+    title:"",
+  };
+  comboProd={
+    products:[],
+    special_menu_id:""
+
+  }
+  constructor(private mp:ManageProductsService) {
+   }
+   
+  ngOnInit() { 
+    this.mp.getIngredientMenus().subscribe((data:any[])=>{
+      this.ingr_menus=data      
+      console.log(this.ingr_menus)
+    })
+    this.mp.getIngredients().subscribe((data:any[])=>{      
+      this.ingredients=data  
+      console.log(this.ingredients)    
+    })
+    this.mp.getProductMenus().subscribe((data:any[])=>{
+      this.prod_menus=data
+    })
+    this.mp.getProducts().subscribe((data:any[])=>{
+      this.products=data
+    })
+    this.mp.getComboMenu().subscribe((data:any[])=>{
+      this.comboMenus=data
+    })
+  }
+  resetform(){
+   this.ingrMenuTitle=""
+   this.ingredient.title=""
+   this.ingredient.light_price=""
+   this.ingredient.price=""
+   this.ingredient.double_price=""
+   this.ingredient.ingredient_ids=""
+   this.prodIngr=new FormControl();
+   this.defaultIngr=new FormControl();  
+   this.product.customizable="false"
+   this.product.price=""
+   this.product.title=""
+   this.product.sizable="false"
+   this.product.menu_ids=[];
+   this.combo_prod=new FormControl();
+   this.combo_menu=new FormControl();
+   this.comboProd.products=[],
+   this.comboProd.special_menu_id="";
+   this.comboMenu.title="",
+   this.comboMenu.configurable="false"
+   this.product.sizes=[
+    {
+      title:"Small",
+      price:""
+    },
+    {
+      title:"Medium",
+      price:""
+    },
+    {
+      title:"Large",
+      price:""
+    }
+  ]
+   this.img=null
+  }
+
+  add(type){
+    let frm=new FormData();
+    switch(type){
+      case "Ingredient Menu":
+        let ingrmenu =this.mp.addIngredientMenu(this.ingrMenuTitle).subscribe(data=>{
+          this.ingr_menus.push(data);
+          this.dialogOpened=false 
+          this.dialogType="" 
+          this.resetform()
+          ingrmenu.unsubscribe()
+        })
+        break;
+      case "Ingredient": 
+        
+        frm.append("image",this.img);
+        frm.append("title", this.ingredient.title)
+        frm.append("price", this.ingredient.price)
+        frm.append("light_price", this.ingredient.light_price)
+        frm.append("double_price",this.ingredient.double_price)
+        frm.append("ingredient_ids",this.ingredient.ingredient_ids)
+       let ingrs=this.mp.addIngredient(frm).subscribe((data=>{
+         console.log(data)
+          this.ingredients.push(data)
+          this.dialogOpened=false 
+          this.dialogType="" 
+          this.resetform()
+          ingrs.unsubscribe()
+        }))
+        break;
+        case "Product Menu":
+          let prodm=this.mp.addProductMenu(this.ingrMenuTitle).subscribe((data)=>{
+            this.prod_menus.push(data);
+            this.dialogOpened=false 
+            this.dialogType="" 
+            this.resetform()
+            prodm.unsubscribe()
+          })
+          break
+          case "Product":
+              frm.append("image",this.img);
+              frm.append("title",this.product.title);
+              frm.append("sizable", this.product.sizable);
+              frm.append("customizable", this.product.customizable);
+              frm.append("menu_ids", JSON.stringify(this.product.menu_ids))
+              if(this.product.sizable=="false"&&this.product.customizable=="false"){
+                frm.append("price",this.product.price);   
+              }
+                         
+              if(this.product.sizable=="true"){
+                frm.append("sizes", JSON.stringify(this.product.sizes))
+              }
+              if(this.product.customizable=="true"){
+                frm.append("prodIngr", JSON.stringify(this.prodIngr.value));
+                frm.append("defaultIngr", JSON.stringify(this.defaultIngr.value))
+              }
+              this.mp.addProduct(frm).subscribe(data=>{
+                this.products.push(data)
+                this.dialogOpened=false 
+                this.dialogType="" 
+                this.resetform()
+              })            
+            break;
+          case "Combo":
+            let price=0
+            if(this.combo_default.value&&this.combo_default.value.length){
+              this.combo_default.value.forEach(d => {
+                price+=d.price
+              });
+              console.log(price)
+              
+            }
+            frm.append("image",this.img);
+            frm.append("title", this.combo.title);
+            frm.append("price",JSON.stringify(price));
+            frm.append("products",JSON.stringify(this.combo_prod.value));
+            frm.append("comboMenu",JSON.stringify(this.combo_menu.value));
+            frm.append("defaults",JSON.stringify(this.combo_default.value));
+            this.mp.addCombo(frm).subscribe(data=>{
+              this.dialogOpened=false 
+              this.dialogType="" 
+              this.resetform()
+              console.log(data)
+              this.combos.push(data)
+            })
+            break
+            case "Combo Menu":
+                this.mp.addComboMenu(this.comboMenu).subscribe(data=>{
+                  console.log(data)
+                  this.comboMenus.push(data);
+                  this.dialogOpened=false 
+                  this.dialogType="" 
+                  this.resetform()
+                })
+                break
+                case "Combo Product":                  
+                  this.combo_prod.value.forEach(dat => {
+                    this.comboProd.products.push(dat._id)
+                  });
+                  this.mp.addComboProd(this.comboProd).subscribe(data=>{
+                    console.log(data)
+                    this.dialogOpened=false 
+                    this.dialogType="" 
+                    this.resetform()
+                  })
+                  break
+    }
+  }
+
+  getIngrByMenu(id){
+    return this.ingredients.filter(ingr=>{
+      return ingr.ingredient_ids[0]==id
+    })
+  }
+
+  getProdByMenu(id){
+    return this.products.filter(prod=>{
+      return prod.menu_ids[0]==id
+    })
+  }
+  getComboProdByMenu(id){
+    return this.products.filter(prod=>{
+      return prod.special_menu_ids[0]==id
+    })
+  }
+  getComboDefProdByMenu(id){
+    if (this.combo_prod.value&&this.combo_prod.value.length){
+      
+    return this.combo_prod.value.filter(prod=>{
+      return prod.special_menu_ids[0]==id
+    })
+    return null
+    }
+    
+  }
+  deleteIngredient(id){
+    this.mp.deleteIngredient(id).subscribe(data=>{
+      this.ingredients=this.ingredients.filter(data=>{
+        return data._id!=id
+      })
+    })   
+  }
+  getImage(img){
+    this.img= img.item(0); 
+
+  }
+  
+
+
+  
+}

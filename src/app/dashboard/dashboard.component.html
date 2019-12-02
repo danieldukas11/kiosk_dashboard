@@ -1,0 +1,2 @@
+<app-super-admin *ngIf="(getRole()|lowercase)=='superadmin'"></app-super-admin>
+<app-admin *ngIf="(getRole()|lowercase)=='admin'"></app-admin>
