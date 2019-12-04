@@ -7,7 +7,7 @@
     <button class="add_menu" (click)="openIngredientMenuDialog()">Add Ingredient Menu</button>
 
     <div class="no_ingr" *ngIf='!ingr_menus?.length'>No Ingredient Menu Yet</div>
-    
+
     <mat-accordion *ngIf='ingr_menus&&ingr_menus.length'>
       <mat-expansion-panel *ngFor="let ingr_menu of ingr_menus">
         <mat-expansion-panel-header>
@@ -52,7 +52,7 @@
   </mat-tab>
   <!-- Products tab -->
   <mat-tab label="Products">
-    <button class="add_menu" (click)="dialogOpened=true;dialogType='Product Menu'">Add Product Menu</button>
+    <button class="add_menu" (click)="openProductDialog()">Add Product Menu</button>
     <div class="no_ingr" *ngIf='!prod_menus?.length'>No Product Menu Yet</div>
     <mat-accordion *ngIf='prod_menus&&prod_menus.length'>
       <mat-expansion-panel *ngFor="let prod_menu of prod_menus">

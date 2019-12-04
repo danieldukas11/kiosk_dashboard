@@ -5,6 +5,7 @@ import {FormControl} from '@angular/forms';
 import {fromEvent} from 'rxjs';
 import {MatDialog} from '@angular/material/dialog';
 import {SaveIngredientMenuDialogComponent} from '../../dialogs/save-ingredient-menu-dialog/save-ingredient-menu-dialog.component';
+import {SaveProductMenuDialogComponent} from '../../dialogs/save-product-menu-dialog/save-product-menu-dialog.component';
 
 @Component({
   selector: 'app-product-management',
@@ -293,7 +294,11 @@ export class ProductManagementComponent implements OnInit {
     // this.dialogOpened = true;
     // this.dialogType = 'Ingredient Menu';
 
-    this.matDialog.open(SaveIngredientMenuDialogComponent, {data: {}});
+    this.matDialog.open(SaveIngredientMenuDialogComponent, {data: {}}).afterClosed().subscribe(() => {
+      this.mp.getIngredientMenus().subscribe((data: any[]) => {
+        this.ingr_menus = data;
+      });
+    });
   }
 
 
@@ -302,6 +307,19 @@ export class ProductManagementComponent implements OnInit {
     this.dialogOpened = true;
     this.dialogType = 'Ingredient';
     this.ingredient.ingredient_ids = menuId;
+  }
+
+  openProductDialog() {
+//dialogOpened=true;dialogType='Product';product.menu_ids[0]=prod_menu._id
+//     this.dialogOpened = true;
+//     this.dialogType = 'Product';
+
+    this.matDialog.open(SaveProductMenuDialogComponent, {data: {}}).afterClosed().subscribe(() => {
+      this.mp.getProductMenus().subscribe((data: any[]) => {
+        this.prod_menus = data;
+      });
+    });
+
   }
 
 

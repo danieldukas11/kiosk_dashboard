@@ -5,40 +5,40 @@ import {ManageProductsService} from '../../services/manage-products.service';
 import {Subscription} from 'rxjs';
 
 @Component({
-  selector: 'app-save-ingredient-menu-dialog',
-  templateUrl: './save-ingredient-menu-dialog.component.html',
-  styleUrls: ['./save-ingredient-menu-dialog.component.scss']
+  selector: 'app-save-product-menu-dialog',
+  templateUrl: './save-product-menu-dialog.component.html',
+  styleUrls: ['./save-product-menu-dialog.component.scss']
 })
-export class SaveIngredientMenuDialogComponent implements OnInit, OnDestroy {
-  saveIngredientMenuForm: FormGroup;
+export class SaveProductMenuDialogComponent implements OnInit, OnDestroy {
+  saveProductMenuForm: FormGroup;
   subscriptions: Subscription[] = [];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private fb: FormBuilder,
     private mp: ManageProductsService,
-    public dialogRef: MatDialogRef<SaveIngredientMenuDialogComponent>
+    public dialogRef: MatDialogRef<SaveProductMenuDialogComponent>
   ) {
-    this.saveIngredientMenuForm = fb.group({title: ['', Validators.required]});
+    this.saveProductMenuForm = fb.group({title: ['', Validators.required]});
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
   }
 
   add() {
-    if (this.saveIngredientMenuForm.valid) {
-      this.subscriptions.push(this.mp.addIngredientMenu(this.titleCtrl.value).subscribe(() => {
+    if (this.saveProductMenuForm.valid) {
+      this.subscriptions.push(this.mp.addProductMenu(this.titleCtrl.value).subscribe(() => {
         this.dialogRef.close();
       }));
     }
   }
 
   get titleCtrl() {
-    return this.saveIngredientMenuForm.get('title');
+    return this.saveProductMenuForm.get('title');
   }
+
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(s => s.unsubscribe());
   }
-
 }
