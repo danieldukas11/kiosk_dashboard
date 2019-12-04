@@ -92,7 +92,7 @@
 
   <!-- Combo menus tab -->
   <mat-tab label="Combo Menus">
-    <button class="add_menu" (click)="dialogOpened=true;dialogType='Combo Menu'">Add Combo Menu</button>
+    <button class="add_menu" (click)="openComboMenuDialog()">Add Combo Menu</button>
     <div class="no_ingr" *ngIf='!comboMenus.length'>No Combo Menu Yet</div>
     <mat-accordion *ngIf='comboMenus&&comboMenus.length'>
       <mat-expansion-panel *ngFor="let comboMenu of comboMenus">

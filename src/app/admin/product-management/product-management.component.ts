@@ -6,6 +6,7 @@ import {fromEvent} from 'rxjs';
 import {MatDialog} from '@angular/material/dialog';
 import {SaveIngredientMenuDialogComponent} from '../../dialogs/save-ingredient-menu-dialog/save-ingredient-menu-dialog.component';
 import {SaveProductMenuDialogComponent} from '../../dialogs/save-product-menu-dialog/save-product-menu-dialog.component';
+import {SaveComboMenuDialogComponent} from '../../dialogs/save-combo-menu-dialog/save-combo-menu-dialog.component';
 
 @Component({
   selector: 'app-product-management',
@@ -320,6 +321,14 @@ export class ProductManagementComponent implements OnInit {
       });
     });
 
+  }
+
+  openComboMenuDialog() {
+    this.matDialog.open(SaveComboMenuDialogComponent, {data: {}}).afterClosed().subscribe(() => {
+      this.mp.getComboMenu().subscribe((data: any[]) => {
+        this.comboMenus = data;
+      });
+    });
   }
 
 

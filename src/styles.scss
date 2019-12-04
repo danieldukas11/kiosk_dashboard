@@ -3,11 +3,40 @@
 @import url('https://kiosk3.herokuapp.com/fonts/roboto/roboto.css');*/
 /*@import url("http://localhost:3500/fontawesome-pro-5.8.2-web/css/all.min.css");
 @import url('http://localhost:3500/fonts/roboto/roboto.css');*/
-*{
-    margin:0;
-    padding:0;
-    box-sizing: border-box;
-    font-family: roboto;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: roboto;
 }
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+
+.saveProductMenuForm, .saveIngredientMenuForm, .saveComboMenuForm {
+  input {
+    display: block;
+    width: calc(100% - 32px);
+    margin: 16px;
+    font-size: 24px;
+    color: #5E5B58;
+    border: 1px solid #5E5B58;
+  }
+
+  button {
+    font-size: 20px;
+    padding: 16px;
+    border-radius: 100px;
+    border: 0;
+    background-color: #F2AC21;
+    color: white;
+    outline: 0;
+  }
+}
