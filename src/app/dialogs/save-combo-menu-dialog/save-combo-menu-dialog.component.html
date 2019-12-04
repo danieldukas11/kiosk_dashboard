@@ -1,0 +1,20 @@
+<form [formGroup]="saveComboMenuForm" class="saveComboMenuForm">
+  <h1 mat-dialog-title>Add new combo menu</h1>
+
+  <mat-dialog-content>
+    <input type="text" placeholder="Menu Title" name="mt" autocomplete="off" formControlName="title">
+    <mat-error *ngIf="titleCtrl.touched && titleCtrl.hasError('required')">
+      Title is <strong>required</strong>
+    </mat-error>
+
+    <div>Is combo customizable?</div>
+    <mat-radio-group formControlName="configurable">
+      <mat-radio-button class="customizable" value="false">No</mat-radio-button>
+      <mat-radio-button class="customizable" value="true">Yes</mat-radio-button>
+    </mat-radio-group>
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <button (click)="add()">Add combo menu</button>
+  </mat-dialog-actions>
+</form>
