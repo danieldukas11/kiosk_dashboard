@@ -1,0 +1,22 @@
+<form [formGroup]="saveIngredientForm" class="saveIngredientForm">
+
+  <h1 mat-dialog-title>Add new ingredient</h1>
+
+  <mat-dialog-content>
+    <input type="text" placeholder="Ingredient Title" name="it" formControlName="title"
+           autocomplete="off">
+    <input type="text" placeholder="Ingredient Light price" name="it" formControlName="light_price"
+           autocomplete="off">
+    <input type="text" placeholder="Ingredient Normal price" name="it" formControlName="normal_price"
+           autocomplete="off">
+    <input type="text" placeholder="Ingredient Double price" name="it" formControlName="double_price"
+           autocomplete="off">
+
+    <input type="file" name="avatar" accept="image/png, image/jpeg"
+           (change)="getImage($event.target.files)">
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <button (click)="add()">Add new ingredient</button>
+  </mat-dialog-actions>
+</form>

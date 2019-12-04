@@ -7,6 +7,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {SaveIngredientMenuDialogComponent} from '../../dialogs/save-ingredient-menu-dialog/save-ingredient-menu-dialog.component';
 import {SaveProductMenuDialogComponent} from '../../dialogs/save-product-menu-dialog/save-product-menu-dialog.component';
 import {SaveComboMenuDialogComponent} from '../../dialogs/save-combo-menu-dialog/save-combo-menu-dialog.component';
+import {SaveIngredientDialogComponent} from '../../dialogs/save-ingredient-dialog/save-ingredient-dialog.component';
 
 @Component({
   selector: 'app-product-management',
@@ -287,7 +288,6 @@ export class ProductManagementComponent implements OnInit {
 
   getImage(img) {
     this.img = img.item(0);
-
   }
 
 
@@ -305,13 +305,17 @@ export class ProductManagementComponent implements OnInit {
 
   openIngredientDialog(menuId) {
 
-    this.dialogOpened = true;
-    this.dialogType = 'Ingredient';
-    this.ingredient.ingredient_ids = menuId;
+    // this.dialogOpened = true;
+    // this.dialogType = 'Ingredient';
+    // this.ingredient.ingredient_ids = menuId;
+
+    this.matDialog.open(SaveIngredientDialogComponent, {data: {menuId}}).afterClosed().subscribe(() => {
+
+    });
   }
 
   openProductDialog() {
-//dialogOpened=true;dialogType='Product';product.menu_ids[0]=prod_menu._id
+// dialogOpened=true;dialogType='Product';product.menu_ids[0]=prod_menu._id
 //     this.dialogOpened = true;
 //     this.dialogType = 'Product';
 
