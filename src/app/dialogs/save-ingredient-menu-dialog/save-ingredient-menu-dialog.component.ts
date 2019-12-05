@@ -12,6 +12,7 @@ import {Subscription} from 'rxjs';
 export class SaveIngredientMenuDialogComponent implements OnInit, OnDestroy {
   saveIngredientMenuForm: FormGroup;
   subscriptions: Subscription[] = [];
+  edit = false;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -19,17 +20,25 @@ export class SaveIngredientMenuDialogComponent implements OnInit, OnDestroy {
     private mp: ManageProductsService,
     public dialogRef: MatDialogRef<SaveIngredientMenuDialogComponent>
   ) {
+    this.edit = !!data.menu;
+
     this.saveIngredientMenuForm = fb.group({title: ['', Validators.required]});
+
+    if (this.edit) {
+      this.saveIngredientMenuForm.patchValue(data.menu);
+    }
   }
 
   ngOnInit() {
   }
 
-  add() {
+  save() {
     if (this.saveIngredientMenuForm.valid) {
-      this.subscriptions.push(this.mp.addIngredientMenu(this.titleCtrl.value).subscribe(() => {
-        this.dialogRef.close();
-      }));
+      if (!this.edit) {
+        this.subscriptions.push(this.mp.addIngredientMenu(this.titleCtrl.value).subscribe(() => {
+          this.dialogRef.close();
+        }));
+      }
     }
   }
 

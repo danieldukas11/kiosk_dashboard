@@ -12,8 +12,14 @@
       <mat-expansion-panel *ngFor="let ingr_menu of ingr_menus">
         <mat-expansion-panel-header>
           <mat-panel-title class="menu_title">
-            {{ingr_menu.title}}
+            <span>{{ingr_menu.title}}</span>
+            <div class="ingredientMenuActions">
+              <i class="far fa-edit" style="color:#F2AC21 " (click)="openIngredientMenuDialog(ingr_menu)"></i>
+              <i class="fas fa-trash" style="color:red"></i>
+            </div>
+
           </mat-panel-title>
+
         </mat-expansion-panel-header>
         <div class="body">
 

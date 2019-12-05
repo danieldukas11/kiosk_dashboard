@@ -293,8 +293,9 @@ export class ProductManagementComponent implements OnInit {
 
 
   // Ingredient menu dialog
-  openIngredientMenuDialog() {
-    this.matDialog.open(SaveIngredientMenuDialogComponent, {data: {}}).afterClosed().subscribe(() => {
+  openIngredientMenuDialog(menu = null) {
+    console.log(menu)
+    this.matDialog.open(SaveIngredientMenuDialogComponent, {data: {menu}}).afterClosed().subscribe(() => {
       this.mp.getIngredientMenus().subscribe((data: any[]) => {
         this.ingr_menus = data;
       });
@@ -327,7 +328,9 @@ export class ProductManagementComponent implements OnInit {
 
   // Product dialog
   openProductDialog(menuId) {
-    this.dialogOpened=true; this.dialogType='Product';this.product.menu_ids[0]=menuId;
+    this.dialogOpened = true;
+    this.dialogType = 'Product';
+    this.product.menu_ids[0] = menuId;
     this.matDialog.open(SaveProductDialogComponent, {data: {}}).afterClosed().subscribe(() => {
       this.mp.getProducts().subscribe((data: any[]) => {
         this.products = data;

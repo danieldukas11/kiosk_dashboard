@@ -1,126 +1,150 @@
-.wrapper{
-    
-    font-weight: 600;
-    .menu_title{
-        font-weight:bold;
-        font-size:24px
-    }
-    .add_menu{
-        margin:20px;
-        font-size:24px;
-        padding:20px;
-        border-radius:100px;
-        border:0;
-        background-color:#F2AC21 ;
-        color:white;
-        outline:0
-    }
-    .add_ingr{
-        margin:14px;
-        font-size:16px;
-        padding:14px;
-        border-radius:50px;
-        border:0;
-        background-color:#F2AC21 ;
-        color:white;
-        outline:0
-    }
-    .ingr_table{
-      font-size: 20px;
-      color:#5E5B58;
-      text-align:center;
-      border: 1px solid black;;
+.wrapper {
 
-      tr{
-          cursor:pointer;
-        th{
-            padding:10px;
-            border-top:1px solid #5E5B58;
-            border-bottom:1px solid #5E5B58;
-        }
-        td{
-            padding:10px;
-            border-top:1px solid #5E5B58;
-            border-bottom:1px solid #5E5B58;
-        }
+  font-weight: 600;
+
+  .menu_title {
+    font-weight: bold;
+    font-size: 24px
+  }
+
+  .add_menu {
+    margin: 20px;
+    font-size: 24px;
+    padding: 20px;
+    border-radius: 100px;
+    border: 0;
+    background-color: #F2AC21;
+    color: white;
+    outline: 0
+  }
+
+  .add_ingr {
+    margin: 14px;
+    font-size: 16px;
+    padding: 14px;
+    border-radius: 50px;
+    border: 0;
+    background-color: #F2AC21;
+    color: white;
+    outline: 0
+  }
+
+  .ingr_table {
+    font-size: 20px;
+    color: #5E5B58;
+    text-align: center;
+    border: 1px solid black;;
+
+    tr {
+      cursor: pointer;
+
+      th {
+        padding: 10px;
+        border-top: 1px solid #5E5B58;
+        border-bottom: 1px solid #5E5B58;
       }
-      
+
+      td {
+        padding: 10px;
+        border-top: 1px solid #5E5B58;
+        border-bottom: 1px solid #5E5B58;
+      }
     }
-    .no_ingr{
-        margin:20px;
-            font-size:40px;
-            color:#5E5B58;
-    }
-    .no_ingr_t{
-        margin:16px;
-            font-size:20px;
-            color:#5E5B58;
-    }
+
+  }
+
+  .no_ingr {
+    margin: 20px;
+    font-size: 40px;
+    color: #5E5B58;
+  }
+
+  .no_ingr_t {
+    margin: 16px;
+    font-size: 20px;
+    color: #5E5B58;
+  }
 }
-.dialog{
-    position:fixed;
-    width:100%;
-    height:100%;
-    top:0;
-    left:0;
-    z-index:2;
-    background-color: rgba(0,0,0,.7);
-    overflow: auto;
-    .dialog_form{
-        position:absolute;
-        background-color: white;
-        width:400px;
-        top:50%;
-        left:50% ;
-        transform: translateX(-50%) translateY(-50%);
-        .ribon{
-            .header{
-                float:left;
-                padding:16px;
-                font-size:24px;
-                color:#5E5B58;
-                
-            }
-            .close{
-                float:right;
-                padding:16px;
-                font-size:24px;
-                color:#5E5B58;
-            }
-        }
-        .body{
-            padding:56px 0;
-            text-align:center;
-            
-            .customizable{
-                margin:20px 20px
-            }
-            .sizable{
-                margin:20px 20px
-            }
-            input:not([type="radio"]){
-                display:block;
-                width:calc(100% - 32px);
-                margin:16px;
-                font-size:24px;
-                color:#5E5B58;
-                border:1px solid #5E5B58;
-            }
-            button  {
-                margin:16px;
-                font-size:20px;
-                padding:16px;
-                border-radius:100px;
-                border:0;
-                background-color:#F2AC21 ;
-                color:white;
-                outline:0
-            }
-            
-        }
-       
+
+.dialog {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  background-color: rgba(0, 0, 0, .7);
+  overflow: auto;
+
+  .dialog_form {
+    position: absolute;
+    background-color: white;
+    width: 400px;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+
+    .ribon {
+      .header {
+        float: left;
+        padding: 16px;
+        font-size: 24px;
+        color: #5E5B58;
+
+      }
+
+      .close {
+        float: right;
+        padding: 16px;
+        font-size: 24px;
+        color: #5E5B58;
+      }
     }
-    
+
+    .body {
+      padding: 56px 0;
+      text-align: center;
+
+      .customizable {
+        margin: 20px 20px
+      }
+
+      .sizable {
+        margin: 20px 20px
+      }
+
+      input:not([type="radio"]) {
+        display: block;
+        width: calc(100% - 32px);
+        margin: 16px;
+        font-size: 24px;
+        color: #5E5B58;
+        border: 1px solid #5E5B58;
+      }
+
+      button {
+        margin: 16px;
+        font-size: 20px;
+        padding: 16px;
+        border-radius: 100px;
+        border: 0;
+        background-color: #F2AC21;
+        color: white;
+        outline: 0
+      }
+
+    }
+
+  }
+
+}
+
+.ingredientMenuActions {
+  margin-left: 20px;
+  i {
+    font-size: 14px;
+    margin-left: 10px;
+  }
 }
 
 
