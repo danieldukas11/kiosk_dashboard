@@ -1,8 +1,14 @@
 <form [formGroup]="saveProductForm" class="saveProductForm">
-  <h1 mat-dialog-title>Add new product</h1>
+  <h1 mat-dialog-title>{{edit ? 'Edit' : 'Add new'}} product</h1>
   <input type="text" placeholder="Product Title" name="it" formControlName="title"
          autocomplete="off">
+  <mat-error *ngIf="titleCtrl.touched && titleCtrl.hasError('required')">
+    Title is <strong>required</strong>
+  </mat-error>
   <input type="text" placeholder="Product Price" name="it" formControlName="price" autocomplete="off">
+  <mat-error *ngIf="priceCtrl.touched && priceCtrl.hasError('required')">
+    Price is <strong>required</strong>
+  </mat-error>
   <!--       *ngIf="product.sizable=='false'  product.customizable=='false'"-->
 
 
@@ -15,15 +21,21 @@
   </mat-radio-group>
 
   <!-- Prices for different sizes -->
-  <ng-container *ngIf="sizable">
-    <input type="text" placeholder="Small Price" name="it"
-           autocomplete="off">
-    <!--           [(ngModel)]="product?.sizes[0].price"-->
-    <input type="text" placeholder="Medium Price" name="it"
-           autocomplete="off">
-    <!--           [(ngModel)]="product?.sizes[1].price"-->
-    <input type="text" placeholder="Large Price" name="it"
-           autocomplete="off">
+  <ng-container *ngIf="sizable" [formArrayName]="'sizes'">
+    <!--    <input type="text" placeholder="Small Price" name="it"-->
+    <!--           autocomplete="off">-->
+    <!--    &lt;!&ndash;           [(ngModel)]="product?.sizes[0].price"&ndash;&gt;-->
+    <!--    <input type="text" placeholder="Medium Price" name="it"-->
+    <!--           autocomplete="off">-->
+    <!--    &lt;!&ndash;           [(ngModel)]="product?.sizes[1].price"&ndash;&gt;-->
+    <!--    <input type="text" placeholder="Large Price" name="it"-->
+    <!--           autocomplete="off">-->
+    <span *ngFor="let item of sizes; let i = index;">
+    <div [formGroupName]="i">
+      <input formControlName="title" type="hidden" placeholder="Item name" [value]="item.title">
+      <input formControlName="price" [placeholder]="item.title">
+    </div>
+    </span>
   </ng-container>
 
 
@@ -40,7 +52,8 @@
     <!--           [(ngModel)]="product?.sizes[2].price"-->
     <mat-form-field
       style="display:block;  width:calc(100% - 32px); margin:auto">
-      <mat-select placeholder="Ingredients for making product" formControlName="productIngredients" multiple>
+      <mat-select placeholder="Ingredients for making product" formControlName="productIngredients" multiple
+                  (selectionChange)="menuSelected($event.value)">
         <!--      <mat-select-trigger>-->
         <!--        {{prodIngr.value ? prodIngr.value[0]?.title : ''}}-->
         <!--        <span *ngIf="prodIngr.value?.length > 1" class="example-additional-selection">-->
@@ -54,16 +67,18 @@
                     style="display:block;  width:calc(100% - 32px); margin:auto">
       <mat-label>Default Ingredients</mat-label>
       <mat-select formControlName="defaultIngredients" multiple>
-        <!--        <mat-optgroup *ngFor="let ingr of prodIngr.value" [label]="ingr.title">-->
-        <!--          <mat-option *ngFor="let ingr_type of getIngrByMenu(ingr._id)" [value]="ingr_type">-->
-        <!--            {{ingr_type.title}}-->
-        <!--          </mat-option>-->
-        <!--        </mat-optgroup>-->
+        <mat-optgroup *ngFor="let ingr of selectedIngrMenus" [label]="ingr.title">
+          <mat-option *ngFor="let ingr_type of getIngredientsByMenu(ingr._id)" [value]="ingr_type">
+            {{ingr_type.title}}
+          </mat-option>
+        </mat-optgroup>
+
+        <!--        <mat-option *ngFor="let ingr of ingredients">{{ingr.title}}</mat-option>-->
       </mat-select>
     </mat-form-field>
 
   </ng-container>
   <input type="file">
 
-  <button (click)="save()">Save</button>
+  <button (click)="save()">{{edit ? 'Update product info' : 'Add new product'}}</button>
 </form>

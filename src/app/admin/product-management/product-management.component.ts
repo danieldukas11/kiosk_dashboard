@@ -36,6 +36,7 @@ export class ProductManagementComponent implements OnInit {
   combo_default = new FormControl();
   ingrMenuTitle = "";
   img;
+  disableExpansionOnPanel = false;
 
   ingredient = {
     title: "",
@@ -197,12 +198,13 @@ export class ProductManagementComponent implements OnInit {
           frm.append("prodIngr", JSON.stringify(this.prodIngr.value));
           frm.append("defaultIngr", JSON.stringify(this.defaultIngr.value))
         }
-        this.mp.addProduct(frm).subscribe(data => {
-          this.products.push(data)
-          this.dialogOpened = false
-          this.dialogType = ""
-          this.resetform()
-        })
+        console.log(this.product)
+        // this.mp.addProduct(frm).subscribe(data => {
+        //   this.products.push(data)
+        //   this.dialogOpened = false
+        //   this.dialogType = ""
+        //   this.resetform()
+        // })
         break;
       case "Combo":
         let price = 0
@@ -287,6 +289,10 @@ export class ProductManagementComponent implements OnInit {
     })
   }
 
+  removeIngredientMenu() {
+    this.disableExpansionOnPanel = true;
+  }
+
   getImage(img) {
     this.img = img.item(0);
   }
@@ -294,7 +300,7 @@ export class ProductManagementComponent implements OnInit {
 
   // Ingredient menu dialog
   openIngredientMenuDialog(menu = null) {
-    // console.log(menu)
+    this.disableExpansionOnPanel = true;
     this.matDialog.open(SaveIngredientMenuDialogComponent, {data: {menu}}).afterClosed().subscribe(() => {
       this.mp.getIngredientMenus().subscribe((data: any[]) => {
         this.ingr_menus = data;
@@ -310,7 +316,13 @@ export class ProductManagementComponent implements OnInit {
     // this.dialogType = 'Ingredient';
     // this.ingredient.ingredient_ids = menuId;
 
-    this.matDialog.open(SaveIngredientDialogComponent, {data: {menuId, ingredient}}).afterClosed().subscribe(() => {
+
+    this.matDialog.open(SaveIngredientDialogComponent, {
+      data: {
+        menuId,
+        ingredient,
+      }
+    }).afterClosed().subscribe(() => {
       this.mp.getIngredients().subscribe((data: any[]) => {
         this.ingredients = data;
       });
@@ -329,11 +341,18 @@ export class ProductManagementComponent implements OnInit {
   }
 
   // Product dialog
-  openProductDialog(menuId) {
+  openProductDialog(menuId, product = null) {
     this.dialogOpened = true;
     this.dialogType = 'Product';
     this.product.menu_ids[0] = menuId;
-    this.matDialog.open(SaveProductDialogComponent, {data: {}}).afterClosed().subscribe(() => {
+    console.log(this.ingr_menus)
+    this.matDialog.open(SaveProductDialogComponent, {
+      data: {
+        menuId,
+        product,
+        productIngredients: this.ingr_menus
+      }
+    }).afterClosed().subscribe(() => {
       this.mp.getProducts().subscribe((data: any[]) => {
         this.products = data;
       });
