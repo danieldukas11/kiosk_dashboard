@@ -20,6 +20,11 @@ export class SaveIngredientDialogComponent implements OnInit, OnDestroy {
     private mp: ManageProductsService,
     public dialogRef: MatDialogRef<SaveIngredientDialogComponent>
   ) {
+
+    console.log(data.ingredient)
+
+
+
     this.saveIngredientForm = this.fb.group({
       title: ['', Validators.required],
       double_price: ['', Validators.required],
@@ -27,6 +32,10 @@ export class SaveIngredientDialogComponent implements OnInit, OnDestroy {
       light_price: ['', Validators.required],
       ingredient_ids: [[data.menuId], Validators.required]
     });
+
+    if (data.ingredient) {
+      this.saveIngredientForm.patchValue(data.ingredient);
+    }
   }
 
   ngOnInit(): void {
@@ -34,27 +43,45 @@ export class SaveIngredientDialogComponent implements OnInit, OnDestroy {
 
   add(): void {
 
+    if (this.saveIngredientForm.valid) {
 
-    const ingredient = this.saveIngredientForm.value;
-    const fd = new FormData();
 
-    console.log(ingredient)
+      const ingredient = this.saveIngredientForm.value;
+      const fd = new FormData();
 
-    fd.append('image', this.ingredientImg);
-    fd.append('title', ingredient.title);
-    fd.append('price', ingredient.normal_price);
-    fd.append('light_price', ingredient.light_price);
-    fd.append('double_price', ingredient.double_price);
-    fd.append('ingredient_ids', ingredient.ingredient_ids);
+      fd.append('image', this.ingredientImg);
+      fd.append('title', ingredient.title);
+      fd.append('price', ingredient.normal_price);
+      fd.append('light_price', ingredient.light_price);
+      fd.append('double_price', ingredient.double_price);
+      fd.append('ingredient_ids', ingredient.ingredient_ids);
 
-    this.mp.addIngredient(fd).subscribe(() => {
-      this.dialogRef.close();
-    });
+      this.mp.addIngredient(fd).subscribe(() => {
+        this.dialogRef.close();
+      });
+    }
   }
 
   getImage(img): void {
     this.ingredientImg = img.item(0);
   }
+
+  get titleCtrl() {
+    return this.saveIngredientForm.get('title');
+  }
+
+  get priceCtrl() {
+    return this.saveIngredientForm.get('normal_price');
+  }
+
+  get doublePriceCtrl() {
+    return this.saveIngredientForm.get('double_price');
+  }
+
+  get lightPriceCtrl() {
+    return this.saveIngredientForm.get('light_price');
+  }
+
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(s => s.unsubscribe());

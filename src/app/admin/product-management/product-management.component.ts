@@ -8,6 +8,7 @@ import {SaveIngredientMenuDialogComponent} from '../../dialogs/save-ingredient-m
 import {SaveProductMenuDialogComponent} from '../../dialogs/save-product-menu-dialog/save-product-menu-dialog.component';
 import {SaveComboMenuDialogComponent} from '../../dialogs/save-combo-menu-dialog/save-combo-menu-dialog.component';
 import {SaveIngredientDialogComponent} from '../../dialogs/save-ingredient-dialog/save-ingredient-dialog.component';
+import {SaveProductDialogComponent} from '../../dialogs/save-product-dialog/save-product-dialog.component';
 
 @Component({
   selector: 'app-product-management',
@@ -291,10 +292,8 @@ export class ProductManagementComponent implements OnInit {
   }
 
 
+  // Ingredient menu dialog
   openIngredientMenuDialog() {
-    // this.dialogOpened = true;
-    // this.dialogType = 'Ingredient Menu';
-
     this.matDialog.open(SaveIngredientMenuDialogComponent, {data: {}}).afterClosed().subscribe(() => {
       this.mp.getIngredientMenus().subscribe((data: any[]) => {
         this.ingr_menus = data;
@@ -303,28 +302,37 @@ export class ProductManagementComponent implements OnInit {
   }
 
 
-  openIngredientDialog(menuId) {
+  // Ingredient dialog
+  openIngredientDialog(menuId, ingredient = null) {
 
     // this.dialogOpened = true;
     // this.dialogType = 'Ingredient';
     // this.ingredient.ingredient_ids = menuId;
 
-    this.matDialog.open(SaveIngredientDialogComponent, {data: {menuId}}).afterClosed().subscribe(() => {
+    this.matDialog.open(SaveIngredientDialogComponent, {data: {menuId, ingredient}}).afterClosed().subscribe(() => {
 
     });
   }
 
-  openProductDialog() {
-// dialogOpened=true;dialogType='Product';product.menu_ids[0]=prod_menu._id
-//     this.dialogOpened = true;
-//     this.dialogType = 'Product';
 
+  // Product menu dialog
+  openProductMenuDialog() {
     this.matDialog.open(SaveProductMenuDialogComponent, {data: {}}).afterClosed().subscribe(() => {
       this.mp.getProductMenus().subscribe((data: any[]) => {
         this.prod_menus = data;
       });
     });
 
+  }
+
+  // Product dialog
+  openProductDialog(menuId) {
+    this.dialogOpened=true; this.dialogType='Product';this.product.menu_ids[0]=menuId;
+    this.matDialog.open(SaveProductDialogComponent, {data: {}}).afterClosed().subscribe(() => {
+      this.mp.getProducts().subscribe((data: any[]) => {
+        this.products = data;
+      });
+    });
   }
 
   openComboMenuDialog() {

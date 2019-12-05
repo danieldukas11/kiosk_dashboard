@@ -42,7 +42,8 @@
               <td>$ {{ingr.light_price}}</td>
               <td>$ {{ingr.price}}</td>
               <td>$ {{ingr.double_price}}</td>
-              <td><i class="far fa-edit" style="color:#F2AC21 "></i></td>
+              <td><i class="far fa-edit" style="color:#F2AC21 "
+                     (click)="openIngredientDialog(ingr_menu._id, ingr)"></i></td>
               <td (click)="deleteIngredient(ingr._id)"><i class="fas fa-trash" style="color:red"></i></td>
             </tr>
           </table>
@@ -52,7 +53,7 @@
   </mat-tab>
   <!-- Products tab -->
   <mat-tab label="Products">
-    <button class="add_menu" (click)="openProductDialog()">Add Product Menu</button>
+    <button class="add_menu" (click)="openProductMenuDialog()">Add Product Menu</button>
     <div class="no_ingr" *ngIf='!prod_menus?.length'>No Product Menu Yet</div>
     <mat-accordion *ngIf='prod_menus&&prod_menus.length'>
       <mat-expansion-panel *ngFor="let prod_menu of prod_menus">
@@ -62,7 +63,7 @@
           </mat-panel-title>
         </mat-expansion-panel-header>
         <div class="body">
-          <button class="add_ingr" (click)="dialogOpened=true;dialogType='Product';product.menu_ids[0]=prod_menu._id">
+          <button class="add_ingr" (click)="openProductDialog(prod_menu._id)">
             Add Product
           </button>
           <div class="no_ingr_t" *ngIf='!getProdByMenu(prod_menu._id).length'>No Products Yet</div>

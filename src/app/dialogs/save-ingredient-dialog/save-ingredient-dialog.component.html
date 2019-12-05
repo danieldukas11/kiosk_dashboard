@@ -5,12 +5,24 @@
   <mat-dialog-content>
     <input type="text" placeholder="Ingredient Title" name="it" formControlName="title"
            autocomplete="off">
+    <mat-error *ngIf="titleCtrl.touched && titleCtrl.hasError('required')">
+      Title is <strong>required</strong>
+    </mat-error>
     <input type="text" placeholder="Ingredient Light price" name="it" formControlName="light_price"
            autocomplete="off">
+    <mat-error *ngIf="lightPriceCtrl.touched && lightPriceCtrl.hasError('required')">
+      Light price is <strong>required</strong>
+    </mat-error>
     <input type="text" placeholder="Ingredient Normal price" name="it" formControlName="normal_price"
            autocomplete="off">
+    <mat-error *ngIf="priceCtrl.touched && priceCtrl.hasError('required')">
+      Price is <strong>required</strong>
+    </mat-error>
     <input type="text" placeholder="Ingredient Double price" name="it" formControlName="double_price"
            autocomplete="off">
+    <mat-error *ngIf="doublePriceCtrl.touched && doublePriceCtrl.hasError('required')">
+      Double price is <strong>required</strong>
+    </mat-error>
 
     <input type="file" name="avatar" accept="image/png, image/jpeg"
            (change)="getImage($event.target.files)">

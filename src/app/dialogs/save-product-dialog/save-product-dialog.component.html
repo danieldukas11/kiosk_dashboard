@@ -1,0 +1,69 @@
+<form [formGroup]="saveProductForm" class="saveProductForm">
+  <h1 mat-dialog-title>Add new product</h1>
+  <input type="text" placeholder="Product Title" name="it" formControlName="title"
+         autocomplete="off">
+  <input type="text" placeholder="Product Price" name="it" formControlName="price" autocomplete="off">
+  <!--       *ngIf="product.sizable=='false'  product.customizable=='false'"-->
+
+
+  <!-- Product possible sizes -->
+  <div>Does product has different sizes?</div>
+  <mat-radio-group formControlName="sizable" (change)="changeSizable($event)">
+    <!--                -->
+    <mat-radio-button class="sizable" [value]=false>No</mat-radio-button>
+    <mat-radio-button class="sizable" [value]=true>Yes</mat-radio-button>
+  </mat-radio-group>
+
+  <!-- Prices for different sizes -->
+  <ng-container *ngIf="sizable">
+    <input type="text" placeholder="Small Price" name="it"
+           autocomplete="off">
+    <!--           [(ngModel)]="product?.sizes[0].price"-->
+    <input type="text" placeholder="Medium Price" name="it"
+           autocomplete="off">
+    <!--           [(ngModel)]="product?.sizes[1].price"-->
+    <input type="text" placeholder="Large Price" name="it"
+           autocomplete="off">
+  </ng-container>
+
+
+  <!-- Product possible customization -->
+  <div>Is product customizable?</div>
+  <mat-radio-group formControlName="customizable" (change)="changeCustomizable($event)">
+
+    <mat-radio-button class="customizable" [value]=false>No</mat-radio-button>
+    <mat-radio-button class="customizable" [value]=true>Yes</mat-radio-button>
+  </mat-radio-group>
+
+  <ng-container *ngIf="customizable">
+
+    <!--           [(ngModel)]="product?.sizes[2].price"-->
+    <mat-form-field
+      style="display:block;  width:calc(100% - 32px); margin:auto">
+      <mat-select placeholder="Ingredients for making product" formControlName="productIngredients" multiple>
+        <!--      <mat-select-trigger>-->
+        <!--        {{prodIngr.value ? prodIngr.value[0]?.title : ''}}-->
+        <!--        <span *ngIf="prodIngr.value?.length > 1" class="example-additional-selection">-->
+        <!--                            (+{{prodIngr.value.length - 1}} {{prodIngr.value?.length === 2 ? 'other' : 'others'}})-->
+        <!--                          </span>-->
+        <!--      </mat-select-trigger>-->
+        <mat-option *ngFor="let ingr of ingrMenus" [value]="ingr">{{ingr.title}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field *ngIf="customizable"
+                    style="display:block;  width:calc(100% - 32px); margin:auto">
+      <mat-label>Default Ingredients</mat-label>
+      <mat-select formControlName="defaultIngredients" multiple>
+        <!--        <mat-optgroup *ngFor="let ingr of prodIngr.value" [label]="ingr.title">-->
+        <!--          <mat-option *ngFor="let ingr_type of getIngrByMenu(ingr._id)" [value]="ingr_type">-->
+        <!--            {{ingr_type.title}}-->
+        <!--          </mat-option>-->
+        <!--        </mat-optgroup>-->
+      </mat-select>
+    </mat-form-field>
+
+  </ng-container>
+  <input type="file">
+
+  <button (click)="save()">Save</button>
+</form>
