@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Subscription} from 'rxjs';
 import {ManageProductsService} from '../../services/manage-products.service';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-save-ingredient-dialog',
@@ -13,6 +14,9 @@ export class SaveIngredientDialogComponent implements OnInit, OnDestroy {
   saveIngredientForm: FormGroup;
   subscriptions: Subscription[] = [];
   ingredientImg;
+  newIngredientImg;
+  edit = false;
+  submitted = false;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -21,19 +25,20 @@ export class SaveIngredientDialogComponent implements OnInit, OnDestroy {
     public dialogRef: MatDialogRef<SaveIngredientDialogComponent>
   ) {
 
-    console.log(data.ingredient)
 
-
+    this.edit = !!data.ingredient;
 
     this.saveIngredientForm = this.fb.group({
       title: ['', Validators.required],
       double_price: ['', Validators.required],
       normal_price: ['', Validators.required],
       light_price: ['', Validators.required],
-      ingredient_ids: [[data.menuId], Validators.required]
+      ingredient_ids: [[data.menuId], Validators.required],
+      image: [this.ingredientImg, Validators.required]
     });
 
-    if (data.ingredient) {
+    if (this.edit) {
+      this.ingredientImg = `${environment.staticUrl}images/${data.ingredient.image}`;
       this.saveIngredientForm.patchValue(data.ingredient);
     }
   }
@@ -41,7 +46,9 @@ export class SaveIngredientDialogComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
   }
 
-  add(): void {
+  save(): void {
+
+    this.submitted = true;
 
     if (this.saveIngredientForm.valid) {
 
@@ -49,7 +56,7 @@ export class SaveIngredientDialogComponent implements OnInit, OnDestroy {
       const ingredient = this.saveIngredientForm.value;
       const fd = new FormData();
 
-      fd.append('image', this.ingredientImg);
+      fd.append('image', this.newIngredientImg);
       fd.append('title', ingredient.title);
       fd.append('price', ingredient.normal_price);
       fd.append('light_price', ingredient.light_price);
@@ -63,7 +70,9 @@ export class SaveIngredientDialogComponent implements OnInit, OnDestroy {
   }
 
   getImage(img): void {
-    this.ingredientImg = img.item(0);
+    this.newIngredientImg = img.item(0);
+    this.ingredientImg = `${environment.staticUrl}images/${this.newIngredientImg.name}`;
+    this.saveIngredientForm.patchValue({image: this.newIngredientImg.name});
   }
 
   get titleCtrl() {
@@ -80,6 +89,10 @@ export class SaveIngredientDialogComponent implements OnInit, OnDestroy {
 
   get lightPriceCtrl() {
     return this.saveIngredientForm.get('light_price');
+  }
+
+  get imageFieldCtrl() {
+    return this.saveIngredientForm.get('image');
   }
 
 

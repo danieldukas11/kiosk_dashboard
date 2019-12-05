@@ -88,11 +88,11 @@ export class ProductManagementComponent implements OnInit {
   ngOnInit() {
     this.mp.getIngredientMenus().subscribe((data: any[]) => {
       this.ingr_menus = data
-      console.log(this.ingr_menus)
+      // console.log(this.ingr_menus)
     })
     this.mp.getIngredients().subscribe((data: any[]) => {
       this.ingredients = data
-      console.log(this.ingredients)
+      // console.log(this.ingredients)
     })
     this.mp.getProductMenus().subscribe((data: any[]) => {
       this.prod_menus = data
@@ -294,7 +294,7 @@ export class ProductManagementComponent implements OnInit {
 
   // Ingredient menu dialog
   openIngredientMenuDialog(menu = null) {
-    console.log(menu)
+    // console.log(menu)
     this.matDialog.open(SaveIngredientMenuDialogComponent, {data: {menu}}).afterClosed().subscribe(() => {
       this.mp.getIngredientMenus().subscribe((data: any[]) => {
         this.ingr_menus = data;
@@ -311,7 +311,9 @@ export class ProductManagementComponent implements OnInit {
     // this.ingredient.ingredient_ids = menuId;
 
     this.matDialog.open(SaveIngredientDialogComponent, {data: {menuId, ingredient}}).afterClosed().subscribe(() => {
-
+      this.mp.getIngredients().subscribe((data: any[]) => {
+        this.ingredients = data;
+      });
     });
   }
 

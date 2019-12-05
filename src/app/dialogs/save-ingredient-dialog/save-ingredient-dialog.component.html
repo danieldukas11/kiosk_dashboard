@@ -1,34 +1,63 @@
-<form [formGroup]="saveIngredientForm" class="saveIngredientForm">
+<form [formGroup]="saveIngredientForm" #f class="saveIngredientForm">
 
-  <h1 mat-dialog-title>Add new ingredient</h1>
+  <h1 mat-dialog-title>{{edit ? 'Edit' : 'Add new'}} ingredient</h1>
 
   <mat-dialog-content>
-    <input type="text" placeholder="Ingredient Title" name="it" formControlName="title"
-           autocomplete="off">
-    <mat-error *ngIf="titleCtrl.touched && titleCtrl.hasError('required')">
-      Title is <strong>required</strong>
-    </mat-error>
-    <input type="text" placeholder="Ingredient Light price" name="it" formControlName="light_price"
-           autocomplete="off">
-    <mat-error *ngIf="lightPriceCtrl.touched && lightPriceCtrl.hasError('required')">
-      Light price is <strong>required</strong>
-    </mat-error>
-    <input type="text" placeholder="Ingredient Normal price" name="it" formControlName="normal_price"
-           autocomplete="off">
-    <mat-error *ngIf="priceCtrl.touched && priceCtrl.hasError('required')">
-      Price is <strong>required</strong>
-    </mat-error>
-    <input type="text" placeholder="Ingredient Double price" name="it" formControlName="double_price"
-           autocomplete="off">
-    <mat-error *ngIf="doublePriceCtrl.touched && doublePriceCtrl.hasError('required')">
-      Double price is <strong>required</strong>
-    </mat-error>
 
-    <input type="file" name="avatar" accept="image/png, image/jpeg"
-           (change)="getImage($event.target.files)">
+    <!-- Image area -->
+    <div class="imageArea">
+
+      <div class="imgContainer" *ngIf="ingredientImg">
+        <img [src]="ingredientImg" *ngIf="edit">
+        <i class="fa fa-times-circle" (click)="ingredientImg = null"></i>
+      </div>
+
+      <div class="imgPlaceholder" *ngIf="!ingredientImg">
+      </div>
+
+
+      <ng-container *ngIf="(edit && !ingredientImg) || !edit">
+
+        <input type="file" name="avatar" accept="image/png, image/jpeg"
+               (change)="getImage($event.target.files)">
+        <input type="hidden" formControlName="image">
+        <mat-error *ngIf="imageFieldCtrl.hasError('required') && submitted">
+          Image is <strong>required</strong>
+        </mat-error>
+      </ng-container>
+    </div>
+
+    <div class="ingredientInfo">
+
+      <input type="text" placeholder="Ingredient Title" name="it" formControlName="title"
+             autocomplete="off">
+      <mat-error *ngIf="titleCtrl.touched && titleCtrl.hasError('required')">
+        Title is <strong>required</strong>
+      </mat-error>
+
+      <input type="text" placeholder="Ingredient Light price" name="it" formControlName="light_price"
+             autocomplete="off">
+      <mat-error *ngIf="lightPriceCtrl.touched && lightPriceCtrl.hasError('required')">
+        Light price is <strong>required</strong>
+      </mat-error>
+
+      <input type="text" placeholder="Ingredient Normal price" name="it" formControlName="normal_price"
+             autocomplete="off">
+      <mat-error *ngIf="priceCtrl.touched && priceCtrl.hasError('required')">
+        Price is <strong>required</strong>
+      </mat-error>
+
+      <input type="text" placeholder="Ingredient Double price" name="it" formControlName="double_price"
+             autocomplete="off">
+      <mat-error *ngIf="doublePriceCtrl.touched && doublePriceCtrl.hasError('required')">
+        Double price is <strong>required</strong>
+      </mat-error>
+    </div>
+
+
   </mat-dialog-content>
 
   <mat-dialog-actions>
-    <button (click)="add()">Add new ingredient</button>
+    <button (click)="save()">{{edit ? 'Update' : 'Add new'}} ingredient</button>
   </mat-dialog-actions>
 </form>

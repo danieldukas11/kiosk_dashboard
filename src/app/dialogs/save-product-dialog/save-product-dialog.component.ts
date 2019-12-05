@@ -23,7 +23,8 @@ export class SaveProductDialogComponent implements OnInit {
       price: ['', Validators.required],
       sizable: [this.sizable, Validators.required],
       customizable: [this.customizable, Validators.required],
-      productIngredients: []
+      productIngredients: [],
+      defaultIngredients: []
     });
   }
 
