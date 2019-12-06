@@ -9,6 +9,7 @@ import {SaveProductMenuDialogComponent} from '../../dialogs/save-product-menu-di
 import {SaveComboMenuDialogComponent} from '../../dialogs/save-combo-menu-dialog/save-combo-menu-dialog.component';
 import {SaveIngredientDialogComponent} from '../../dialogs/save-ingredient-dialog/save-ingredient-dialog.component';
 import {SaveProductDialogComponent} from '../../dialogs/save-product-dialog/save-product-dialog.component';
+import {SaveComboProductDialogComponent} from '../../dialogs/save-combo-product-dialog/save-combo-product-dialog.component';
 
 @Component({
   selector: 'app-product-management',
@@ -182,6 +183,7 @@ export class ProductManagementComponent implements OnInit {
         })
         break
       case "Product":
+        console.log(this.product.menu_ids)
         frm.append("image", this.img);
         frm.append("title", this.product.title);
         frm.append("sizable", this.product.sizable);
@@ -198,7 +200,6 @@ export class ProductManagementComponent implements OnInit {
           frm.append("prodIngr", JSON.stringify(this.prodIngr.value));
           frm.append("defaultIngr", JSON.stringify(this.defaultIngr.value))
         }
-        console.log(this.product)
         // this.mp.addProduct(frm).subscribe(data => {
         //   this.products.push(data)
         //   this.dialogOpened = false
@@ -345,7 +346,7 @@ export class ProductManagementComponent implements OnInit {
     this.dialogOpened = true;
     this.dialogType = 'Product';
     this.product.menu_ids[0] = menuId;
-    console.log(this.ingr_menus)
+    // console.log(this.ingr_menus)
     this.matDialog.open(SaveProductDialogComponent, {
       data: {
         menuId,
@@ -363,6 +364,25 @@ export class ProductManagementComponent implements OnInit {
     this.matDialog.open(SaveComboMenuDialogComponent, {data: {}}).afterClosed().subscribe(() => {
       this.mp.getComboMenu().subscribe((data: any[]) => {
         this.comboMenus = data;
+      });
+    });
+  }
+
+  openComboProductDialog(menuId, product = null) {
+    this.dialogOpened = true;
+    this.dialogType = 'Combo Product';
+    this.comboProd.special_menu_id = menuId;
+
+    this.matDialog.open(SaveComboProductDialogComponent, {
+      width: '500px',
+      data: {
+        menuId,
+        product,
+        productIngredients: this.ingr_menus
+      }
+    }).afterClosed().subscribe(() => {
+      this.mp.getProducts().subscribe((data: any[]) => {
+        this.comboProd.products = data;
       });
     });
   }

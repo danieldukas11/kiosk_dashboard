@@ -9,17 +9,16 @@
     <div class="no_ingr" *ngIf='!ingr_menus?.length'>No Ingredient Menu Yet</div>
 
     <mat-accordion *ngIf='ingr_menus&&ingr_menus.length'>
-      <mat-expansion-panel *ngFor="let ingr_menu of ingr_menus" [disabled]="disableExpansionOnPanel" (click)="disableExpansionOnPanel=false">
-        <mat-expansion-panel-header >
+      <mat-expansion-panel *ngFor="let ingr_menu of ingr_menus" [disabled]="disableExpansionOnPanel"
+                           (click)="disableExpansionOnPanel=false">
+        <mat-expansion-panel-header>
           <mat-panel-title class="menu_title">
             <span>{{ingr_menu.title}}</span>
             <div class="ingredientMenuActions">
               <i class="far fa-edit" style="color:#F2AC21 " (click)="openIngredientMenuDialog(ingr_menu)"></i>
               <i class="fas fa-trash" style="color:red " (click)="removeIngredientMenu()"></i>
             </div>
-
           </mat-panel-title>
-
         </mat-expansion-panel-header>
         <div class="body">
 
@@ -62,7 +61,8 @@
     <button class="add_menu" (click)="openProductMenuDialog()">Add Product Menu</button>
     <div class="no_ingr" *ngIf='!prod_menus?.length'>No Product Menu Yet</div>
     <mat-accordion *ngIf='prod_menus&&prod_menus.length'>
-      <mat-expansion-panel *ngFor="let prod_menu of prod_menus" [disabled]="clickButton" (click)="clickButton=false">
+      <mat-expansion-panel *ngFor="let prod_menu of prod_menus" [disabled]="disableExpansionOnPanel"
+                           (click)="disableExpansionOnPanel=false">
         <mat-expansion-panel-header>
           <mat-panel-title class="menu_title">
             {{prod_menu.title}}
@@ -88,7 +88,8 @@
               <td><img [src]="imgurl+'/'+prod.image" alt="" style="width:50px;height:50px; object-fit: contain;"></td>
               <td>{{prod.title}}</td>
               <td>$ {{prod.price}}</td>
-              <td><i class="far fa-edit" style="color:#F2AC21 " (click)="openProductDialog(prod_menu.id, prod)"></i></td>
+              <td><i class="far fa-edit" style="color:#F2AC21 " (click)="openProductDialog(prod_menu.id, prod)"></i>
+              </td>
               <td (click)="deleteIngredient(prod._id)"><i class="fas fa-trash" style="color:red"></i></td>
             </tr>
           </table>
@@ -110,7 +111,7 @@
         </mat-expansion-panel-header>
         <div class="body">
           <button class="add_ingr"
-                  (click)="dialogOpened=true;dialogType='Combo Product';comboProd.special_menu_id=comboMenu._id">Add
+                  (click)="openComboProductDialog(comboMenu._id)">Add
             Combo Product
           </button>
           <!--<div class="no_ingr_t" *ngIf='!getComboProdByMenu(comboMenu._id).length'>No Products Yet</div> -->
@@ -129,7 +130,8 @@
               <td><img [src]="imgurl+'/'+prod.image" alt="" style="width:50px;height:50px; object-fit: contain;"></td>
               <td>{{prod.title}}</td>
               <td>$ {{prod.price}}</td>
-              <td><i class="far fa-edit" style="color:#F2AC21 "></i></td>
+              <td><i class="far fa-edit" style="color:#F2AC21 "
+                     (click)="openComboProductDialog(comboMenu._id, prod)"></i></td>
               <td (click)="deleteIngredient(prod._id)"><i class="fas fa-trash" style="color:red"></i></td>
             </tr>
           </table>

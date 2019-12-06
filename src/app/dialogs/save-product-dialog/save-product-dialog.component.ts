@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ManageProductsService} from '../../services/manage-products.service';
-import {MAT_DIALOG_DATA} from '@angular/material/dialog';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-save-product-dialog',
@@ -18,60 +18,93 @@ export class SaveProductDialogComponent implements OnInit {
   ingredients = [];
   selectedIngrMenus = [];
   sizes = [
-    {title: 'Small', price: ''},
-    {title: 'Medium', price: ''},
-    {title: 'Large', price: ''}
+    {
+      title: 'Small',
+      price: '',
+      requiredMsg: 'Price for small size is <strong>required</strong>',
+      numericMsg: 'Price for small size should be <strong>number</strong>'
+    },
+    {
+      title: 'Medium',
+      price: '',
+      requiredMsg: 'Price for medium size is <strong>required</strong>',
+      numericMsg: 'Price for medium size should be <strong>number</strong>'
+    },
+    {
+      title: 'Large',
+      price: '',
+      requiredMsg: 'Price for large size is <strong>required</strong>',
+      numericMsg: 'Price for medium size should be <strong>number</strong>'
+    }
   ];
+
+  formFields;
 
   constructor(
     private fb: FormBuilder,
     private mp: ManageProductsService,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private dialogRef: MatDialogRef<SaveProductDialogComponent>
   ) {
-    this.saveProductForm = fb.group({
+
+    this.formFields = {
       title: ['', Validators.required],
-      price: ['', Validators.required],
+      price: ['', [Validators.required, Validators.pattern('^[0-9].*$')]],
       sizable: [this.sizable, Validators.required],
       customizable: [this.customizable, Validators.required],
-      menu_ids: [data.menuId],
-      sizes: new FormArray([
-        new FormGroup({
-          title: new FormControl('Small Price'),
-          price: new FormControl(''),
-        }),
-        new FormGroup({
-          title: new FormControl('Medium Price'),
-          price: new FormControl(''),
-        }),
-        new FormGroup({
-          title: new FormControl('Large Price'),
-          price: new FormControl(''),
-        })
-      ]),
-
+      menu_ids: [[data.menuId]],
       productIngredients: [],
-      defaultIngredients: []
-    });
+      defaultIngredients: [],
+    };
+
+    this.saveProductForm = fb.group(this.formFields);
 
     this.edit = !!data.product;
 
+    this.attachSizes();
+
     if (this.edit) {
+      this.saveProductForm = fb.group(this.formFields);
       this.saveProductForm.patchValue(data.product);
     }
+
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.getIngredientMenus();
     this.getIngredients();
   }
 
-  getIngredientMenus() {
+  attachSizes(): void {
+
+    this.formFields.sizes = this.fb.array(
+      [
+        this.createSizesFormGroup('Small Price'),
+        this.createSizesFormGroup('Medium Price'),
+        this.createSizesFormGroup('Large Price')
+      ],
+      [Validators.required]
+    );
+    this.saveProductForm = this.fb.group(this.formFields);
+  }
+
+
+  createSizesFormGroup(title): FormGroup {
+    return this.fb.group({
+        title: [title, [Validators.required]],
+        price: ['', [Validators.required, Validators.pattern('^[0-9].*$')]],
+      }
+    );
+  }
+
+
+  getIngredientMenus(): void {
     this.mp.getIngredientMenus().subscribe((data: any[]) => {
       this.ingrMenus = data;
     });
   }
 
-  getIngredients() {
+  getIngredients(): void {
     this.mp.getIngredients().subscribe((data: any[]) => {
       this.ingredients = data;
     });
@@ -84,29 +117,64 @@ export class SaveProductDialogComponent implements OnInit {
   }
 
 
-  changeSizable(e) {
+  changeSizable(e): void {
     this.sizable = e.value;
   }
 
-  changeCustomizable(e) {
+  changeCustomizable(e): void {
     this.customizable = e.value;
   }
 
   save() {
+    const product = this.saveProductForm.value;
+
+    if (!this.sizable) {
+      product.sizes = [];
+    }
+    console.log(product.menu_ids)
+
+    if (!this.edit) {
+      const fd = new FormData();
+      // fd.append("image", this.img);
+      fd.append('title', product.title);
+      fd.append('sizable', product.sizable);
+      fd.append('customizable', product.customizable);
+      fd.append('menu_ids', JSON.stringify(product.menu_ids))
+      if (!this.sizable && !this.customizable) {
+        fd.append('price', product.price);
+      }
+
+      if (this.sizable) {
+        fd.append('sizes', JSON.stringify(product.sizes));
+      }
+      if (this.customizable) {
+        fd.append('prodIngr', JSON.stringify(product.productIngredients));
+        fd.append('defaultIngr', JSON.stringify(product.defaultIngredients));
+      }
+      console.log(product)
+      this.mp.addProduct(fd).subscribe(data => {
+        this.dialogRef.close();
+      });
+    }
+
     console.log(this.saveProductForm.value)
   }
 
 
-  menuSelected(menus) {
+  menuSelected(menus): void {
     this.selectedIngrMenus = menus;
   }
 
-  get titleCtrl() {
+  get titleCtrl(): AbstractControl {
     return this.saveProductForm.get('title');
   }
 
-  get priceCtrl() {
+  get priceCtrl(): AbstractControl {
     return this.saveProductForm.get('price');
+  }
+
+  get sizesArr(): FormArray {
+    return this.saveProductForm.get('sizes') as FormArray;
   }
 
 }
