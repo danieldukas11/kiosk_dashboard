@@ -59,6 +59,7 @@ export class ManageProductsService {
   }
 
   addComboProd(data) {
+
     return this.http.post(`${environment.staticUrl}dashboard/admin/combo_prod/add`, data)
   }
 

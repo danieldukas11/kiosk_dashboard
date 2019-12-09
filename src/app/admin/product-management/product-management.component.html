@@ -130,8 +130,10 @@
               <td><img [src]="imgurl+'/'+prod.image" alt="" style="width:50px;height:50px; object-fit: contain;"></td>
               <td>{{prod.title}}</td>
               <td>$ {{prod.price}}</td>
-              <td><i class="far fa-edit" style="color:#F2AC21 "
-                     (click)="openComboProductDialog(comboMenu._id, prod)"></i></td>
+              <td>
+<!--                <i class="far fa-edit" style="color:#F2AC21 "-->
+<!--                     (click)="openComboProductDialog(comboMenu._id, prod)"></i>-->
+              </td>
               <td (click)="deleteIngredient(prod._id)"><i class="fas fa-trash" style="color:red"></i></td>
             </tr>
           </table>

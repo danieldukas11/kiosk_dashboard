@@ -200,12 +200,12 @@ export class ProductManagementComponent implements OnInit {
           frm.append("prodIngr", JSON.stringify(this.prodIngr.value));
           frm.append("defaultIngr", JSON.stringify(this.defaultIngr.value))
         }
-        // this.mp.addProduct(frm).subscribe(data => {
-        //   this.products.push(data)
-        //   this.dialogOpened = false
-        //   this.dialogType = ""
-        //   this.resetform()
-        // })
+        this.mp.addProduct(frm).subscribe(data => {
+          this.products.push(data)
+          this.dialogOpened = false
+          this.dialogType = ""
+          this.resetform()
+        })
         break;
       case "Combo":
         let price = 0
@@ -243,12 +243,13 @@ export class ProductManagementComponent implements OnInit {
         this.combo_prod.value.forEach(dat => {
           this.comboProd.products.push(dat._id)
         });
-        this.mp.addComboProd(this.comboProd).subscribe(data => {
-          console.log(data)
-          this.dialogOpened = false
-          this.dialogType = ""
-          this.resetform()
-        })
+        console.log(this.comboProd)
+        // this.mp.addComboProd(this.comboProd).subscribe(data => {
+        //   console.log(data)
+        //   this.dialogOpened = false
+        //   this.dialogType = ""
+        //   this.resetform()
+        // })
         break
     }
   }
@@ -360,7 +361,11 @@ export class ProductManagementComponent implements OnInit {
     });
   }
 
-  openComboMenuDialog() {
+  openComboMenuDialog(menuId) {
+    // this.dialogOpened = true;
+    // this.dialogType = 'Combo Menu';
+    // this.comboProd.special_menu_id = menuId;
+
     this.matDialog.open(SaveComboMenuDialogComponent, {data: {}}).afterClosed().subscribe(() => {
       this.mp.getComboMenu().subscribe((data: any[]) => {
         this.comboMenus = data;

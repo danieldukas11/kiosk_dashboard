@@ -85,7 +85,8 @@
     </mat-form-field>
 
   </ng-container>
-  <input type="file">
+  <input type="file" formControlName="image" accept="image/png, image/jpeg"
+         (change)="getImage($event.target.files)">
 
   <button (click)="save()">{{edit ? 'Update product info' : 'Add new product'}}</button>
 </form>

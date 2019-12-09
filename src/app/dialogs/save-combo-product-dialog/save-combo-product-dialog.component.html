@@ -1,0 +1,21 @@
+<h1 mat-dialog-title class="header">Add new combo product</h1>
+
+<form [formGroup]="saveComboProductForm" class="saveComboProductForm">
+
+  <mat-form-field class="selectContainer" *ngIf="products && products.length > 0">
+    <mat-select [placeholder]="'Products for making combo menu'" formControlName="products"
+                (selectionChange)="changeProduct($event.value)" multiple>
+      <mat-select-trigger>
+        {{selectedProducts ? selectedProducts[0]?.title : ''}}
+        <span *ngIf="selectedProducts?.length > 1">
+                (+{{selectedProducts?.length - 1}} {{selectedProducts?.length === 2 ? 'other' : 'others'}})
+              </span>
+      </mat-select-trigger>
+      <mat-option *ngFor="let prod of products" [value]="prod">{{prod.title}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <div>
+    <button (click)="save()">Save combo product</button>
+  </div>
+</form>

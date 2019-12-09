@@ -2,6 +2,7 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ManageProductsService} from '../../services/manage-products.service';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-save-product-dialog',
@@ -37,6 +38,8 @@ export class SaveProductDialogComponent implements OnInit {
       numericMsg: 'Price for medium size should be <strong>number</strong>'
     }
   ];
+
+  newProductImg;
 
   formFields;
 
@@ -97,6 +100,12 @@ export class SaveProductDialogComponent implements OnInit {
     );
   }
 
+  getImage(img): void {
+    this.newProductImg = img.item(0);
+    // this.ingredientImg = `${environment.staticUrl}images/${this.newIngredientImg.name}`;
+    this.saveProductForm.patchValue({image: this.newProductImg.name});
+  }
+
 
   getIngredientMenus(): void {
     this.mp.getIngredientMenus().subscribe((data: any[]) => {
@@ -135,7 +144,7 @@ export class SaveProductDialogComponent implements OnInit {
 
     if (!this.edit) {
       const fd = new FormData();
-      // fd.append("image", this.img);
+      fd.append('image', this.newProductImg);
       fd.append('title', product.title);
       fd.append('sizable', product.sizable);
       fd.append('customizable', product.customizable);
