@@ -22,7 +22,7 @@ export class SaveIngredientMenuDialogComponent implements OnInit, OnDestroy {
   ) {
     this.edit = !!data.menu;
 
-    this.saveIngredientMenuForm = fb.group({title: ['', Validators.required]});
+    this.saveIngredientMenuForm = fb.group({title: ['', Validators.required], _id: ['']});
 
     if (this.edit) {
       this.saveIngredientMenuForm.patchValue(data.menu);
@@ -36,6 +36,10 @@ export class SaveIngredientMenuDialogComponent implements OnInit, OnDestroy {
     if (this.saveIngredientMenuForm.valid) {
       if (!this.edit) {
         this.subscriptions.push(this.mp.addIngredientMenu(this.titleCtrl.value).subscribe(() => {
+          this.dialogRef.close();
+        }));
+      } else {
+        this.subscriptions.push(this.mp.updateIngredientMenu(this.saveIngredientMenuForm.value).subscribe(() => {
           this.dialogRef.close();
         }));
       }

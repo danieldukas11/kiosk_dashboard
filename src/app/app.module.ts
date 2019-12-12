@@ -31,7 +31,7 @@ import {DropzoneConfigInterface} from 'ngx-dropzone-wrapper';
 import {environment} from '../environments/environment';
 
 const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
-  url: `${environment.staticUrl}/admin/ads/video/add/admin/ads/video/add`,
+  url: `${environment.staticUrl}dashboard/admin/ads/video/add`,
   maxFilesize: 50,
   acceptedFiles: 'video/*',
   maxFiles: 1

@@ -61,12 +61,10 @@ export class SaveComboDialogComponent implements OnInit {
 
   changeComboMenu(e) {
     this.selectedComboMenus = e;
-    console.log(this.comboMenuCtrl.value)
   }
 
   changeComboProducts(e) {
     this.selectedComboProducts = e;
-    // console.log(this.selectedComboProducts)
   }
 
   getProducts() {

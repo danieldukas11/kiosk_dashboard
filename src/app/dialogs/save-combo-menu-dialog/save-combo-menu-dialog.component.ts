@@ -12,6 +12,8 @@ import {ManageProductsService} from '../../services/manage-products.service';
 export class SaveComboMenuDialogComponent implements OnInit, OnDestroy {
   saveComboMenuForm: FormGroup;
   subscriptions: Subscription[] = [];
+  edit = false;
+  configurable = false;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -19,20 +21,33 @@ export class SaveComboMenuDialogComponent implements OnInit, OnDestroy {
     private mp: ManageProductsService,
     public dialogRef: MatDialogRef<SaveComboMenuDialogComponent>
   ) {
+
+    this.edit = !!data.menu;
+
     this.saveComboMenuForm = fb.group({
       title: ['', Validators.required],
-      configurable: ['false', Validators.required]
+      configurable: [this.configurable, Validators.required]
     });
+
+    if (this.edit) {
+      this.saveComboMenuForm.patchValue(data.menu);
+    }
   }
 
   ngOnInit(): void {
   }
 
-  add() {
+  save() {
     if (this.saveComboMenuForm.valid) {
-      this.subscriptions.push(this.mp.addComboMenu(this.saveComboMenuForm.value).subscribe(() => {
-        this.dialogRef.close();
-      }));
+      if (!this.edit) {
+        this.subscriptions.push(this.mp.addComboMenu(this.saveComboMenuForm.value).subscribe(() => {
+          this.dialogRef.close();
+        }));
+      } else {
+        this.subscriptions.push(this.mp.updateComboMenu(this.saveComboMenuForm.value).subscribe(() => {
+          this.dialogRef.close();
+        }));
+      }
     }
   }
 

@@ -350,7 +350,7 @@ export class ProductManagementComponent implements OnInit {
 
   // Product menu dialog
   openProductMenuDialog(menu = null) {
-    this.matDialog.open(SaveProductMenuDialogComponent, {data: {}}).afterClosed().subscribe(() => {
+    this.matDialog.open(SaveProductMenuDialogComponent, {data: {menu}}).afterClosed().subscribe(() => {
       this.mp.getProductMenus().subscribe((data: any[]) => {
         this.prod_menus = data;
       });
@@ -377,12 +377,12 @@ export class ProductManagementComponent implements OnInit {
     });
   }
 
-  openComboMenuDialog(menuId) {
+  openComboMenuDialog(menu) {
     // this.dialogOpened = true;
     // this.dialogType = 'Combo Menu';
     // this.comboProd.special_menu_id = menuId;
 
-    this.matDialog.open(SaveComboMenuDialogComponent, {data: {}}).afterClosed().subscribe(() => {
+    this.matDialog.open(SaveComboMenuDialogComponent, {data: {menu}}).afterClosed().subscribe(() => {
       this.mp.getComboMenu().subscribe((data: any[]) => {
         this.comboMenus = data;
       });

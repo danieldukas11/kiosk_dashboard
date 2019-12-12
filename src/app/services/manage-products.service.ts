@@ -90,4 +90,16 @@ export class ManageProductsService {
   removeCombo(id) {
     return this.http.delete(`${environment.staticUrl}dashboard/admin/combo/delete`, {params: {id}});
   }
+
+  updateIngredientMenu(val) {
+    return this.http.put(`${environment.staticUrl}dashboard/admin/ingr_menu/update`, {params: {val}});
+  }
+
+  updateProductMenu(val){
+    return this.http.put(`${environment.staticUrl}dashboard/admin/prod_menu/update`, {params: {val}});
+  }
+
+  updateComboMenu(val){
+    return this.http.put(`${environment.staticUrl}dashboard/admin/combo_menu/update`, {params: {val}});
+  }
 }

@@ -1,5 +1,5 @@
 <form [formGroup]="saveProductMenuForm" class="saveProductMenuForm">
-  <h1 mat-dialog-title>Add new product menu</h1>
+  <h1 mat-dialog-title>{{edit ? 'Edit' : 'Add new'}}  product menu</h1>
 
   <mat-dialog-content>
     <input type="text" placeholder="Menu Title" name="mt" autocomplete="off" formControlName="title">
@@ -9,6 +9,6 @@
   </mat-dialog-content>
 
   <mat-dialog-actions>
-    <button (click)="add()">Add product menu</button>
+    <button (click)="save()">{{edit ? 'Save' : 'Add'}} product menu</button>
   </mat-dialog-actions>
 </form>

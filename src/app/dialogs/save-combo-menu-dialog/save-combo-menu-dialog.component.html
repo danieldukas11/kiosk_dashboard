@@ -1,5 +1,5 @@
 <form [formGroup]="saveComboMenuForm" class="saveComboMenuForm">
-  <h1 mat-dialog-title>Add new combo menu</h1>
+  <h1 mat-dialog-title>{{!edit ? 'Add new' : 'Edit'}} combo menu</h1>
 
   <mat-dialog-content>
     <input type="text" placeholder="Menu Title" name="mt" autocomplete="off" formControlName="title">
@@ -9,12 +9,12 @@
 
     <div>Is combo customizable?</div>
     <mat-radio-group formControlName="configurable">
-      <mat-radio-button class="customizable" value="false">No</mat-radio-button>
-      <mat-radio-button class="customizable" value="true">Yes</mat-radio-button>
+      <mat-radio-button class="customizable" [value]=false>No</mat-radio-button>
+      <mat-radio-button class="customizable" [value]=true>Yes</mat-radio-button>
     </mat-radio-group>
   </mat-dialog-content>
 
   <mat-dialog-actions>
-    <button (click)="add()">Add combo menu</button>
+    <button (click)="save()">{{!edit ? 'Add' : 'Update'}} combo menu</button>
   </mat-dialog-actions>
 </form>
