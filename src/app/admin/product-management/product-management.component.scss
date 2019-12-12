@@ -141,6 +141,7 @@
 
 .ingredientMenuActions {
   margin-left: 20px;
+
   i {
     font-size: 14px;
     margin-left: 10px;
@@ -148,3 +149,24 @@
 }
 
 
+.comboTable {
+  width: 50%;
+  margin: auto;
+
+  td {
+    height: 30px;
+  }
+  
+  i{
+    cursor: pointer;
+  }
+
+  .removeCombo {
+    margin-left: 20px;
+    color: red;
+  }
+
+  .editCombo {
+    color: #F2AC21;
+  }
+}

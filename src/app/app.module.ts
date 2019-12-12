@@ -21,6 +21,9 @@ import {SaveComboMenuDialogComponent} from './dialogs/save-combo-menu-dialog/sav
 import {SaveIngredientDialogComponent} from './dialogs/save-ingredient-dialog/save-ingredient-dialog.component';
 import {SaveProductDialogComponent} from './dialogs/save-product-dialog/save-product-dialog.component';
 import {SaveComboProductDialogComponent} from './dialogs/save-combo-product-dialog/save-combo-product-dialog.component';
+import {ProfileComponent} from './admin/profile/profile.component';
+import {SaveComboDialogComponent} from './dialogs/save-combo-dialog/save-combo-dialog.component';
+import { ProgressManagementMonitorComponent } from './admin/progress-management-monitor/progress-management-monitor.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +40,10 @@ import {SaveComboProductDialogComponent} from './dialogs/save-combo-product-dial
     SaveComboMenuDialogComponent,
     SaveIngredientDialogComponent,
     SaveProductDialogComponent,
-    SaveComboProductDialogComponent
+    SaveComboProductDialogComponent,
+    ProfileComponent,
+    SaveComboDialogComponent,
+    ProgressManagementMonitorComponent
   ],
   imports: [
     BrowserModule,
@@ -62,7 +68,8 @@ import {SaveComboProductDialogComponent} from './dialogs/save-combo-product-dial
     SaveComboMenuDialogComponent,
     SaveIngredientDialogComponent,
     SaveProductDialogComponent,
-    SaveComboProductDialogComponent
+    SaveComboProductDialogComponent,
+    SaveComboDialogComponent
   ]
 })
 export class AppModule {

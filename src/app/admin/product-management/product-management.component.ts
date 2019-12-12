@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ManageProductsService} from "../../services/manage-products.service"
+import {ManageProductsService} from '../../services/manage-products.service';
 import {environment} from '../../../environments/environment'
 import {FormControl} from '@angular/forms';
 import {fromEvent} from 'rxjs';
@@ -10,6 +10,7 @@ import {SaveComboMenuDialogComponent} from '../../dialogs/save-combo-menu-dialog
 import {SaveIngredientDialogComponent} from '../../dialogs/save-ingredient-dialog/save-ingredient-dialog.component';
 import {SaveProductDialogComponent} from '../../dialogs/save-product-dialog/save-product-dialog.component';
 import {SaveComboProductDialogComponent} from '../../dialogs/save-combo-product-dialog/save-combo-product-dialog.component';
+import {SaveComboDialogComponent} from '../../dialogs/save-combo-dialog/save-combo-dialog.component';
 
 @Component({
   selector: 'app-product-management',
@@ -105,6 +106,10 @@ export class ProductManagementComponent implements OnInit {
     this.mp.getComboMenu().subscribe((data: any[]) => {
       this.comboMenus = data
     })
+
+    this.mp.getCombos().subscribe((data: any[]) => {
+      this.combos = data;
+    });
   }
 
   resetform() {
@@ -238,18 +243,18 @@ export class ProductManagementComponent implements OnInit {
           this.dialogType = ""
           this.resetform()
         })
-        break
+        break;
       case "Combo Product":
         this.combo_prod.value.forEach(dat => {
           this.comboProd.products.push(dat._id)
         });
         console.log(this.comboProd)
-        // this.mp.addComboProd(this.comboProd).subscribe(data => {
-        //   console.log(data)
-        //   this.dialogOpened = false
-        //   this.dialogType = ""
-        //   this.resetform()
-        // })
+        this.mp.addComboProd(this.comboProd).subscribe(data => {
+          console.log(data)
+          this.dialogOpened = false
+          this.dialogType = ""
+          this.resetform()
+        })
         break
     }
   }
@@ -291,8 +296,19 @@ export class ProductManagementComponent implements OnInit {
     })
   }
 
-  removeIngredientMenu() {
+  removeComboProduct(id) {
+    this.mp.removeComboProd(id).subscribe(dt => {
+      this.products = this.products.filter(prod => {
+        return prod._id !== id;
+      });
+    });
+  }
+
+  removeIngredientMenu(id) {
     this.disableExpansionOnPanel = true;
+    this.mp.removeIngredientMenu(id).subscribe(d => {
+      this.ingr_menus = this.ingr_menus.filter(m => m._id !== id);
+    });
   }
 
   getImage(img) {
@@ -373,6 +389,7 @@ export class ProductManagementComponent implements OnInit {
     });
   }
 
+
   openComboProductDialog(menuId, product = null) {
     this.dialogOpened = true;
     this.dialogType = 'Combo Product';
@@ -392,5 +409,18 @@ export class ProductManagementComponent implements OnInit {
     });
   }
 
+  openComboDialog(combo = null) {
+    this.dialogOpened = true;
+    this.dialogType = 'Combo';
 
+    this.matDialog.open(SaveComboDialogComponent, {
+      width: '500px',
+      data: {
+        combo
+      }
+    }).afterClosed().subscribe(() => {
+    });
+
+
+  }
 }

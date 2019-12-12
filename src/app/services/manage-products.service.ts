@@ -33,6 +33,10 @@ export class ManageProductsService {
     return this.http.get(`${environment.staticUrl}dashboard/admin/combo_menu`)
   }
 
+  getCombos() {
+    return this.http.get(`${environment.staticUrl}dashboard/admin/combo`)
+  }
+
 
   addIngredientMenu(title) {
     return this.http.post(`${environment.staticUrl}dashboard/admin/ingr_menu/add`, {title})
@@ -59,8 +63,16 @@ export class ManageProductsService {
   }
 
   addComboProd(data) {
-
     return this.http.post(`${environment.staticUrl}dashboard/admin/combo_prod/add`, data)
+  }
+
+  removeComboProd(id) {
+    return this.http.delete(`${environment.staticUrl}dashboard/admin/combo_prod/delete?id=${id}`);
+  }
+
+  removeIngredientMenu(id) {
+
+    return this.http.delete(`${environment.staticUrl}dashboard/admin/ingredientmenu/delete?id=${id}`);
   }
 
   deleteIngredient(id) {

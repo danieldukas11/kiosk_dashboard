@@ -1,0 +1,22 @@
+<div class="content">
+  <form [formGroup]="profileForm" class="profileForm">
+    <h1>Edit Profile</h1>
+
+    <div>
+      <input placeholder="First name" formControlName="first_name" required>
+      <mat-error *ngIf="firstNameCtrl.touched && firstNameCtrl.hasError('required')">First name is required</mat-error>
+    </div>
+    <div>
+      <input placeholder="Last name" formControlName="last_name" required>
+      <mat-error *ngIf="lastNameCtrl.touched && lastNameCtrl.hasError('required')">Last name is required</mat-error>
+    </div>
+    <div>
+      <input placeholder="E-mail" formControlName="email" required>
+      <mat-error *ngIf="emailCtrl.touched && emailCtrl.hasError('required')">E-mail is required</mat-error>
+    </div>
+
+    <div>
+      <button class="saveBtn" (click)="saveInfo()">Save info</button>
+    </div>
+  </form>
+</div>
