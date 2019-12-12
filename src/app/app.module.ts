@@ -23,7 +23,19 @@ import {SaveProductDialogComponent} from './dialogs/save-product-dialog/save-pro
 import {SaveComboProductDialogComponent} from './dialogs/save-combo-product-dialog/save-combo-product-dialog.component';
 import {ProfileComponent} from './admin/profile/profile.component';
 import {SaveComboDialogComponent} from './dialogs/save-combo-dialog/save-combo-dialog.component';
-import { ProgressManagementMonitorComponent } from './admin/progress-management-monitor/progress-management-monitor.component';
+import {ProgressManagementMonitorComponent} from './admin/progress-management-monitor/progress-management-monitor.component';
+
+import {DropzoneModule} from 'ngx-dropzone-wrapper';
+import {DROPZONE_CONFIG} from 'ngx-dropzone-wrapper';
+import {DropzoneConfigInterface} from 'ngx-dropzone-wrapper';
+import {environment} from '../environments/environment';
+
+const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
+  url: `${environment.staticUrl}/admin/ads/video/add/admin/ads/video/add`,
+  maxFilesize: 50,
+  acceptedFiles: 'video/*',
+  maxFiles: 1
+};
 
 @NgModule({
   declarations: [
@@ -52,7 +64,8 @@ import { ProgressManagementMonitorComponent } from './admin/progress-management-
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    MaterialModule
+    MaterialModule,
+    DropzoneModule
   ],
   providers: [
     {
@@ -60,6 +73,10 @@ import { ProgressManagementMonitorComponent } from './admin/progress-management-
       useClass: AuthInterceptor,
       multi: true
     },
+    {
+      provide: DROPZONE_CONFIG,
+      useValue: DEFAULT_DROPZONE_CONFIG
+    }
   ],
   bootstrap: [AppComponent],
   entryComponents: [

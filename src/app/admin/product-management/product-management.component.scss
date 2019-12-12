@@ -139,7 +139,7 @@
 
 }
 
-.ingredientMenuActions {
+.ingredientMenuActions, .productMenuActions, .comboMenuActions {
   margin-left: 20px;
 
   i {
@@ -156,8 +156,8 @@
   td {
     height: 30px;
   }
-  
-  i{
+
+  i {
     cursor: pointer;
   }
 

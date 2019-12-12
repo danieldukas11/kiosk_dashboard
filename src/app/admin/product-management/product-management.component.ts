@@ -349,7 +349,7 @@ export class ProductManagementComponent implements OnInit {
 
 
   // Product menu dialog
-  openProductMenuDialog() {
+  openProductMenuDialog(menu = null) {
     this.matDialog.open(SaveProductMenuDialogComponent, {data: {}}).afterClosed().subscribe(() => {
       this.mp.getProductMenus().subscribe((data: any[]) => {
         this.prod_menus = data;
@@ -422,5 +422,29 @@ export class ProductManagementComponent implements OnInit {
     });
 
 
+  }
+
+  removeProductMenu(id) {
+    this.mp.removeProductMenu(id).subscribe(dt => {
+      this.prod_menus = this.prod_menus.filter(data => {
+        return data._id !== id;
+      });
+    });
+  }
+
+  removeComboMenu(id) {
+    this.mp.removeComboMenu(id).subscribe(dt => {
+      this.comboMenus = this.comboMenus.filter(data => {
+        return data._id !== id;
+      });
+    });
+  }
+
+  removeCombo(id) {
+    this.mp.removeCombo(id).subscribe(dt => {
+      this.combos = this.combos.filter(data => {
+        return data._id !== id;
+      });
+    });
   }
 }

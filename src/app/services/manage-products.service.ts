@@ -76,6 +76,18 @@ export class ManageProductsService {
   }
 
   deleteIngredient(id) {
-    return this.http.delete(`${environment.staticUrl}dashboard/admin/ingredient/delete`, {params: {id: id}})
+    return this.http.delete(`${environment.staticUrl}dashboard/admin/ingredient/delete`, {params: {id}});
+  }
+
+  removeProductMenu(id) {
+    return this.http.delete(`${environment.staticUrl}dashboard/admin/prod_menu/delete`, {params: {id}});
+  }
+
+  removeComboMenu(id) {
+    return this.http.delete(`${environment.staticUrl}dashboard/admin/combo_menu/delete`, {params: {id}});
+  }
+
+  removeCombo(id) {
+    return this.http.delete(`${environment.staticUrl}dashboard/admin/combo/delete`, {params: {id}});
   }
 }

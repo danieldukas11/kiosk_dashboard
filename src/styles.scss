@@ -40,3 +40,25 @@ body {
     outline: 0;
   }
 }
+
+dropzone {
+  .dz-message {
+    height: 400px !important;
+    overflow: hidden;
+  }
+
+  .dz-started.dz-wrapper {
+    border: 1px dotted silver !important;
+  }
+
+  .dz-wrapper {
+    height: 430px !important;
+    overflow: hidden;
+  }
+
+  .dz-started {
+    .dz-message {
+      display: none !important;
+    }
+  }
+}

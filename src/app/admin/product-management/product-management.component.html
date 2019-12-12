@@ -65,7 +65,11 @@
                            (click)="disableExpansionOnPanel=false">
         <mat-expansion-panel-header>
           <mat-panel-title class="menu_title">
-            {{prod_menu.title}}
+            <span>{{prod_menu.title}}</span>
+            <div class="productMenuActions">
+              <i class="far fa-edit" style="color:#F2AC21 " (click)="openProductMenuDialog(prod_menu)"></i>
+              <i class="fas fa-trash" style="color:red " (click)="removeProductMenu(prod_menu._id)"></i>
+            </div>
           </mat-panel-title>
         </mat-expansion-panel-header>
         <div class="body">
@@ -106,7 +110,11 @@
       <mat-expansion-panel *ngFor="let comboMenu of comboMenus">
         <mat-expansion-panel-header>
           <mat-panel-title class="menu_title">
-            {{comboMenu.title}}
+            <span>{{comboMenu.title}}</span>
+            <div class="comboMenuActions">
+              <i class="far fa-edit" style="color:#F2AC21 " (click)="openComboMenuDialog(comboMenu)"></i>
+              <i class="fas fa-trash" style="color:red " (click)="removeComboMenu(comboMenu._id)"></i>
+            </div>
           </mat-panel-title>
         </mat-expansion-panel-header>
         <div class="body">
@@ -150,7 +158,7 @@
         <td>{{c.title}}</td>
         <td>
           <i class="fa fa-pencil editCombo" (click)="openComboDialog(c)"></i>
-          <i class="fa fa-trash removeCombo"></i>
+          <i class="fa fa-trash removeCombo" (click)="removeCombo(c._id)"></i>
         </td>
       </tr>
     </table>
