@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {ManageProductsService} from '../../services/manage-products.service';
 
 @Component({
   selector: 'app-progress-management-monitor',
@@ -6,12 +7,31 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./progress-management-monitor.component.scss']
 })
 export class ProgressManagementMonitorComponent implements OnInit {
-  config = {};
+  config = {
+    url: '{no_url}',
+    autoProcessQueue: false,
+    addRemoveLinks: true
+  };
+  dropzoneFile;
 
-  constructor() {
+  constructor(
+    private mp: ManageProductsService
+  ) {
   }
 
   ngOnInit() {
+  }
+
+  getFile(e) {
+    this.dropzoneFile = e;
+  }
+
+  upload() {
+    const fd = new FormData();
+
+    fd.append('adVideo', this.dropzoneFile)
+
+    this.mp.uploadAdVideo(fd).subscribe();
   }
 
 }

@@ -95,11 +95,15 @@ export class ManageProductsService {
     return this.http.put(`${environment.staticUrl}dashboard/admin/ingr_menu/update`, {params: {val}});
   }
 
-  updateProductMenu(val){
+  updateProductMenu(val) {
     return this.http.put(`${environment.staticUrl}dashboard/admin/prod_menu/update`, {params: {val}});
   }
 
-  updateComboMenu(val){
+  updateComboMenu(val) {
     return this.http.put(`${environment.staticUrl}dashboard/admin/combo_menu/update`, {params: {val}});
+  }
+
+  uploadAdVideo(fd) {
+    return this.http.post(`${environment.staticUrl}dashboard/admin/ads/video/add`, fd)
   }
 }

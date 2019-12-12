@@ -1,3 +1,5 @@
 <div class="videosDropzone">
-  <dropzone [config]="config" [message]="'Click or drag video files here to upload'"></dropzone>
+  <dropzone [config]="config"  (addedFile)="getFile($event)" [message]="'Click or drag video files here to upload'"></dropzone>
 </div>
+
+<button (click)="upload()">Upload</button>
