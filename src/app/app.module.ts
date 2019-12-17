@@ -89,5 +89,9 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     SaveComboDialogComponent
   ]
 })
+
 export class AppModule {
+  
+  
 }
+console.log(`${environment.staticUrl}dashboard/admin/ads/video/add`);
