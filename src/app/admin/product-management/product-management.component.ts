@@ -302,6 +302,7 @@ export class ProductManagementComponent implements OnInit {
 
   removeComboProduct(id) {
     this.mp.removeComboProd(id).subscribe(dt => {
+      this.toastr.success('The combo product has been removed successfully.', 'Removed!');
       this.products = this.products.filter(prod => {
         return prod._id !== id;
       });
@@ -431,6 +432,7 @@ export class ProductManagementComponent implements OnInit {
 
   removeProductMenu(id) {
     this.mp.removeProductMenu(id).subscribe(dt => {
+      this.toastr.success('The product menu has been removed successfully.', 'Removed!');
       this.prod_menus = this.prod_menus.filter(data => {
         return data._id !== id;
       });
@@ -439,6 +441,7 @@ export class ProductManagementComponent implements OnInit {
 
   removeComboMenu(id) {
     this.mp.removeComboMenu(id).subscribe(dt => {
+      this.toastr.success('The combo menu has been removed successfully.', 'Removed!');
       this.comboMenus = this.comboMenus.filter(data => {
         return data._id !== id;
       });

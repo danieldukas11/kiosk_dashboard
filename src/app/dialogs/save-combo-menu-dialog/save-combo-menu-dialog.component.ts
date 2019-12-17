@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Subscription} from 'rxjs';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {ManageProductsService} from '../../services/manage-products.service';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-save-combo-menu-dialog',
@@ -19,7 +20,8 @@ export class SaveComboMenuDialogComponent implements OnInit, OnDestroy {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private fb: FormBuilder,
     private mp: ManageProductsService,
-    public dialogRef: MatDialogRef<SaveComboMenuDialogComponent>
+    public dialogRef: MatDialogRef<SaveComboMenuDialogComponent>,
+    private toastr: ToastrService
   ) {
 
     this.edit = !!data.menu;
@@ -41,10 +43,12 @@ export class SaveComboMenuDialogComponent implements OnInit, OnDestroy {
     if (this.saveComboMenuForm.valid) {
       if (!this.edit) {
         this.subscriptions.push(this.mp.addComboMenu(this.saveComboMenuForm.value).subscribe(() => {
+          this.toastr.success('The combo menu has been added successfully.', 'Added!');
           this.dialogRef.close();
         }));
       } else {
         this.subscriptions.push(this.mp.updateComboMenu(this.saveComboMenuForm.value).subscribe(() => {
+          this.toastr.success('The combo menu has been updated successfully.', 'Updated!');
           this.dialogRef.close();
         }));
       }

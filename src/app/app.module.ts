@@ -30,6 +30,7 @@ import {DROPZONE_CONFIG} from 'ngx-dropzone-wrapper';
 import {DropzoneConfigInterface} from 'ngx-dropzone-wrapper';
 import {environment} from '../environments/environment';
 import {ToastrModule} from 'ngx-toastr';
+import {RequestInterceptor} from './interceptors/http.interceptor';
 
 const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
   url: `${environment.staticUrl}dashboard/admin/ads/video/add`,
@@ -74,7 +75,12 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true
+    }, {
+      provide: HTTP_INTERCEPTORS,
+      useClass: RequestInterceptor,
+      multi: true
     },
+
     {
       provide: DROPZONE_CONFIG,
       useValue: DEFAULT_DROPZONE_CONFIG
