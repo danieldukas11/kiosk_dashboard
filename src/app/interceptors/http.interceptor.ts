@@ -33,8 +33,6 @@ export class RequestInterceptor implements HttpInterceptor {
                 // this.common.dataLoading = false;
                 const message = err.error.message;
 
-                console.log(err.error)
-
                 // if (!this.common.showOverlay) {
                 // Sequelize db connection error
                 // if (err.error.hasOwnProperty('db_error')) {
