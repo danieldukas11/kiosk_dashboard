@@ -383,7 +383,7 @@ export class ProductManagementComponent implements OnInit {
     });
   }
 
-  openComboMenuDialog(menu) {
+  openComboMenuDialog(menu=null) {
     // this.dialogOpened = true;
     // this.dialogType = 'Combo Menu';
     // this.comboProd.special_menu_id = menuId;
