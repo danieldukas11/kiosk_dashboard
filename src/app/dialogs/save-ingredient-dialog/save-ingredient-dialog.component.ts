@@ -4,6 +4,7 @@ import {Subscription} from 'rxjs';
 import {ManageProductsService} from '../../services/manage-products.service';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {environment} from '../../../environments/environment';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-save-ingredient-dialog',
@@ -22,7 +23,8 @@ export class SaveIngredientDialogComponent implements OnInit, OnDestroy {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private fb: FormBuilder,
     private mp: ManageProductsService,
-    public dialogRef: MatDialogRef<SaveIngredientDialogComponent>
+    public dialogRef: MatDialogRef<SaveIngredientDialogComponent>,
+    private toastr: ToastrService
   ) {
 
 
@@ -63,9 +65,19 @@ export class SaveIngredientDialogComponent implements OnInit, OnDestroy {
       fd.append('double_price', ingredient.double_price);
       fd.append('ingredient_ids', ingredient.ingredient_ids);
 
-      this.mp.addIngredient(fd).subscribe(() => {
-        this.dialogRef.close();
-      });
+      if (!this.edit) {
+
+        this.mp.addIngredient(fd).subscribe(() => {
+          this.toastr.success('The ingredient has been added successfully.', 'Added!');
+          this.dialogRef.close();
+        });
+      } else {
+
+        this.mp.updateIngredient(fd).subscribe(() => {
+          this.toastr.success('The ingredient has been updated successfully.', 'Updated!');
+          this.dialogRef.close();
+        });
+      }
     }
   }
 

@@ -92,18 +92,24 @@ export class ManageProductsService {
   }
 
   updateIngredientMenu(val) {
-    return this.http.put(`${environment.staticUrl}dashboard/admin/ingr_menu/update`, {params: {val}});
+    return this.http.put(`${environment.staticUrl}dashboard/admin/ingr_menu/update`, val);
+  }
+
+  updateIngredient(val) {
+    return this.http.put(`${environment.staticUrl}dashboard/admin/ingredient/update`, val);
   }
 
   updateProductMenu(val) {
-    return this.http.put(`${environment.staticUrl}dashboard/admin/prod_menu/update`, {params: {val}});
+    return this.http.put(`${environment.staticUrl}dashboard/admin/prod_menu/update`, val);
   }
 
   updateComboMenu(val) {
-    return this.http.put(`${environment.staticUrl}dashboard/admin/combo_menu/update`, {params: {val}});
+    return this.http.put(`${environment.staticUrl}dashboard/admin/combo_menu/update`, val);
   }
 
   uploadAdVideo(fd) {
-    return this.http.post(`${environment.staticUrl}dashboard/admin/ads/video/add`, fd)
+    return this.http.post(`${environment.staticUrl}dashboard/admin/ads/video/add`, fd);
   }
+
+
 }

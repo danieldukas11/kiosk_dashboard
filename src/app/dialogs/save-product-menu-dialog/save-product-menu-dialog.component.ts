@@ -3,6 +3,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ManageProductsService} from '../../services/manage-products.service';
 import {Subscription} from 'rxjs';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-save-product-menu-dialog',
@@ -18,7 +19,8 @@ export class SaveProductMenuDialogComponent implements OnInit, OnDestroy {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private fb: FormBuilder,
     private mp: ManageProductsService,
-    public dialogRef: MatDialogRef<SaveProductMenuDialogComponent>
+    public dialogRef: MatDialogRef<SaveProductMenuDialogComponent>,
+    private toastr: ToastrService
   ) {
 
     this.edit = !!data.menu;
@@ -41,11 +43,13 @@ export class SaveProductMenuDialogComponent implements OnInit, OnDestroy {
     if (this.saveProductMenuForm.valid) {
       if (!this.edit) {
         this.subscriptions.push(this.mp.addProductMenu(this.titleCtrl.value).subscribe(() => {
+          this.toastr.success('The product has been added successfully.', 'Added!');
           this.dialogRef.close();
         }));
 
       } else {
         this.subscriptions.push(this.mp.updateProductMenu(this.saveProductMenuForm.value).subscribe(() => {
+          this.toastr.success('The product has been updated successfully.', 'Updated!');
           this.dialogRef.close();
         }));
       }

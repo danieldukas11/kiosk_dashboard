@@ -11,6 +11,7 @@ import {SaveIngredientDialogComponent} from '../../dialogs/save-ingredient-dialo
 import {SaveProductDialogComponent} from '../../dialogs/save-product-dialog/save-product-dialog.component';
 import {SaveComboProductDialogComponent} from '../../dialogs/save-combo-product-dialog/save-combo-product-dialog.component';
 import {SaveComboDialogComponent} from '../../dialogs/save-combo-dialog/save-combo-dialog.component';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-product-management',
@@ -84,11 +85,14 @@ export class ProductManagementComponent implements OnInit {
 
   constructor(
     private mp: ManageProductsService,
-    private matDialog: MatDialog
+    private matDialog: MatDialog,
+    private toastr: ToastrService
   ) {
   }
 
   ngOnInit() {
+
+
     this.mp.getIngredientMenus().subscribe((data: any[]) => {
       this.ingr_menus = data
       // console.log(this.ingr_menus)
@@ -285,11 +289,11 @@ export class ProductManagementComponent implements OnInit {
       })
       return null
     }
-
   }
 
   deleteIngredient(id) {
-    this.mp.deleteIngredient(id).subscribe(data => {
+    this.mp.deleteIngredient(id).subscribe(() => {
+      this.toastr.success('The ingredient has been removed successfully.', 'Removed!');
       this.ingredients = this.ingredients.filter(data => {
         return data._id != id
       })
@@ -307,6 +311,7 @@ export class ProductManagementComponent implements OnInit {
   removeIngredientMenu(id) {
     this.disableExpansionOnPanel = true;
     this.mp.removeIngredientMenu(id).subscribe(d => {
+      this.toastr.success('The ingredient menu has been removed successfully.', 'Removed!');
       this.ingr_menus = this.ingr_menus.filter(m => m._id !== id);
     });
   }

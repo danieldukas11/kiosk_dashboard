@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import * as jwtDecode from 'jwt-decode';
 import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {ManageUsersService} from '../../services/manage-users.service';
 
 @Component({
   selector: 'app-profile',
@@ -12,7 +13,8 @@ export class ProfileComponent implements OnInit {
   profileForm: FormGroup;
 
   constructor(
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private mu: ManageUsersService
   ) {
     this.profileForm = fb.group({
       first_name: ['', Validators.required],
@@ -39,7 +41,9 @@ export class ProfileComponent implements OnInit {
   }
 
   saveInfo() {
-    console.log(this.profileForm.value)
+    if (this.profileForm.valid) {
+      this.mu.updateProfile(this.profileForm.value).subscribe();
+    }
   }
 
 }
