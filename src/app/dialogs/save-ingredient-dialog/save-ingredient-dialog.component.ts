@@ -18,6 +18,7 @@ export class SaveIngredientDialogComponent implements OnInit, OnDestroy {
   newIngredientImg;
   edit = false;
   submitted = false;
+  selectedIngredient;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -29,6 +30,8 @@ export class SaveIngredientDialogComponent implements OnInit, OnDestroy {
 
 
     this.edit = !!data.ingredient;
+    this.selectedIngredient = data.ingredient;
+
 
     this.saveIngredientForm = this.fb.group({
       title: ['', Validators.required],
@@ -58,6 +61,7 @@ export class SaveIngredientDialogComponent implements OnInit, OnDestroy {
       const ingredient = this.saveIngredientForm.value;
       const fd = new FormData();
 
+
       fd.append('image', this.newIngredientImg);
       fd.append('title', ingredient.title);
       fd.append('price', ingredient.normal_price);
@@ -73,6 +77,7 @@ export class SaveIngredientDialogComponent implements OnInit, OnDestroy {
         });
       } else {
 
+        fd.append('_id', this.selectedIngredient._id);
         this.mp.updateIngredient(fd).subscribe(() => {
           this.toastr.success('The ingredient has been updated successfully.', 'Updated!');
           this.dialogRef.close();
