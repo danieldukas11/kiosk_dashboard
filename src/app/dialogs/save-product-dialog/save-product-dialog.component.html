@@ -5,12 +5,16 @@
   <mat-error *ngIf="titleCtrl.touched && titleCtrl.hasError('required')">
     Title is <strong>required</strong>
   </mat-error>
-  <input type="text" placeholder="Product Price" name="it" formControlName="price" autocomplete="off">
-  <mat-error *ngIf="priceCtrl.touched && priceCtrl.hasError('required')">
-    Price is <strong>required</strong>
-  </mat-error>
-  <mat-error *ngIf="priceCtrl.hasError('pattern')">Price should be numeric</mat-error>
-  <!--       *ngIf="product.sizable=='false'  product.customizable=='false'"-->
+
+  <ng-container *ngIf="!sizable && !customizable">
+
+    <input type="text" placeholder="Product Price" name="it" formControlName="price" autocomplete="off">
+    <mat-error *ngIf="priceCtrl.touched && priceCtrl.hasError('required')">
+      Price is <strong>required</strong>
+    </mat-error>
+    <mat-error *ngIf="priceCtrl.hasError('pattern')">Price should be numeric</mat-error>
+    <!--       *ngIf="product.sizable=='false'  product.customizable=='false'"-->
+  </ng-container>
 
 
   <!-- Product possible sizes -->

@@ -425,7 +425,10 @@ export class ProductManagementComponent implements OnInit {
       }
     }).afterClosed().subscribe(() => {
       this.mp.getProducts().subscribe((data: any[]) => {
-        this.comboProd.products = data;
+        this.products = data;
+        this.prod_menus.forEach((prodMenu) => {
+          this.getProdByMenu(prodMenu._id);
+        });
       });
     });
   }
