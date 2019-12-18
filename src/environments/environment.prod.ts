@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  url:"https://kiosk3.herokuapp.com/user_kiosk/",
-  staticUrl:"https://kiosk3.herokuapp.com/"
+  url: 'http://64.225.3.114/',
+  staticUrl: 'http://64.225.3.114/'
 };

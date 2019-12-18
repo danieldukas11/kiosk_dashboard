@@ -4,8 +4,13 @@
 
 export const environment = {
   production: false,
-  url: 'localhost:3500/user_kiosk/',
-  staticUrl: 'http://localhost:3500/'
+  // url: 'localhost:3500/user_kiosk/',
+  // staticUrl: 'http://localhost:3500/'
+  // url: 'https://kiosk3.herokuapp.com/user_kiosk/',
+  // staticUrl: 'https://kiosk3.herokuapp.com/',
+  url: 'http://64.225.3.114/',
+  staticUrl: 'http://64.225.3.114/'
+
 };
 
 /*

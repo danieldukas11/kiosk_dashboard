@@ -12,6 +12,7 @@ import {SaveProductDialogComponent} from '../../dialogs/save-product-dialog/save
 import {SaveComboProductDialogComponent} from '../../dialogs/save-combo-product-dialog/save-combo-product-dialog.component';
 import {SaveComboDialogComponent} from '../../dialogs/save-combo-dialog/save-combo-dialog.component';
 import {ToastrService} from 'ngx-toastr';
+import {ConfirmationDialogComponent} from '../../dialogs/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-product-management',
@@ -301,19 +302,29 @@ export class ProductManagementComponent implements OnInit {
   }
 
   removeComboProduct(id) {
-    this.mp.removeComboProd(id).subscribe(dt => {
-      this.toastr.success('The combo product has been removed successfully.', 'Removed!');
-      this.products = this.products.filter(prod => {
-        return prod._id !== id;
-      });
+
+    this.matDialog.open(ConfirmationDialogComponent, {data: {}, maxWidth: '400px'}).afterClosed().subscribe((r) => {
+      if (r) {
+        this.mp.removeComboProd(id).subscribe(dt => {
+          this.toastr.success('The combo product has been removed successfully.', 'Removed!');
+          this.products = this.products.filter(prod => {
+            return prod._id !== id;
+          });
+        });
+      }
     });
   }
 
   removeIngredientMenu(id) {
     this.disableExpansionOnPanel = true;
-    this.mp.removeIngredientMenu(id).subscribe(d => {
-      this.toastr.success('The ingredient menu has been removed successfully.', 'Removed!');
-      this.ingr_menus = this.ingr_menus.filter(m => m._id !== id);
+
+    this.matDialog.open(ConfirmationDialogComponent, {data: {}, maxWidth: '400px'}).afterClosed().subscribe((r) => {
+      if (r) {
+        this.mp.removeIngredientMenu(id).subscribe(d => {
+          this.toastr.success('The ingredient menu has been removed successfully.', 'Removed!');
+          this.ingr_menus = this.ingr_menus.filter(m => m._id !== id);
+        });
+      }
     });
   }
 
@@ -383,7 +394,7 @@ export class ProductManagementComponent implements OnInit {
     });
   }
 
-  openComboMenuDialog(menu=null) {
+  openComboMenuDialog(menu = null) {
     // this.dialogOpened = true;
     // this.dialogType = 'Combo Menu';
     // this.comboProd.special_menu_id = menuId;

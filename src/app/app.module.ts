@@ -31,6 +31,7 @@ import {DropzoneConfigInterface} from 'ngx-dropzone-wrapper';
 import {environment} from '../environments/environment';
 import {ToastrModule} from 'ngx-toastr';
 import {RequestInterceptor} from './interceptors/http.interceptor';
+import {ConfirmationDialogComponent} from './dialogs/confirmation-dialog/confirmation-dialog.component';
 
 const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
   url: `${environment.staticUrl}dashboard/admin/ads/video/add`,
@@ -57,7 +58,8 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     SaveComboProductDialogComponent,
     ProfileComponent,
     SaveComboDialogComponent,
-    ProgressManagementMonitorComponent
+    ProgressManagementMonitorComponent,
+    ConfirmationDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -94,12 +96,14 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     SaveIngredientDialogComponent,
     SaveProductDialogComponent,
     SaveComboProductDialogComponent,
-    SaveComboDialogComponent
+    SaveComboDialogComponent,
+    ConfirmationDialogComponent
   ]
 })
 
 export class AppModule {
-  
-  
+
+
 }
+
 console.log(`${environment.staticUrl}dashboard/admin/ads/video/add`);
