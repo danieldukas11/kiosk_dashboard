@@ -39,7 +39,7 @@ export class SaveIngredientDialogComponent implements OnInit, OnDestroy {
       normal_price: ['', Validators.required],
       light_price: ['', Validators.required],
       ingredient_ids: [[data.menuId], Validators.required],
-      image: [ this.ingredientImg, Validators.required]
+      image: [this.ingredientImg, Validators.required]
     });
 
     if (this.edit) {
@@ -76,8 +76,7 @@ export class SaveIngredientDialogComponent implements OnInit, OnDestroy {
           this.dialogRef.close();
         });
       } else {
-
-        fd.append('_id', this.selectedIngredient._id);
+        ingredient._id = this.selectedIngredient._id;
         this.mp.updateIngredient(ingredient).subscribe(() => {
           this.toastr.success('The ingredient has been updated successfully.', 'Updated!');
           this.dialogRef.close();
