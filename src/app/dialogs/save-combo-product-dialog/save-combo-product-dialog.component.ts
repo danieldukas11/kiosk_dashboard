@@ -40,7 +40,7 @@ export class SaveComboProductDialogComponent implements OnInit {
   }
 
   save() {
-    this.mp.addComboMenu(this.saveComboProductForm.value).subscribe(data => {
+    this.mp.addComboProd(this.saveComboProductForm.value).subscribe(data => {
       this.dialogRef.close();
     });
   }

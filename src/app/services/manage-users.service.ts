@@ -18,6 +18,6 @@ export class ManageUsersService {
   }
 
   updateProfile(val) {
-    return this.http.get(`${environment.staticUrl}dashboard/updateuser`, val);
+    return this.http.put(`${environment.staticUrl}dashboard/updateuser`, val);
   }
 }

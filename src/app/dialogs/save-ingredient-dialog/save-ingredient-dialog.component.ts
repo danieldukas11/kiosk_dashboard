@@ -1,5 +1,5 @@
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Subscription} from 'rxjs';
 import {ManageProductsService} from '../../services/manage-products.service';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
@@ -39,7 +39,7 @@ export class SaveIngredientDialogComponent implements OnInit, OnDestroy {
       normal_price: ['', Validators.required],
       light_price: ['', Validators.required],
       ingredient_ids: [[data.menuId], Validators.required],
-      image: [this.ingredientImg, Validators.required]
+      image: [ this.ingredientImg, Validators.required]
     });
 
     if (this.edit) {
@@ -92,23 +92,23 @@ export class SaveIngredientDialogComponent implements OnInit, OnDestroy {
     this.saveIngredientForm.patchValue({image: this.newIngredientImg.name});
   }
 
-  get titleCtrl() {
+  get titleCtrl(): AbstractControl {
     return this.saveIngredientForm.get('title');
   }
 
-  get priceCtrl() {
+  get priceCtrl(): AbstractControl {
     return this.saveIngredientForm.get('normal_price');
   }
 
-  get doublePriceCtrl() {
+  get doublePriceCtrl(): AbstractControl {
     return this.saveIngredientForm.get('double_price');
   }
 
-  get lightPriceCtrl() {
+  get lightPriceCtrl(): AbstractControl {
     return this.saveIngredientForm.get('light_price');
   }
 
-  get imageFieldCtrl() {
+  get imageFieldCtrl(): AbstractControl {
     return this.saveIngredientForm.get('image');
   }
 

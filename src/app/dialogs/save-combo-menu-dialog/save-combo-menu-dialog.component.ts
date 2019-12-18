@@ -15,6 +15,7 @@ export class SaveComboMenuDialogComponent implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
   edit = false;
   configurable = false;
+  selectedComboMenu;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -26,12 +27,15 @@ export class SaveComboMenuDialogComponent implements OnInit, OnDestroy {
 
     this.edit = !!data.menu;
 
+
     this.saveComboMenuForm = fb.group({
+      _id: [''],
       title: ['', Validators.required],
       configurable: [this.configurable, Validators.required]
     });
 
     if (this.edit) {
+      this.selectedComboMenu = data.menu;
       this.saveComboMenuForm.patchValue(data.menu);
     }
   }
@@ -42,6 +46,7 @@ export class SaveComboMenuDialogComponent implements OnInit, OnDestroy {
   save() {
     if (this.saveComboMenuForm.valid) {
       if (!this.edit) {
+        delete this.saveComboMenuForm.value._id;
         this.subscriptions.push(this.mp.addComboMenu(this.saveComboMenuForm.value).subscribe(() => {
           this.toastr.success('The combo menu has been added successfully.', 'Added!');
           this.dialogRef.close();
