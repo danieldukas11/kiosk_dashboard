@@ -7,7 +7,7 @@
     <!-- Image area -->
     <div class="imageArea">
 
-      <div class="imgContainer" *ngIf="ingredientImg">
+      <div class="imgContainer" *ngIf="ingredientImg" [hidden]="true">
         <img [src]="ingredientImg" *ngIf="edit">
         <i class="fa fa-times-circle" (click)="ingredientImg = null"></i>
       </div>
