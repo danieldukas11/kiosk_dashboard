@@ -2,6 +2,7 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ManageProductsService} from '../../services/manage-products.service';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-save-combo-dialog',
@@ -18,13 +19,14 @@ export class SaveComboDialogComponent implements OnInit {
   edit = false;
   submitted = false;
   comboImg;
-
+  selectedCombo;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private fb: FormBuilder,
     private mp: ManageProductsService,
-    public dialogRef: MatDialogRef<SaveComboDialogComponent>
+    public dialogRef: MatDialogRef<SaveComboDialogComponent>,
+    private toastr: ToastrService
   ) {
 
     this.edit = !!data.combo;
@@ -38,6 +40,7 @@ export class SaveComboDialogComponent implements OnInit {
     });
 
     if (this.edit) {
+      this.selectedCombo = data.combo;
       this.saveComboForm.patchValue(data.combo);
     }
   }
@@ -94,25 +97,34 @@ export class SaveComboDialogComponent implements OnInit {
     this.submitted = true;
 
     const fd: FormData = new FormData();
+    console.log(this.saveComboForm.value.products)
 
-    for (const field of Object.keys(this.saveComboForm.value)) {
-      if (field !== 'image') {
-        fd.append(field, this.saveComboForm.value[field] ? this.saveComboForm.value[field] : '');
-      } else {
-        fd.append('image', this.comboImg ? this.comboImg[0] : '');
-
-      }
-
+    let price = 0;
+    if (this.comboDefaultCtrl.value && this.comboDefaultCtrl.value.length) {
+      this.comboDefaultCtrl.value.forEach(d => {
+        price += d.price;
+      });
     }
+    fd.append('title', this.saveComboForm.value.title);
 
 
     if (!this.edit) {
-      this.mp.addCombo(fd).subscribe(dt => {
+      fd.append('price', JSON.stringify(price));
 
+
+      fd.append('products', JSON.stringify(this.saveComboForm.value.products));
+      fd.append('comboMenu', JSON.stringify(this.saveComboForm.value.comboMenu));
+      fd.append('defaults', JSON.stringify(this.saveComboForm.value.defaults));
+      fd.append('image', this.comboImg ? this.comboImg[0] : '');
+      this.mp.addCombo(fd).subscribe(dt => {
+        this.toastr.success('The combo has been added successfully.', 'Added!');
+        this.dialogRef.close();
       });
     } else {
-      this.mp.updateCombo(fd).subscribe(dt => {
-
+      const updateData = {_id: this.selectedCombo._id, title: this.saveComboForm.value.title}
+      this.mp.updateCombo(updateData).subscribe(dt => {
+        this.toastr.success('The combo has been updated successfully.', 'Updated!');
+        this.dialogRef.close();
       });
     }
   }

@@ -232,6 +232,7 @@ export class ProductManagementComponent implements OnInit {
         frm.append("products", JSON.stringify(this.combo_prod.value));
         frm.append("comboMenu", JSON.stringify(this.combo_menu.value));
         frm.append("defaults", JSON.stringify(this.combo_default.value));
+        console.log(this.combo_default.value)
         this.mp.addCombo(frm).subscribe(data => {
           this.dialogOpened = false
           this.dialogType = ""
@@ -434,8 +435,8 @@ export class ProductManagementComponent implements OnInit {
   }
 
   openComboDialog(combo = null) {
-    this.dialogOpened = true;
-    this.dialogType = 'Combo';
+    // this.dialogOpened = true;
+    // this.dialogType = 'Combo';
 
     this.matDialog.open(SaveComboDialogComponent, {
       width: '500px',
@@ -443,6 +444,9 @@ export class ProductManagementComponent implements OnInit {
         combo
       }
     }).afterClosed().subscribe(() => {
+      this.mp.getCombos().subscribe((dt: any) => {
+        this.combos = dt;
+      });
     });
 
 
@@ -475,10 +479,14 @@ export class ProductManagementComponent implements OnInit {
   }
 
   removeCombo(id) {
-    this.mp.removeCombo(id).subscribe(dt => {
-      this.combos = this.combos.filter(data => {
-        return data._id !== id;
-      });
+    this.matDialog.open(ConfirmationDialogComponent, {data: {}, maxWidth: '400px'}).afterClosed().subscribe((r) => {
+      if (r) {
+        this.mp.removeCombo(id).subscribe(dt => {
+          this.combos = this.combos.filter(data => {
+            return data._id !== id;
+          });
+        });
+      }
     });
   }
 

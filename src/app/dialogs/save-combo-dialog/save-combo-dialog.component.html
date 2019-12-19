@@ -3,68 +3,73 @@
   <h1 mat-dialog-title>{{edit ? 'Edit' : 'Add new'}} combo</h1>
 
   <input formControlName="title" placeholder="Combo title">
+
   <mat-error *ngIf="(comboTitleCtrl.touched || submitted) && comboTitleCtrl.hasError('required')">Combo title is
     <strong>required</strong></mat-error>
 
-  <mat-form-field style="display:block;  width:calc(100% - 32px); margin:auto">
-    <mat-select placeholder="Menu For Making Combo" formControlName="comboMenu" multiple
-                (selectionChange)="changeComboMenu($event.value)">
-      <mat-select-trigger>
-        {{comboMenuCtrl.value ? comboMenuCtrl.value[0]?.title : ''}}
-        <span *ngIf="comboMenuCtrl.value?.length > 1" class="example-additional-selection">
-                                (+{{comboMenuCtrl.value.length - 1}} {{comboMenuCtrl.value?.length === 2 ? 'other' : 'others'}}
-          )
-                              </span>
-      </mat-select-trigger>
-      <mat-option *ngFor="let menu of comboMenus" [value]="menu">{{menu.title}}</mat-option>
-    </mat-select>
-  </mat-form-field>
-  <mat-error *ngIf="(comboMenuCtrl.touched || submitted) && comboMenuCtrl.hasError('required')">Combo menus are
-    <strong>required</strong></mat-error>
-  <mat-form-field style="display:block;  width:calc(100% - 32px); margin:auto">
-    <mat-select placeholder="Products For Making Combo" formControlName="products" multiple
-                (selectionChange)="changeComboProducts($event.value)">
-      <mat-select-trigger>
-        {{comboProdsCtrl.value ? comboProdsCtrl.value[0]?.title : ''}}
-        <span *ngIf="comboProdsCtrl.value?.length > 1" class="example-additional-selection">
-                                (+{{comboProdsCtrl.value.length - 1}} {{comboProdsCtrl.value?.length === 2 ? 'other' : 'others'}}
-          )
-                              </span>
-      </mat-select-trigger>
-      <mat-optgroup *ngFor="let menu of comboMenuCtrl.value" [label]="menu.title">
-        <mat-option *ngFor="let prod of getComboProdByMenu(menu._id)" [value]="prod">
-          {{prod.title}}
-        </mat-option>
-      </mat-optgroup>
-    </mat-select>
-  </mat-form-field>
-  <mat-error *ngIf="(comboProdsCtrl.touched || submitted) && comboProdsCtrl.hasError('required')">Combo products are
-    <strong>required</strong></mat-error>
-  <mat-form-field style="display:block;  width:calc(100% - 32px); margin:auto">
-    <mat-select placeholder="Default Products For Making Combo" formControlName="defaults" multiple>
-      <mat-select-trigger>
-        {{comboDefaultCtrl.value ? comboDefaultCtrl.value[0]?.title : ''}}
-        <span *ngIf="comboDefaultCtrl.value?.length > 1" class="example-additional-selection">
-                                (+{{comboDefaultCtrl.value.length - 1}} {{comboDefaultCtrl.value?.length === 2 ? 'other' : 'others'}}
-          )
-                              </span>
-      </mat-select-trigger>
-      <mat-optgroup *ngFor="let menu of comboMenuCtrl.value" [label]="menu.title">
-        <mat-option *ngFor="let prod of getComboDefProdByMenu(menu._id)" [value]="prod">
-          {{prod.title}}
-        </mat-option>
-      </mat-optgroup>
-    </mat-select>
-  </mat-form-field>
-  <mat-error *ngIf="(comboDefaultCtrl.touched || submitted) && comboDefaultCtrl.hasError('required')">Combo default
-    products are <strong>required</strong>
-  </mat-error>
 
-  <input type="file" (change)="getImage($event)">
-  <input type="hidden" formControlName="image">
-  <mat-error *ngIf="imageFieldCtrl.hasError('required') && submitted">
-    Image is <strong>required</strong>
-  </mat-error>
+  <ng-container *ngIf="!edit">
+
+    <mat-form-field style="display:block;  width:calc(100% - 32px); margin:auto">
+      <mat-select placeholder="Menu For Making Combo" formControlName="comboMenu" multiple
+                  (selectionChange)="changeComboMenu($event.value)">
+        <mat-select-trigger>
+          {{comboMenuCtrl.value ? comboMenuCtrl.value[0]?.title : ''}}
+          <span *ngIf="comboMenuCtrl.value?.length > 1" class="example-additional-selection">
+                                (+{{comboMenuCtrl.value.length - 1}} {{comboMenuCtrl.value?.length === 2 ? 'other' : 'others'}}
+            )
+                              </span>
+        </mat-select-trigger>
+        <mat-option *ngFor="let menu of comboMenus" [value]="menu">{{menu.title}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-error *ngIf="(comboMenuCtrl.touched || submitted) && comboMenuCtrl.hasError('required')">Combo menus are
+      <strong>required</strong></mat-error>
+    <mat-form-field style="display:block;  width:calc(100% - 32px); margin:auto">
+      <mat-select placeholder="Products For Making Combo" formControlName="products" multiple
+                  (selectionChange)="changeComboProducts($event.value)">
+        <mat-select-trigger>
+          {{comboProdsCtrl.value ? comboProdsCtrl.value[0]?.title : ''}}
+          <span *ngIf="comboProdsCtrl.value?.length > 1" class="example-additional-selection">
+                                (+{{comboProdsCtrl.value.length - 1}} {{comboProdsCtrl.value?.length === 2 ? 'other' : 'others'}}
+            )
+                              </span>
+        </mat-select-trigger>
+        <mat-optgroup *ngFor="let menu of comboMenuCtrl.value" [label]="menu.title">
+          <mat-option *ngFor="let prod of getComboProdByMenu(menu._id)" [value]="prod">
+            {{prod.title}}
+          </mat-option>
+        </mat-optgroup>
+      </mat-select>
+    </mat-form-field>
+    <mat-error *ngIf="(comboProdsCtrl.touched || submitted) && comboProdsCtrl.hasError('required')">Combo products are
+      <strong>required</strong></mat-error>
+    <mat-form-field style="display:block;  width:calc(100% - 32px); margin:auto">
+      <mat-select placeholder="Default Products For Making Combo" formControlName="defaults" multiple>
+        <mat-select-trigger>
+          {{comboDefaultCtrl.value ? comboDefaultCtrl.value[0]?.title : ''}}
+          <span *ngIf="comboDefaultCtrl.value?.length > 1" class="example-additional-selection">
+                                (+{{comboDefaultCtrl.value.length - 1}} {{comboDefaultCtrl.value?.length === 2 ? 'other' : 'others'}}
+            )
+                              </span>
+        </mat-select-trigger>
+        <mat-optgroup *ngFor="let menu of comboMenuCtrl.value" [label]="menu.title">
+          <mat-option *ngFor="let prod of getComboDefProdByMenu(menu._id)" [value]="prod">
+            {{prod.title}}
+          </mat-option>
+        </mat-optgroup>
+      </mat-select>
+    </mat-form-field>
+    <mat-error *ngIf="(comboDefaultCtrl.touched || submitted) && comboDefaultCtrl.hasError('required')">Combo default
+      products are <strong>required</strong>
+    </mat-error>
+
+    <input type="file" (change)="getImage($event)">
+    <input type="hidden" formControlName="image">
+    <mat-error *ngIf="imageFieldCtrl.hasError('required') && submitted">
+      Image is <strong>required</strong>
+    </mat-error>
+  </ng-container>
 
   <button (click)="save()">Save combo</button>
 </form>
