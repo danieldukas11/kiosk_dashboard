@@ -128,10 +128,12 @@ export class SaveProductDialogComponent implements OnInit {
 
   changeSizable(e): void {
     this.sizable = e.value;
+    this.customizable = false;
   }
 
   changeCustomizable(e): void {
     this.customizable = e.value;
+    this.sizable = false;
   }
 
   save() {
