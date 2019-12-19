@@ -60,7 +60,7 @@
     products are <strong>required</strong>
   </mat-error>
 
-  <input type="file">
+  <input type="file" (change)="getImage($event)">
   <input type="hidden" formControlName="image">
   <mat-error *ngIf="imageFieldCtrl.hasError('required') && submitted">
     Image is <strong>required</strong>

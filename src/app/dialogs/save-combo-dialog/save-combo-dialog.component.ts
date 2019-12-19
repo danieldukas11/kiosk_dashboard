@@ -17,6 +17,7 @@ export class SaveComboDialogComponent implements OnInit {
   products = [];
   edit = false;
   submitted = false;
+  comboImg;
 
 
   constructor(
@@ -84,8 +85,37 @@ export class SaveComboDialogComponent implements OnInit {
 
   }
 
+  getImage(e) {
+    this.comboImg = e.target.files;
+    this.saveComboForm.patchValue({image: this.comboImg[0].name});
+  }
+
   save() {
     this.submitted = true;
+
+    const fd: FormData = new FormData();
+
+    for (const field of Object.keys(this.saveComboForm.value)) {
+      if (field !== 'image') {
+
+        fd.append(field, this.saveComboForm.value[field] ? this.saveComboForm.value[field] : '');
+      } else {
+        fd.append('image', this.comboImg ? this.comboImg[0] : '');
+
+      }
+
+    }
+
+
+    if (!this.edit) {
+      this.mp.addCombo(fd).subscribe(dt => {
+
+      });
+    } else {
+      this.mp.updateCombo(fd).subscribe(dt => {
+
+      });
+    }
   }
 
   get comboMenuCtrl(): AbstractControl {

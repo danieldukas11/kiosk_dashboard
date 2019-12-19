@@ -381,9 +381,9 @@ export class ProductManagementComponent implements OnInit {
 
   // Product dialog
   openProductDialog(menuId, product = null) {
-    this.dialogOpened = true;
-    this.dialogType = 'Product';
-    this.product.menu_ids[0] = menuId;
+    // this.dialogOpened = true;
+    // this.dialogType = 'Product';
+    // this.product.menu_ids[0] = menuId;
     // console.log(this.ingr_menus)
     this.matDialog.open(SaveProductDialogComponent, {
       data: {
@@ -412,9 +412,9 @@ export class ProductManagementComponent implements OnInit {
 
 
   openComboProductDialog(menuId, product = null) {
-    this.dialogOpened = true;
-    this.dialogType = 'Combo Product';
-    this.comboProd.special_menu_id = menuId;
+    // this.dialogOpened = true;
+    // this.dialogType = 'Combo Product';
+    // this.comboProd.special_menu_id = menuId;
 
     this.matDialog.open(SaveComboProductDialogComponent, {
       width: '500px',

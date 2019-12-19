@@ -107,6 +107,10 @@ export class ManageProductsService {
     return this.http.put(`${environment.staticUrl}dashboard/admin/combo_menu/update`, val);
   }
 
+  updateCombo(val) {
+    return this.http.put(`${environment.staticUrl}dashboard/admin/combo/update`, val);
+  }
+
   uploadAdVideo(fd) {
     return this.http.post(`${environment.staticUrl}dashboard/admin/ads/video/add`, fd);
   }
