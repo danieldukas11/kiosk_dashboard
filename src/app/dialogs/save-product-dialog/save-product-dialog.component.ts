@@ -129,11 +129,13 @@ export class SaveProductDialogComponent implements OnInit {
   changeSizable(e): void {
     this.sizable = e.value;
     this.customizable = false;
+    this.saveProductForm.patchValue({customizable: this.customizable})
   }
 
   changeCustomizable(e): void {
     this.customizable = e.value;
     this.sizable = false;
+    this.saveProductForm.patchValue({sizable: this.sizable});
   }
 
   save() {
@@ -142,7 +144,6 @@ export class SaveProductDialogComponent implements OnInit {
     if (!this.sizable) {
       product.sizes = [];
     }
-    console.log(product.menu_ids)
 
     if (!this.edit) {
       const fd = new FormData();
