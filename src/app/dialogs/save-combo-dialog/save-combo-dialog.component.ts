@@ -31,9 +31,9 @@ export class SaveComboDialogComponent implements OnInit {
 
     this.saveComboForm = fb.group({
       title: ['', Validators.required],
-      combo_menu: ['', Validators.required],
-      combo_prod: ['', Validators.required],
-      combo_default: ['', Validators.required],
+      comboMenu: ['', Validators.required],
+      products: ['', Validators.required],
+      defaults: ['', Validators.required],
       image: ['', Validators.required]
     });
 
@@ -97,7 +97,6 @@ export class SaveComboDialogComponent implements OnInit {
 
     for (const field of Object.keys(this.saveComboForm.value)) {
       if (field !== 'image') {
-
         fd.append(field, this.saveComboForm.value[field] ? this.saveComboForm.value[field] : '');
       } else {
         fd.append('image', this.comboImg ? this.comboImg[0] : '');
@@ -119,15 +118,15 @@ export class SaveComboDialogComponent implements OnInit {
   }
 
   get comboMenuCtrl(): AbstractControl {
-    return this.saveComboForm.get('combo_menu');
+    return this.saveComboForm.get('comboMenu');
   }
 
   get comboProdsCtrl(): AbstractControl {
-    return this.saveComboForm.get('combo_prod');
+    return this.saveComboForm.get('products');
   }
 
   get comboDefaultCtrl(): AbstractControl {
-    return this.saveComboForm.get('combo_default');
+    return this.saveComboForm.get('defaults');
   }
 
   get comboTitleCtrl(): AbstractControl {

@@ -7,7 +7,7 @@
     <strong>required</strong></mat-error>
 
   <mat-form-field style="display:block;  width:calc(100% - 32px); margin:auto">
-    <mat-select placeholder="Menu For Making Combo" formControlName="combo_menu" multiple
+    <mat-select placeholder="Menu For Making Combo" formControlName="comboMenu" multiple
                 (selectionChange)="changeComboMenu($event.value)">
       <mat-select-trigger>
         {{comboMenuCtrl.value ? comboMenuCtrl.value[0]?.title : ''}}
@@ -22,7 +22,7 @@
   <mat-error *ngIf="(comboMenuCtrl.touched || submitted) && comboMenuCtrl.hasError('required')">Combo menus are
     <strong>required</strong></mat-error>
   <mat-form-field style="display:block;  width:calc(100% - 32px); margin:auto">
-    <mat-select placeholder="Products For Making Combo" formControlName="combo_prod" multiple
+    <mat-select placeholder="Products For Making Combo" formControlName="products" multiple
                 (selectionChange)="changeComboProducts($event.value)">
       <mat-select-trigger>
         {{comboProdsCtrl.value ? comboProdsCtrl.value[0]?.title : ''}}
@@ -41,7 +41,7 @@
   <mat-error *ngIf="(comboProdsCtrl.touched || submitted) && comboProdsCtrl.hasError('required')">Combo products are
     <strong>required</strong></mat-error>
   <mat-form-field style="display:block;  width:calc(100% - 32px); margin:auto">
-    <mat-select placeholder="Default Products For Making Combo" formControlName="combo_default" multiple>
+    <mat-select placeholder="Default Products For Making Combo" formControlName="defaults" multiple>
       <mat-select-trigger>
         {{comboDefaultCtrl.value ? comboDefaultCtrl.value[0]?.title : ''}}
         <span *ngIf="comboDefaultCtrl.value?.length > 1" class="example-additional-selection">

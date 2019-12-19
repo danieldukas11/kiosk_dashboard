@@ -115,5 +115,9 @@ export class ManageProductsService {
     return this.http.post(`${environment.staticUrl}dashboard/admin/ads/video/add`, fd);
   }
 
+  removeProduct(id) {
+    return this.http.delete(`${environment.staticUrl}dashboard/admin/product/delete`, {params: {id}});
+  }
+
 
 }

@@ -481,4 +481,17 @@ export class ProductManagementComponent implements OnInit {
       });
     });
   }
+
+  removeProduct(id) {
+    this.matDialog.open(ConfirmationDialogComponent, {data: {}, maxWidth: '400px'}).afterClosed().subscribe((r) => {
+      if (r) {
+        this.mp.removeProduct(id).subscribe(dt => {
+          this.toastr.success('The product has been removed successfully.', 'Removed!');
+          this.products = this.products.filter(data => {
+            return data._id !== id;
+          });
+        });
+      }
+    });
+  }
 }
