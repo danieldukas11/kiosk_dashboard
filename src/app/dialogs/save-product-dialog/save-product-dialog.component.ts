@@ -44,6 +44,7 @@ export class SaveProductDialogComponent implements OnInit {
 
   formFields;
   selectedProdIngredients = [];
+  selectedDefaultIngredients = [];
 
   constructor(
     private fb: FormBuilder,
@@ -65,20 +66,29 @@ export class SaveProductDialogComponent implements OnInit {
     this.saveProductForm = fb.group(this.formFields);
 
     this.edit = !!data.product;
-    this.sizable = data.product.sizable;
-    this.customizable = data.product.customizable;
+
 
     this.selectedProduct = data.product;
 
 
-    data.productIngredients.forEach(i => {
-      this.selectedProdIngredients.push({title: i.title});
-    });
-    console.log(this.selectedProdIngredients)
-
     this.attachSizes();
 
     if (this.edit) {
+      this.sizable = data.product.sizable;
+      this.customizable = data.product.customizable;
+      this.selectedIngrMenus = data.productIngredients;
+
+      data.productIngredients.forEach(i => {
+        this.selectedProdIngredients.push(i._id);
+      });
+
+      data.defaultIngredients.forEach(i => {
+        this.selectedDefaultIngredients.push(i.title);
+      });
+
+
+      console.log(data.defaultIngredients, this.selectedDefaultIngredients)
+
       this.saveProductForm = fb.group(this.formFields);
       this.saveProductForm.patchValue(data.product);
       this.saveProductForm.patchValue({
@@ -86,7 +96,7 @@ export class SaveProductDialogComponent implements OnInit {
       });
       this.saveProductForm.patchValue({
         productIngredients: this.selectedProdIngredients,
-        defaultIngredients: data.defaultIngredients
+        defaultIngredients: this.selectedDefaultIngredients
       });
     }
 
@@ -139,6 +149,7 @@ export class SaveProductDialogComponent implements OnInit {
   }
 
   getIngredientsByMenu(id) {
+    // console.log(this.ingredients, id)
     return this.ingredients.filter(ingr => {
       return ingr.ingredient_ids[0] === id;
     });
@@ -148,13 +159,13 @@ export class SaveProductDialogComponent implements OnInit {
   changeSizable(e): void {
     this.sizable = e.value;
     this.customizable = false;
-    this.saveProductForm.patchValue({customizable: this.customizable})
+    this.saveProductForm.patchValue({customizable: this.customizable, sizable: this.sizable});
   }
 
   changeCustomizable(e): void {
     this.customizable = e.value;
     this.sizable = false;
-    this.saveProductForm.patchValue({sizable: this.sizable});
+    this.saveProductForm.patchValue({sizable: this.sizable, customizable: this.customizable});
   }
 
   save() {
@@ -186,7 +197,7 @@ export class SaveProductDialogComponent implements OnInit {
         this.dialogRef.close();
       });
     } else {
-      product._id =  this.selectedProduct._id;
+      product._id = this.selectedProduct._id;
       this.mp.updateProduct(product).subscribe(data => {
         this.dialogRef.close();
       });
@@ -197,7 +208,21 @@ export class SaveProductDialogComponent implements OnInit {
 
 
   menuSelected(menus): void {
-    this.selectedIngrMenus = menus;
+    this.selectedIngrMenus = [];
+    menus.map(menu => {
+      this.ingrMenus.map(m => {
+        if (m._id === menu) {
+          this.selectedIngrMenus.push(m);
+        }
+      });
+    });
+
+
+    // console.log(this.selectedIngrMenus, menus)
+  }
+
+  defaultIngrSelected(e) {
+    console.log(e)
   }
 
   get titleCtrl(): AbstractControl {
