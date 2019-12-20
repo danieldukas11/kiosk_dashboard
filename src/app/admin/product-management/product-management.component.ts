@@ -390,7 +390,8 @@ export class ProductManagementComponent implements OnInit {
       data: {
         menuId,
         product,
-        productIngredients: this.ingr_menus
+        productIngredients: this.ingr_menus,
+        defaultIngredients: this.ingredients
       }
     }).afterClosed().subscribe(() => {
       this.mp.getProducts().subscribe((data: any[]) => {

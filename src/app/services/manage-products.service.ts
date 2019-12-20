@@ -103,6 +103,10 @@ export class ManageProductsService {
     return this.http.put(`${environment.staticUrl}dashboard/admin/prod_menu/update`, val);
   }
 
+  updateProduct(val) {
+    return this.http.put(`${environment.staticUrl}dashboard/admin/product/update`, val);
+  }
+
   updateComboMenu(val) {
     return this.http.put(`${environment.staticUrl}dashboard/admin/combo_menu/update`, val);
   }

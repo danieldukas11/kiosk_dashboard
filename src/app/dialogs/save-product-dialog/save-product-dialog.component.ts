@@ -14,6 +14,7 @@ export class SaveProductDialogComponent implements OnInit {
   sizable = false;
   customizable = false;
   edit = false;
+  selectedProduct;
 
   ingrMenus = [];
   ingredients = [];
@@ -42,6 +43,7 @@ export class SaveProductDialogComponent implements OnInit {
   newProductImg;
 
   formFields;
+  selectedProdIngredients = [];
 
   constructor(
     private fb: FormBuilder,
@@ -63,12 +65,29 @@ export class SaveProductDialogComponent implements OnInit {
     this.saveProductForm = fb.group(this.formFields);
 
     this.edit = !!data.product;
+    this.sizable = data.product.sizable;
+    this.customizable = data.product.customizable;
+
+    this.selectedProduct = data.product;
+
+
+    data.productIngredients.forEach(i => {
+      this.selectedProdIngredients.push({title: i.title});
+    });
+    console.log(this.selectedProdIngredients)
 
     this.attachSizes();
 
     if (this.edit) {
       this.saveProductForm = fb.group(this.formFields);
       this.saveProductForm.patchValue(data.product);
+      this.saveProductForm.patchValue({
+        sizes: data.product.sizes
+      });
+      this.saveProductForm.patchValue({
+        productIngredients: this.selectedProdIngredients,
+        defaultIngredients: data.defaultIngredients
+      });
     }
 
   }
@@ -163,8 +182,12 @@ export class SaveProductDialogComponent implements OnInit {
         fd.append('prodIngr', JSON.stringify(product.productIngredients));
         fd.append('defaultIngr', JSON.stringify(product.defaultIngredients));
       }
-      console.log(product)
       this.mp.addProduct(fd).subscribe(data => {
+        this.dialogRef.close();
+      });
+    } else {
+      product._id =  this.selectedProduct._id;
+      this.mp.updateProduct(product).subscribe(data => {
         this.dialogRef.close();
       });
     }

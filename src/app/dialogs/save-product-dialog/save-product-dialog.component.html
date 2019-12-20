@@ -57,11 +57,9 @@
   <ng-container *ngIf="customizable">
 
     <!--           [(ngModel)]="product?.sizes[2].price"-->
-    <mat-form-field
-      style="display:block;  width:calc(100% - 32px); margin:auto">
-      <ng-container *ngIf="ingrMenus.length > 0">
-
-        <!--                {{ingrMenus[0]}}-->
+    <ng-container *ngIf="ingrMenus.length > 0">
+      <mat-form-field
+        style="display:block;  width:calc(100% - 32px); margin:auto">
         <mat-select placeholder="Ingredients for making product" formControlName="productIngredients" multiple
                     (selectionChange)="menuSelected($event.value)">
           <mat-select-trigger>
@@ -72,24 +70,24 @@
           </mat-select-trigger>
           <mat-option *ngFor="let ingr of ingrMenus" [value]="ingr">{{ingr.title}}</mat-option>
         </mat-select>
-      </ng-container>
-    </mat-form-field>
-    <mat-form-field *ngIf="customizable"
-                    style="display:block;  width:calc(100% - 32px); margin:auto">
-      <mat-label>Default Ingredients</mat-label>
-      <mat-select formControlName="defaultIngredients" multiple>
-        <mat-optgroup *ngFor="let ingr of selectedIngrMenus" [label]="ingr.title">
-          <mat-option *ngFor="let ingr_type of getIngredientsByMenu(ingr._id)" [value]="ingr_type">
-            {{ingr_type.title}}
-          </mat-option>
-        </mat-optgroup>
+      </mat-form-field>
+      <mat-form-field
+        style="display:block;  width:calc(100% - 32px); margin:auto">
+        <mat-label>Default Ingredients</mat-label>
+        <mat-select formControlName="defaultIngredients" multiple>
+          <mat-optgroup *ngFor="let ingr of selectedIngrMenus" [label]="ingr.title">
+            <mat-option *ngFor="let ingr_type of getIngredientsByMenu(ingr._id)" [value]="ingr_type">
+              {{ingr_type.title}}
+            </mat-option>
+          </mat-optgroup>
 
-        <!--        <mat-option *ngFor="let ingr of ingredients">{{ingr.title}}</mat-option>-->
-      </mat-select>
-    </mat-form-field>
+          <!--        <mat-option *ngFor="let ingr of ingredients">{{ingr.title}}</mat-option>-->
+        </mat-select>
+      </mat-form-field>
 
+    </ng-container>
   </ng-container>
-  <input type="file" accept="image/png, image/jpeg"
+  <input type="file" accept="image/png, image/jpeg" *ngIf="!edit"
          (change)="getImage($event.target.files)">
 
   <button (click)="save()">{{edit ? 'Update product info' : 'Add new product'}}</button>
