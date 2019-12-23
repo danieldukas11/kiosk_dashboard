@@ -9,6 +9,7 @@ import {ManageUserComponent} from './super-admin/manage-user/manage-user.compone
 import {ProductManagementComponent} from './admin/product-management/product-management.component'
 import {ProfileComponent} from './admin/profile/profile.component';
 import {ProgressManagementMonitorComponent} from './admin/progress-management-monitor/progress-management-monitor.component';
+import {NotFoundComponent} from './admin/not-found/not-found.component';
 
 const routes: Routes = [
   {
@@ -41,7 +42,8 @@ const routes: Routes = [
       {
         path: 'manage_progress_monitor',
         component: ProgressManagementMonitorComponent
-      }
+      },
+      {path: '**', component: NotFoundComponent},
     ]
   }
 ];
