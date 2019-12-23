@@ -26,7 +26,7 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userData = jwtDecode(localStorage.getItem('token'));
+    this.userData = jwtDecode(localStorage.getItem('usr'));
     this.profileForm.patchValue(this.userData);
   }
 
