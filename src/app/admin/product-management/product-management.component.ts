@@ -272,9 +272,10 @@ export class ProductManagementComponent implements OnInit {
   }
 
   getProdByMenu(id) {
-    return this.products.filter(prod => {
+    let a = this.products.filter(prod => {
       return prod.menu_ids[0] == id
     })
+    return a;
   }
 
   getComboProdByMenu(id) {
@@ -385,7 +386,7 @@ export class ProductManagementComponent implements OnInit {
     // this.dialogOpened = true;
     // this.dialogType = 'Product';
     // this.product.menu_ids[0] = menuId;
-    // console.log(this.ingr_menus)
+    
     this.matDialog.open(SaveProductDialogComponent, {
       data: {
         menuId,

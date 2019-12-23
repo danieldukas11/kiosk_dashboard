@@ -78,22 +78,29 @@ export class SaveProductDialogComponent implements OnInit {
       this.customizable = data.product.customizable;
       this.selectedIngrMenus = data.productIngredients;
 
+      // Getting product ingredients ids to patch "Ingredients for making product" dropdown
       data.productIngredients.forEach(i => {
         this.selectedProdIngredients.push(i._id);
       });
 
-      data.defaultIngredients.forEach(i => {
-        this.selectedDefaultIngredients.push(i.title);
+
+      // Getting default ingredient ids for selected product to patch "Default ingredients" drop down
+      data.defaultIngredients.forEach(di => {
+        di.default_ids.map(id => {
+          if (id === data.product._id) {
+
+            this.selectedDefaultIngredients.push(di._id);
+          }
+        });
       });
 
-
-      console.log(data.defaultIngredients, this.selectedDefaultIngredients)
 
       this.saveProductForm = fb.group(this.formFields);
       this.saveProductForm.patchValue(data.product);
       this.saveProductForm.patchValue({
         sizes: data.product.sizes
       });
+
       this.saveProductForm.patchValue({
         productIngredients: this.selectedProdIngredients,
         defaultIngredients: this.selectedDefaultIngredients
@@ -149,7 +156,6 @@ export class SaveProductDialogComponent implements OnInit {
   }
 
   getIngredientsByMenu(id) {
-    // console.log(this.ingredients, id)
     return this.ingredients.filter(ingr => {
       return ingr.ingredient_ids[0] === id;
     });
@@ -202,8 +208,6 @@ export class SaveProductDialogComponent implements OnInit {
         this.dialogRef.close();
       });
     }
-
-    console.log(this.saveProductForm.value)
   }
 
 
@@ -216,13 +220,10 @@ export class SaveProductDialogComponent implements OnInit {
         }
       });
     });
-
-
-    // console.log(this.selectedIngrMenus, menus)
   }
 
   defaultIngrSelected(e) {
-    console.log(e)
+    this.selectedDefaultIngredients = e;
   }
 
   get titleCtrl(): AbstractControl {

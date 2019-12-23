@@ -96,6 +96,9 @@ export class SaveComboDialogComponent implements OnInit {
   save() {
     this.submitted = true;
 
+    // if (this.saveComboForm.valid) {
+
+
     const fd: FormData = new FormData();
     console.log(this.saveComboForm.value.products)
 
@@ -127,6 +130,7 @@ export class SaveComboDialogComponent implements OnInit {
         this.dialogRef.close();
       });
     }
+    // }
   }
 
   get comboMenuCtrl(): AbstractControl {
