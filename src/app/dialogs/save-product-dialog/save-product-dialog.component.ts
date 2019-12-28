@@ -2,7 +2,6 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ManageProductsService} from '../../services/manage-products.service';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-save-product-dialog',
@@ -77,6 +76,7 @@ export class SaveProductDialogComponent implements OnInit {
       this.sizable = data.product.sizable;
       this.customizable = data.product.customizable;
       this.selectedIngrMenus = data.productIngredients;
+      this.ingrMenus = this.selectedIngrMenus;
 
       // Getting product ingredients ids to patch "Ingredients for making product" dropdown
       data.productIngredients.forEach(i => {
@@ -85,15 +85,15 @@ export class SaveProductDialogComponent implements OnInit {
 
 
       // Getting default ingredient ids for selected product to patch "Default ingredients" drop down
+      const defaultIngrIds = [];
       data.defaultIngredients.forEach(di => {
         di.default_ids.map(id => {
           if (id === data.product._id) {
-
-            this.selectedDefaultIngredients.push(di._id);
+            defaultIngrIds.push(di._id)
+            this.selectedDefaultIngredients.push(di);
           }
         });
       });
-
 
       this.saveProductForm = fb.group(this.formFields);
       this.saveProductForm.patchValue(data.product);
@@ -103,7 +103,7 @@ export class SaveProductDialogComponent implements OnInit {
 
       this.saveProductForm.patchValue({
         productIngredients: this.selectedProdIngredients,
-        defaultIngredients: this.selectedDefaultIngredients
+        defaultIngredients: defaultIngrIds
       });
     }
 
@@ -177,6 +177,14 @@ export class SaveProductDialogComponent implements OnInit {
   save() {
     const product = this.saveProductForm.value;
 
+    // Grabbing selected default ingredients data
+    let filteredDefIngr = [];
+    product.defaultIngredients.map(id => {
+      filteredDefIngr.push(this.ingredients.filter(i => i._id === id)[0]);
+    });
+
+    product.defaultIngredients = filteredDefIngr;
+
     if (!this.sizable) {
       product.sizes = [];
     }
@@ -196,9 +204,17 @@ export class SaveProductDialogComponent implements OnInit {
         fd.append('sizes', JSON.stringify(product.sizes));
       }
       if (this.customizable) {
+
+
+        console.log(filteredDefIngr)
         fd.append('prodIngr', JSON.stringify(product.productIngredients));
-        fd.append('defaultIngr', JSON.stringify(product.defaultIngredients));
+        fd.append('defaultIngr', JSON.stringify(filteredDefIngr));
       }
+
+
+
+
+
       this.mp.addProduct(fd).subscribe(data => {
         this.dialogRef.close();
       });

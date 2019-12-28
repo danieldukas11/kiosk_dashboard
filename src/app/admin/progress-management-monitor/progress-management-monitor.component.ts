@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ManageProductsService} from '../../services/manage-products.service';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-progress-management-monitor',
@@ -13,6 +14,10 @@ export class ProgressManagementMonitorComponent implements OnInit {
     addRemoveLinks: true
   };
   dropzoneFile;
+  videoFiles;
+  addVideo = false;
+  showVideos = false;
+
 
   constructor(
     private mp: ManageProductsService
@@ -20,6 +25,7 @@ export class ProgressManagementMonitorComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getAdVideos();
   }
 
   getFile(e) {
@@ -29,9 +35,21 @@ export class ProgressManagementMonitorComponent implements OnInit {
   upload() {
     const fd = new FormData();
 
-    fd.append('adVideo', this.dropzoneFile)
+    fd.append('adVideo', this.dropzoneFile);
 
-    this.mp.uploadAdVideo(fd).subscribe();
+    this.mp.uploadAdVideo(fd).subscribe(dt => {
+      this.getAdVideos();
+    });
+  }
+
+  getAdVideos() {
+    this.mp.getAdVideos().subscribe(dt => {
+      this.videoFiles = dt;
+    });
+  }
+
+  getVideoUrl(name) {
+    return `${environment.staticUrl}videos/${name}`;
   }
 
 }

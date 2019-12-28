@@ -1,4 +1,9 @@
-<div class="videosDropzone">
+<div class="actions">
+  <button mat-raised-button (click)="addVideo = !addVideo">Add</button>
+  <button mat-raised-button color="warn" (click)="showVideos = !showVideos">Show</button>
+</div>
+
+<div class="videosDropzone" *ngIf="addVideo">
   <dropzone [config]="config" (addedFile)="getFile($event)"
             [message]="'Click or drag video files here to upload'"></dropzone>
   <div>
@@ -6,3 +11,10 @@
   </div>
 </div>
 
+<div class="videoList" *ngIf="showVideos">
+  <ul>
+    <li *ngFor="let v of videoFiles">
+      <a target="_blank" [href]="getVideoUrl(v.adVideo)">{{v.adVideo}}</a>
+    </li>
+  </ul>
+</div>
