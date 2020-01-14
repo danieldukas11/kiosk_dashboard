@@ -51,16 +51,25 @@ export class SaveIngredientDialogComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
   }
 
+  disableInput(input, name): void {
+    input.disabled = !input.disabled;
+    const control = this.saveIngredientForm.controls[name];
+    if (input.disabled) {
+      control.patchValue('');
+      control.disable();
+    } else {
+      control.enable();
+    }
+  }
+
   save(): void {
 
     this.submitted = true;
 
     if (this.saveIngredientForm.valid) {
 
-
       const ingredient = this.saveIngredientForm.value;
       const fd = new FormData();
-
 
       fd.append('image', this.newIngredientImg);
       fd.append('title', ingredient.title);

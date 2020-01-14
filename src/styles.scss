@@ -16,6 +16,7 @@ html, body {
   height: 100%;
 }
 
+
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
@@ -23,7 +24,7 @@ body {
 
 
 .saveProductMenuForm, .saveIngredientMenuForm, .saveComboMenuForm, .saveIngredientForm, .saveProductForm, .saveComboProductForm, .saveComboForm {
-  input {
+  input:not([type='checkbox']) {
     display: block;
     width: calc(100% - 32px);
     margin: 16px;

@@ -23,3 +23,9 @@
     border: 1px solid #c0c0c033;
   }
 }
+
+
+.light-price-container, .normal-price-container, .double-price-container {
+  display: flex;
+  align-items: center;
+}
