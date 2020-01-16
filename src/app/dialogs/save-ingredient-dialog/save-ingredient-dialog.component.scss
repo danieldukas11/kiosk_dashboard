@@ -28,4 +28,19 @@
 .light-price-container, .normal-price-container, .double-price-container {
   display: flex;
   align-items: center;
+
+
+}
+
+.mat-dialog-actions {
+  > div {
+    margin: auto;
+    display: flex;
+    align-items: center;
+
+    button {
+      margin-left: 10px;
+      cursor: pointer;
+    }
+  }
 }

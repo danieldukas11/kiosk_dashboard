@@ -5,6 +5,7 @@ import {ManageProductsService} from '../../services/manage-products.service';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {environment} from '../../../environments/environment';
 import {ToastrService} from 'ngx-toastr';
+import {CommonService} from '../../services/common.service';
 
 @Component({
   selector: 'app-save-ingredient-dialog',
@@ -25,7 +26,8 @@ export class SaveIngredientDialogComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private mp: ManageProductsService,
     public dialogRef: MatDialogRef<SaveIngredientDialogComponent>,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private common: CommonService
   ) {
 
 
@@ -68,6 +70,7 @@ export class SaveIngredientDialogComponent implements OnInit, OnDestroy {
 
     if (this.saveIngredientForm.valid) {
 
+      this.common.formProcessing = true;
       const ingredient = this.saveIngredientForm.value;
       const fd = new FormData();
 
@@ -81,12 +84,14 @@ export class SaveIngredientDialogComponent implements OnInit, OnDestroy {
       if (!this.edit) {
 
         this.mp.addIngredient(fd).subscribe(() => {
+          this.common.formProcessing = false;
           this.toastr.success('The ingredient has been added successfully.', 'Added!');
           this.dialogRef.close();
         });
       } else {
         ingredient._id = this.selectedIngredient._id;
         this.mp.updateIngredient(ingredient).subscribe(() => {
+          this.common.formProcessing = false;
           this.toastr.success('The ingredient has been updated successfully.', 'Updated!');
           this.dialogRef.close();
         });
@@ -96,6 +101,7 @@ export class SaveIngredientDialogComponent implements OnInit, OnDestroy {
 
   getImage(img): void {
     this.newIngredientImg = img.item(0);
+    this.saveIngredientForm.patchValue({title: this.newIngredientImg.name.split('.').slice(0, -1).join('.')});
     this.ingredientImg = `${environment.staticUrl}images/${this.newIngredientImg.name}`;
     this.saveIngredientForm.patchValue({image: this.newIngredientImg.name});
   }

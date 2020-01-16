@@ -67,6 +67,9 @@
   </mat-dialog-content>
 
   <mat-dialog-actions>
-    <button (click)="save()">{{edit ? 'Update' : 'Add new'}} ingredient</button>
+    <div>
+      <mat-spinner [diameter]="20" *ngIf="common.formProcessing" color="warn"></mat-spinner>
+      <button (click)="save()">{{edit ? 'Update' : 'Add new'}} ingredient</button>
+    </div>
   </mat-dialog-actions>
 </form>
