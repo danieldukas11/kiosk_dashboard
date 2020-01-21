@@ -75,10 +75,8 @@ export class SaveIngredientDialogComponent implements OnInit, OnDestroy {
   disableInput(input, name, status): void {
     input.disabled = !input.disabled;
     const control = this.saveIngredientForm.controls[name];
-    this[status] = input.disabled;
+    this[status] = !input.disabled;
 
-
-    console.log(this.lightPriceEnabled, this.normalPriceEnabled, this.doublePriceEnabled, input.disabled)
 
     if (input.disabled) {
       control.patchValue('');

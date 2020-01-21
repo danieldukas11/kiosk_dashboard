@@ -41,7 +41,7 @@
         <mat-error *ngIf="lightPriceCtrl.touched && lightPriceCtrl.hasError('required')">
           Light price is <strong>required</strong>
         </mat-error>
-        <mat-checkbox [checked]="lightPriceEnabled"
+        <mat-checkbox [checked]="lightPriceEnabled" [value]="lightPriceEnabled"
                       (change)="disableInput(light,'light_price','lightPriceEnabled')"></mat-checkbox>
       </div>
 
