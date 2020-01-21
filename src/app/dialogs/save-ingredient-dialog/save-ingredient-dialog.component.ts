@@ -20,6 +20,9 @@ export class SaveIngredientDialogComponent implements OnInit, OnDestroy {
   edit = false;
   submitted = false;
   selectedIngredient;
+  lightPriceEnabled = true;
+  normalPriceEnabled = true;
+  doublePriceEnabled = true;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -38,13 +41,19 @@ export class SaveIngredientDialogComponent implements OnInit, OnDestroy {
     this.saveIngredientForm = this.fb.group({
       title: ['', Validators.required],
       double_price: ['', Validators.required],
-      normal_price: ['', Validators.required],
+      price: ['', Validators.required],
       light_price: ['', Validators.required],
       ingredient_ids: [[data.menuId], Validators.required],
       image: [this.ingredientImg, Validators.required]
     });
 
     if (this.edit) {
+
+      this.setPricesStatus('light_price', 'lightPriceEnabled', data);
+      this.setPricesStatus('price', 'normalPriceEnabled', data);
+      this.setPricesStatus('double_price', 'doublePriceEnabled', data);
+
+
       this.ingredientImg = `${environment.staticUrl}images/${data.ingredient.image}`;
       this.saveIngredientForm.patchValue(data.ingredient);
     }
@@ -53,9 +62,24 @@ export class SaveIngredientDialogComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
   }
 
-  disableInput(input, name): void {
+  // Set prices and price inputs status (enabled/disabled) for edit case
+  setPricesStatus(controlName, statusName, data) {
+    this[statusName] = data.ingredient.hasOwnProperty(controlName);
+    if (this[statusName]) {
+      this.saveIngredientForm.get(controlName).enable();
+    } else {
+      this.saveIngredientForm.get(controlName).disable();
+    }
+  }
+
+  disableInput(input, name, status): void {
     input.disabled = !input.disabled;
     const control = this.saveIngredientForm.controls[name];
+    this[status] = input.disabled;
+
+
+    console.log(this.lightPriceEnabled, this.normalPriceEnabled, this.doublePriceEnabled, input.disabled)
+
     if (input.disabled) {
       control.patchValue('');
       control.disable();
@@ -76,7 +100,7 @@ export class SaveIngredientDialogComponent implements OnInit, OnDestroy {
 
       fd.append('image', this.newIngredientImg);
       fd.append('title', ingredient.title);
-      fd.append('price', ingredient.normal_price);
+      fd.append('price', ingredient.price);
       fd.append('light_price', ingredient.light_price);
       fd.append('double_price', ingredient.double_price);
       fd.append('ingredient_ids', ingredient.ingredient_ids);
@@ -111,7 +135,7 @@ export class SaveIngredientDialogComponent implements OnInit, OnDestroy {
   }
 
   get priceCtrl(): AbstractControl {
-    return this.saveIngredientForm.get('normal_price');
+    return this.saveIngredientForm.get('price');
   }
 
   get doublePriceCtrl(): AbstractControl {
