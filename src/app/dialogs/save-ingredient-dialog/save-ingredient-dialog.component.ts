@@ -30,7 +30,7 @@ export class SaveIngredientDialogComponent implements OnInit, OnDestroy {
     private mp: ManageProductsService,
     public dialogRef: MatDialogRef<SaveIngredientDialogComponent>,
     private toastr: ToastrService,
-    private common: CommonService
+    public common: CommonService
   ) {
 
 
