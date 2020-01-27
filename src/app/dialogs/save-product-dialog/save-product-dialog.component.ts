@@ -45,6 +45,13 @@ export class SaveProductDialogComponent implements OnInit {
   selectedProdIngredients = [];
   selectedDefaultIngredients = [];
 
+  smallPriceEnabled = true;
+  mediumPriceEnabled = true;
+  largePriceEnabled = true;
+
+  isSubmitted = false;
+
+
   constructor(
     private fb: FormBuilder,
     private mp: ManageProductsService,
@@ -114,6 +121,10 @@ export class SaveProductDialogComponent implements OnInit {
     this.getIngredients();
   }
 
+  getInput(title) {
+    return title.toLowerCase();
+  }
+
   attachSizes(): void {
 
     this.formFields.sizes = this.fb.array(
@@ -131,7 +142,7 @@ export class SaveProductDialogComponent implements OnInit {
   createSizesFormGroup(title): FormGroup {
     return this.fb.group({
         title: [title, [Validators.required]],
-        price: ['', [Validators.required, Validators.pattern('^[0-9].*$')]],
+        price: ['', [Validators.pattern('^[0-9].*$')]],
       }
     );
   }
@@ -165,6 +176,12 @@ export class SaveProductDialogComponent implements OnInit {
   changeSizable(e): void {
     this.sizable = e.value;
     this.customizable = false;
+    if (this.sizable) {
+      this.priceCtrl.disable();
+    } else {
+      this.priceCtrl.enable();
+    }
+    // console.log(this.saveProductForm.value)
     this.saveProductForm.patchValue({customizable: this.customizable, sizable: this.sizable});
   }
 
@@ -176,54 +193,88 @@ export class SaveProductDialogComponent implements OnInit {
 
   save() {
     const product = this.saveProductForm.value;
+    this.isSubmitted = true;
+    console.log(product)
 
-    // Grabbing selected default ingredients data
-    let filteredDefIngr = [];
-    product.defaultIngredients.map(id => {
-      filteredDefIngr.push(this.ingredients.filter(i => i._id === id)[0]);
-    });
+    if (this.saveProductForm.valid) {
 
-    product.defaultIngredients = filteredDefIngr;
 
-    if (!this.sizable) {
-      product.sizes = [];
+      const filteredDefIngr = [];
+      if (product.defaultIngredients && product.defaultIngredients.length > 0) {
+
+        // Grabbing selected default ingredients data
+
+        product.defaultIngredients.map(id => {
+          filteredDefIngr.push(this.ingredients.filter(i => i._id === id)[0]);
+        });
+
+        product.defaultIngredients = filteredDefIngr;
+
+      }
+      if (!this.sizable) {
+        product.sizes = [];
+      }
+
+      if (!this.edit) {
+        const fd = new FormData();
+        fd.append('image', this.newProductImg);
+        fd.append('title', product.title);
+        fd.append('sizable', product.sizable);
+        fd.append('customizable', product.customizable);
+        fd.append('menu_ids', JSON.stringify(product.menu_ids))
+        if (!this.sizable && !this.customizable) {
+          fd.append('price', product.price);
+        }
+
+        if (this.sizable) {
+          fd.append('sizes', JSON.stringify(product.sizes));
+        }
+        if (this.customizable) {
+
+
+          console.log(filteredDefIngr)
+          fd.append('prodIngr', JSON.stringify(product.productIngredients));
+          fd.append('defaultIngr', JSON.stringify(filteredDefIngr));
+        }
+
+
+        this.mp.addProduct(fd).subscribe(data => {
+          this.dialogRef.close();
+        });
+      } else {
+        product._id = this.selectedProduct._id;
+        this.mp.updateProduct(product).subscribe(data => {
+          this.dialogRef.close();
+        });
+      }
     }
+  }
 
-    if (!this.edit) {
-      const fd = new FormData();
-      fd.append('image', this.newProductImg);
-      fd.append('title', product.title);
-      fd.append('sizable', product.sizable);
-      fd.append('customizable', product.customizable);
-      fd.append('menu_ids', JSON.stringify(product.menu_ids))
-      if (!this.sizable && !this.customizable) {
-        fd.append('price', product.price);
-      }
+  disablePrice(priceInput, titleInput, name): void {
 
-      if (this.sizable) {
-        fd.append('sizes', JSON.stringify(product.sizes));
-      }
-      if (this.customizable) {
+    // Disabling/enabling related title & price inputs
+    priceInput.disabled = !priceInput.disabled;
+    titleInput.disabled = !titleInput.disabled;
 
+    // getting checkbox status variable and toggling its disable/enable status
+    const status = `${name}PriceEnabled`;
+    this[status] = !priceInput.disabled;
 
-        console.log(filteredDefIngr)
-        fd.append('prodIngr', JSON.stringify(product.productIngredients));
-        fd.append('defaultIngr', JSON.stringify(filteredDefIngr));
-      }
+    // Getting selected price input
+    const sizes = this.saveProductForm.controls.sizes as FormGroup;
+    const sizeControls = sizes.controls as any;
+    const selectedInput = sizeControls.filter(c => c.value.title.includes(titleInput.value))[0];
 
-
-
-
-
-      this.mp.addProduct(fd).subscribe(data => {
-        this.dialogRef.close();
-      });
+    // Setting input control as disabled or enabled
+    if (priceInput.disabled) {
+      selectedInput.disable();
     } else {
-      product._id = this.selectedProduct._id;
-      this.mp.updateProduct(product).subscribe(data => {
-        this.dialogRef.close();
-      });
+      selectedInput.enable();
     }
+
+    // Checking if all inputs are disabled and setting sizable control true or false
+    const allDisabled = sizeControls.some(c => !c.disabled);
+    this.saveProductForm.patchValue({sizable: allDisabled});
   }
 
 

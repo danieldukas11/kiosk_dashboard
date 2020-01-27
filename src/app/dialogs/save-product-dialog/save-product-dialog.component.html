@@ -1,15 +1,15 @@
-<form [formGroup]="saveProductForm" class="saveProductForm">
+<form [formGroup]="saveProductForm" class="saveProductForm" #prodForm>
   <h1 mat-dialog-title>{{edit ? 'Edit' : 'Add new'}} product</h1>
   <input type="text" placeholder="Product Title" name="it" formControlName="title"
          autocomplete="off">
-  <mat-error *ngIf="titleCtrl.touched && titleCtrl.hasError('required')">
+  <mat-error *ngIf="(titleCtrl.touched || isSubmitted) && titleCtrl.hasError('required')">
     Title is <strong>required</strong>
   </mat-error>
 
   <ng-container *ngIf="!sizable && !customizable">
 
     <input type="text" placeholder="Product Price" name="it" formControlName="price" autocomplete="off">
-    <mat-error *ngIf="priceCtrl.touched && priceCtrl.hasError('required')">
+    <mat-error *ngIf="(priceCtrl.touched || isSubmitted)&& priceCtrl.hasError('required')">
       Price is <strong>required</strong>
     </mat-error>
     <mat-error *ngIf="priceCtrl.hasError('pattern')">Price should be numeric</mat-error>
@@ -27,20 +27,23 @@
   <!-- Prices for different sizes -->
   <ng-container *ngIf="sizable" [formArrayName]="'sizes'">
     <ng-container *ngFor="let item of sizes; let i = index;">
-      <div [formGroupName]="i.toString()">
-        <input formControlName="title" type="hidden" placeholder="Item name" [value]="item.title">
-        <input formControlName="price" [placeholder]="item.title" required>
+      <div [formGroupName]="i.toString()" class="priceContainer">
+
+        <input formControlName="title" type="hidden" placeholder="Item name" [value]="item.title" #currentTitle>
+        <input formControlName="price" [placeholder]="item.title" required #currentPrice>
+
         <ng-container
           [ngTemplateOutlet]="priceValidation"
           [ngTemplateOutletContext]="{priceCtrl: sizesArr.controls[i].get('price')}">
         </ng-container>
         <ng-template #priceValidation let-priceCtrl="priceCtrl">
           <ng-container *ngIf="priceCtrl.touched && priceCtrl.errors">
-            <mat-error *ngIf="priceCtrl.hasError('required')" [innerHTML]="item.requiredMsg"></mat-error>
-            <mat-error *ngIf="priceCtrl.hasError('pattern')" [innerHTML]="item.numericMsg"></mat-error>
+            <mat-error *ngIf="isSubmitted && priceCtrl.hasError('required')" [innerHTML]="item.requiredMsg"></mat-error>
+            <mat-error *ngIf="isSubmitted && priceCtrl.hasError('pattern')" [innerHTML]="item.numericMsg"></mat-error>
           </ng-container>
         </ng-template>
-
+        <mat-checkbox [checked]="true"
+                      (change)="disablePrice(currentPrice,currentTitle,getInput(item.title))"></mat-checkbox>
       </div>
     </ng-container>
   </ng-container>
