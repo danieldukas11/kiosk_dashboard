@@ -49,6 +49,13 @@ export class SaveIngredientDialogComponent implements OnInit, OnDestroy {
 
     if (this.edit) {
 
+      // This is to fix non-defined prices should be disabled issue
+      for (const key in data.ingredient) {
+        if (data.ingredient[key] === null) {
+          delete data.ingredient[key];
+        }
+      }
+
       this.setPricesStatus('light_price', 'lightPriceEnabled', data);
       this.setPricesStatus('price', 'normalPriceEnabled', data);
       this.setPricesStatus('double_price', 'doublePriceEnabled', data);
