@@ -6,7 +6,7 @@
     Title is <strong>required</strong>
   </mat-error>
 
-  <ng-container *ngIf="!sizable && !customizable">
+  <ng-container *ngIf="!sizable">
 
     <input type="text" placeholder="Product Price" name="it" formControlName="price" autocomplete="off">
     <mat-error *ngIf="(priceCtrl.touched || isSubmitted)&& priceCtrl.hasError('required')">
