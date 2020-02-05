@@ -132,7 +132,7 @@ export class SaveIngredientDialogComponent implements OnInit, OnDestroy {
     this.newIngredientImg = img.item(0);
     this.saveIngredientForm.patchValue({title: this.newIngredientImg.name.split('.').slice(0, -1).join('.')});
     this.ingredientImg = `${environment.staticUrl}images/${this.newIngredientImg.name}`;
-    this.saveIngredientForm.patchValue({image: this.newIngredientImg.name});
+    // this.saveIngredientForm.patchValue({image: this.newIngredientImg.name});
   }
 
   get titleCtrl(): AbstractControl {
