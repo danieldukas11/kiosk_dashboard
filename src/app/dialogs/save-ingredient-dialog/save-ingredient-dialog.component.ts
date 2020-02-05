@@ -119,7 +119,7 @@ export class SaveIngredientDialogComponent implements OnInit, OnDestroy {
         });
       } else {
         ingredient._id = this.selectedIngredient._id;
-        this.mp.updateIngredient(ingredient).subscribe(() => {
+        this.mp.updateIngredient(fd).subscribe(() => {
           this.common.formProcessing = false;
           this.toastr.success('The ingredient has been updated successfully.', 'Updated!');
           this.dialogRef.close();
