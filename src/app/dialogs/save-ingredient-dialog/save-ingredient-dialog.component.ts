@@ -44,7 +44,7 @@ export class SaveIngredientDialogComponent implements OnInit, OnDestroy {
       price: ['', Validators.required],
       light_price: ['', Validators.required],
       ingredient_ids: [[data.menuId], Validators.required],
-      image: [this.ingredientImg, Validators.required]
+      image: [this.ingredientImg]
     });
 
     if (this.edit) {
@@ -96,7 +96,6 @@ export class SaveIngredientDialogComponent implements OnInit, OnDestroy {
   save(): void {
 
     this.submitted = true;
-
     if (this.saveIngredientForm.valid) {
 
       this.common.formProcessing = true;
