@@ -67,6 +67,7 @@ export class SaveProductDialogComponent implements OnInit {
       menu_ids: [[data.menuId]],
       productIngredients: [],
       defaultIngredients: [],
+      optionalIngredients: [],
     };
 
     this.saveProductForm = fb.group(this.formFields);
@@ -119,6 +120,7 @@ export class SaveProductDialogComponent implements OnInit {
   ngOnInit(): void {
     this.getIngredientMenus();
     this.getIngredients();
+
   }
 
   getInput(title) {
@@ -172,6 +174,22 @@ export class SaveProductDialogComponent implements OnInit {
     });
   }
 
+  getOptionals(id) {
+    const defaultIngredients = this.saveProductForm.get('defaultIngredients').value;
+    let result = [];
+    if (defaultIngredients) {
+      // console.log(defaultIngredients, this.ingredients);
+
+      result = this.ingredients.filter((a) => {
+        return defaultIngredients.indexOf(a._id) === -1;
+      });
+
+
+    }
+    // console.log( result.filter(ingr => ingr.ingredient_ids[0] === id))
+    return result;
+  }
+
 
   changeSizable(e): void {
     this.sizable = e.value;
@@ -194,23 +212,23 @@ export class SaveProductDialogComponent implements OnInit {
   save() {
     const product = this.saveProductForm.value;
     this.isSubmitted = true;
-    console.log(product)
+    // console.log(product)
 
     if (this.saveProductForm.valid) {
 
 
-      const filteredDefIngr = [];
-      if (product.defaultIngredients && product.defaultIngredients.length > 0) {
-
-        // Grabbing selected default ingredients data
-
-        product.defaultIngredients.map(id => {
-          filteredDefIngr.push(this.ingredients.filter(i => i._id === id)[0]);
-        });
-
-        product.defaultIngredients = filteredDefIngr;
-
-      }
+      // const filteredDefIngr = [];
+      // if (product.defaultIngredients && product.defaultIngredients.length > 0) {
+      //
+      //   // Grabbing selected default ingredients data
+      //
+      //   product.defaultIngredients.map(id => {
+      //     filteredDefIngr.push(this.ingredients.filter(i => i._id === id)[0]);
+      //   });
+      //
+      //   product.defaultIngredients = filteredDefIngr;
+      //
+      // }
       if (!this.sizable) {
         product.sizes = [];
       }
@@ -222,7 +240,7 @@ export class SaveProductDialogComponent implements OnInit {
         fd.append('sizable', product.sizable);
         fd.append('customizable', product.customizable);
         fd.append('menu_ids', JSON.stringify(product.menu_ids))
-        if (!this.sizable && !this.customizable) {
+        if (!this.sizable) {
           fd.append('price', product.price);
         }
 
@@ -232,9 +250,10 @@ export class SaveProductDialogComponent implements OnInit {
         if (this.customizable) {
 
 
-          console.log(filteredDefIngr)
+          // console.log(filteredDefIngr)
           fd.append('prodIngr', JSON.stringify(product.productIngredients));
-          fd.append('defaultIngr', JSON.stringify(filteredDefIngr));
+          fd.append('optionalIngr', JSON.stringify(product.optionalIngredients));
+          fd.append('defaultIngr', JSON.stringify(product.defaultIngredients));
         }
 
 

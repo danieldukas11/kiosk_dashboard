@@ -14,118 +14,118 @@ export class ManageProductsService {
   }
 
   getIngredientMenus() {
-    return this.http.get(`${environment.staticUrl}dashboard/admin/ingr_menu`)
+    return this.http.get(`${environment.url}dashboard/admin/ingr_menu`)
   }
 
   getIngredients() {
-    return this.http.get(`${environment.staticUrl}dashboard/admin/ingredient`)
+    return this.http.get(`${environment.url}dashboard/admin/ingredient`)
   }
 
   getProductMenus() {
-    return this.http.get(`${environment.staticUrl}dashboard/admin/prod_menu`)
+    return this.http.get(`${environment.url}dashboard/admin/prod_menu`)
   }
 
   getProducts() {
-    return this.http.get(`${environment.staticUrl}dashboard/admin/product`)
+    return this.http.get(`${environment.url}dashboard/admin/product`)
   }
 
   getComboMenu() {
-    return this.http.get(`${environment.staticUrl}dashboard/admin/combo_menu`)
+    return this.http.get(`${environment.url}dashboard/admin/combo_menu`)
   }
 
   getCombos() {
-    return this.http.get(`${environment.staticUrl}dashboard/admin/combo`)
+    return this.http.get(`${environment.url}dashboard/admin/combo`)
   }
 
 
   addIngredientMenu(title) {
-    return this.http.post(`${environment.staticUrl}dashboard/admin/ingr_menu/add`, {title})
+    return this.http.post(`${environment.url}dashboard/admin/ingr_menu/add`, {title})
   }
 
   addIngredient(ingredient) {
-    return this.http.post(`${environment.staticUrl}dashboard/admin/ingredient/add`, ingredient)
+    return this.http.post(`${environment.url}dashboard/admin/ingredient/add`, ingredient)
   }
 
   addProductMenu(title) {
-    return this.http.post(`${environment.staticUrl}dashboard/admin/prod_menu/add`, {title})
+    return this.http.post(`${environment.url}dashboard/admin/prod_menu/add`, {title})
   }
 
   addProduct(data) {
-    return this.http.post(`${environment.staticUrl}dashboard/admin/product/add`, data)
+    return this.http.post(`${environment.url}dashboard/admin/product/add`, data)
   }
 
   addCombo(data) {
-    return this.http.post(`${environment.staticUrl}dashboard/admin/combo/add`, data)
+    return this.http.post(`${environment.url}dashboard/admin/combo/add`, data)
   }
 
   addComboMenu(data) {
-    return this.http.post(`${environment.staticUrl}dashboard/admin/combo_menu/add`, data)
+    return this.http.post(`${environment.url}dashboard/admin/combo_menu/add`, data)
   }
 
   addComboProd(data) {
-    return this.http.post(`${environment.staticUrl}dashboard/admin/combo_prod/add`, data)
+    return this.http.post(`${environment.url}dashboard/admin/combo_prod/add`, data)
   }
 
   removeComboProd(id) {
-    return this.http.delete(`${environment.staticUrl}dashboard/admin/combo_prod/delete?id=${id}`);
+    return this.http.delete(`${environment.url}dashboard/admin/combo_prod/delete?id=${id}`);
   }
 
   removeIngredientMenu(id) {
 
-    return this.http.delete(`${environment.staticUrl}dashboard/admin/ingredientmenu/delete?id=${id}`);
+    return this.http.delete(`${environment.url}dashboard/admin/ingredientmenu/delete?id=${id}`);
   }
 
   deleteIngredient(id) {
-    return this.http.delete(`${environment.staticUrl}dashboard/admin/ingredient/delete`, {params: {id}});
+    return this.http.delete(`${environment.url}dashboard/admin/ingredient/delete`, {params: {id}});
   }
 
   removeProductMenu(id) {
-    return this.http.delete(`${environment.staticUrl}dashboard/admin/prod_menu/delete`, {params: {id}});
+    return this.http.delete(`${environment.url}dashboard/admin/prod_menu/delete`, {params: {id}});
   }
 
   removeComboMenu(id) {
-    return this.http.delete(`${environment.staticUrl}dashboard/admin/combo_menu/delete`, {params: {id}});
+    return this.http.delete(`${environment.url}dashboard/admin/combo_menu/delete`, {params: {id}});
   }
 
   removeCombo(id) {
-    return this.http.delete(`${environment.staticUrl}dashboard/admin/combo/delete`, {params: {id}});
+    return this.http.delete(`${environment.url}dashboard/admin/combo/delete`, {params: {id}});
   }
 
   updateIngredientMenu(val) {
-    return this.http.put(`${environment.staticUrl}dashboard/admin/ingr_menu/update`, val);
+    return this.http.put(`${environment.url}dashboard/admin/ingr_menu/update`, val);
   }
 
   updateIngredient(val) {
-    return this.http.put(`${environment.staticUrl}dashboard/admin/ingredient/update`, val);
+    return this.http.put(`${environment.url}dashboard/admin/ingredient/update`, val);
   }
 
   updateProductMenu(val) {
-    return this.http.put(`${environment.staticUrl}dashboard/admin/prod_menu/update`, val);
+    return this.http.put(`${environment.url}dashboard/admin/prod_menu/update`, val);
   }
 
   updateProduct(val) {
-    return this.http.put(`${environment.staticUrl}dashboard/admin/product/update`, val);
+    return this.http.put(`${environment.url}dashboard/admin/product/update`, val);
   }
 
   updateComboMenu(val) {
-    return this.http.put(`${environment.staticUrl}dashboard/admin/combo_menu/update`, val);
+    return this.http.put(`${environment.url}dashboard/admin/combo_menu/update`, val);
   }
 
   updateCombo(val) {
-    return this.http.put(`${environment.staticUrl}dashboard/admin/combo/update`, val);
+    return this.http.put(`${environment.url}dashboard/admin/combo/update`, val);
   }
 
   uploadAdVideo(fd) {
-    return this.http.post(`${environment.staticUrl}dashboard/admin/ads/video/add`, fd);
+    return this.http.post(`${environment.url}dashboard/admin/ads/video/add`, fd);
   }
 
   getAdVideos() {
-    return this.http.get(`${environment.staticUrl}dashboard/admin/progress_monitor`);
+    return this.http.get(`${environment.url}dashboard/admin/progress_monitor`);
 
   }
 
   removeProduct(id) {
-    return this.http.delete(`${environment.staticUrl}dashboard/admin/product/delete`, {params: {id}});
+    return this.http.delete(`${environment.url}dashboard/admin/product/delete`, {params: {id}});
   }
 
 

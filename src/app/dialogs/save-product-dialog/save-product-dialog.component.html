@@ -63,7 +63,7 @@
     <ng-container *ngIf="ingrMenus.length > 0">
       <mat-form-field
         style="display:block;  width:calc(100% - 32px); margin:auto">
-        <mat-select placeholder="Ingredients for making product"
+        <mat-select placeholder="Ingredient menus for making product"
                     formControlName="productIngredients" multiple
                     (selectionChange)="menuSelected($event.value)">
           <!--                    <mat-select-trigger>-->
@@ -92,9 +92,28 @@
         </mat-select>
       </mat-form-field>
 
+      <mat-form-field
+        style="display:block;  width:calc(100% - 32px); margin:auto">
+        <mat-label>Optional Ingredients</mat-label>
+        <!--        <ng-container *ngFor="let ingr of selectedIngrMenus">-->
+        <!--          <span>{{ingr.title}}</span>-->
+        <!--        </ng-container>-->
+        <mat-select formControlName="optionalIngredients" multiple
+                    (selectionChange)="defaultIngrSelected($event.value)">
+          <mat-optgroup *ngFor="let ingr of selectedIngrMenus" [label]="ingr.title">
+            <mat-option *ngFor="let ingr_type of getOptionals(ingr._id)"
+                        [value]="ingr_type._id">
+              {{ingr_type.title}}
+            </mat-option>
+          </mat-optgroup>
+
+          <!--                  <mat-option *ngFor="let ingr of ingredients" [value]="ingr._id">{{ingr.title}}</mat-option>-->
+        </mat-select>
+      </mat-form-field>
+
     </ng-container>
   </ng-container>
-  <input type="file" accept="image/png, image/jpeg" *ngIf="!edit"
+  <input type="file" accept="image/png, image/jpeg"
          (change)="getImage($event.target.files)">
 
   <div class="actions">

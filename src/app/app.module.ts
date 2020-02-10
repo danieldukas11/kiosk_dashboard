@@ -35,7 +35,7 @@ import {ConfirmationDialogComponent} from './dialogs/confirmation-dialog/confirm
 import { NotFoundComponent } from './admin/not-found/not-found.component';
 
 const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
-  url: `${environment.staticUrl}dashboard/admin/ads/video/add`,
+  url: `${environment.url}dashboard/admin/ads/video/add`,
   maxFilesize: 50,
   acceptedFiles: 'video/*',
   maxFiles: 1

@@ -60,8 +60,11 @@ export class SaveIngredientDialogComponent implements OnInit, OnDestroy {
       this.setPricesStatus('price', 'normalPriceEnabled', data);
       this.setPricesStatus('double_price', 'doublePriceEnabled', data);
 
-
-      this.ingredientImg = `${environment.staticUrl}images/${data.ingredient.image}`;
+      if (data.ingredient.image) {
+        this.ingredientImg = `${environment.staticUrl}images/${data.ingredient.image}`;
+      } else {
+        this.ingredientImg = `${environment.staticUrl}images/no-image.png`;
+      }
       this.saveIngredientForm.patchValue(data.ingredient);
     }
   }

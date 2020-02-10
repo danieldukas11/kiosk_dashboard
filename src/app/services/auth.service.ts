@@ -12,10 +12,10 @@ export class AuthService {
   ) { }
 
   login(data){
-      return this.http.post(`${environment.staticUrl}dashboard/login`,data)
+      return this.http.post(`${environment.url}dashboard/login`,data)
     }
 
   addUser(user){
-    return this.http.post(`${environment.staticUrl}dashboard/adduser`,user)
+    return this.http.post(`${environment.url}dashboard/adduser`,user)
   }
 }
