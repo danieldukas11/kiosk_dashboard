@@ -73,7 +73,7 @@ export class SaveProductDialogComponent implements OnInit {
       productIngredients: [[]],
       defaultIngredients: [[]],
       optionalIngredients: [[]],
-      image: []
+      image: ['']
     };
 
     this.saveProductForm = fb.group(this.formFields);
@@ -111,12 +111,12 @@ export class SaveProductDialogComponent implements OnInit {
         });
       });
 
-
       if (this.selectedProduct.image) {
         this.productImg = `${environment.staticUrl}images/${this.selectedProduct.image}`;
       } else {
         this.productImg = `${environment.staticUrl}images/no-image.png`;
       }
+
 
 
       const sizesArr = this.saveProductForm.controls.sizes as any;
