@@ -75,7 +75,7 @@ export class SaveIngredientDialogComponent implements OnInit, OnDestroy {
   // Set prices and price inputs status (enabled/disabled) for edit case
   setPricesStatus(controlName, statusName, data) {
     this[statusName] = data.ingredient.hasOwnProperty(controlName);
-    if (this[statusName]) {
+    if (this[statusName] && this.saveIngredientForm.get(controlName)) {
       this.saveIngredientForm.get(controlName).enable();
     } else {
       this.saveIngredientForm.get(controlName).disable();
@@ -87,12 +87,13 @@ export class SaveIngredientDialogComponent implements OnInit, OnDestroy {
     const control = this.saveIngredientForm.controls[name];
     this[status] = !input.disabled;
 
-
-    if (input.disabled) {
-      control.patchValue('');
-      control.disable();
-    } else {
-      control.enable();
+    if (control) {
+      if (input.disabled) {
+        control.patchValue('');
+        control.disable();
+      } else {
+        control.enable();
+      }
     }
   }
 

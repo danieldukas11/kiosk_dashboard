@@ -1,28 +1,4 @@
-.imageArea {
-  text-align: center;
 
-  .imgContainer {
-    position: relative;
-    background-repeat: no-repeat;
-    background-size: contain;
-
-    img {
-      width: 200px;
-    }
-
-    i {
-      position: absolute;
-      top: 0;
-      right: 0;
-      color: red;
-      cursor: pointer;
-    }
-  }
-
-  img, .imgPlaceholder {
-    border: 1px solid #c0c0c033;
-  }
-}
 
 
 .light-price-container, .normal-price-container, .double-price-container {

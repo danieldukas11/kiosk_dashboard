@@ -1,5 +1,31 @@
 <form [formGroup]="saveProductForm" class="saveProductForm" #prodForm>
   <h1 mat-dialog-title>{{edit ? 'Edit' : 'Add new'}} product</h1>
+
+
+  <!-- Image area -->
+  <div class="imageArea">
+
+    <div class="imgContainer" *ngIf="productImg">
+      <img [src]="productImg" *ngIf="edit">
+      <i class="fa fa-times-circle" (click)="productImg = null"></i>
+    </div>
+
+    <div class="imgPlaceholder" *ngIf="!productImg">
+    </div>
+
+
+    <ng-container *ngIf="(edit && !productImg) || !edit">
+
+      <input type="file" name="avatar" accept="image/png, image/jpeg"
+             (change)="getImage($event.target.files)">
+      <input type="hidden" formControlName="image">
+      <mat-error *ngIf="imageFieldCtrl.hasError('required') && isSubmitted">
+        Image is <strong>required</strong>
+      </mat-error>
+    </ng-container>
+  </div>
+
+
   <input type="text" placeholder="Product Title" name="it" formControlName="title"
          autocomplete="off">
   <mat-error *ngIf="(titleCtrl.touched || isSubmitted) && titleCtrl.hasError('required')">
@@ -42,7 +68,7 @@
             <mat-error *ngIf="isSubmitted && priceCtrl.hasError('pattern')" [innerHTML]="item.numericMsg"></mat-error>
           </ng-container>
         </ng-template>
-        <mat-checkbox [checked]="true"
+        <mat-checkbox [checked]="checkBoxCheck(currentPrice)"
                       (change)="disablePrice(currentPrice,currentTitle,getInput(item.title))"></mat-checkbox>
       </div>
     </ng-container>
@@ -113,10 +139,9 @@
 
     </ng-container>
   </ng-container>
-  <input type="file" accept="image/png, image/jpeg"
-         (change)="getImage($event.target.files)">
 
   <div class="actions">
+    <mat-spinner [diameter]="20" *ngIf="common.formProcessing" color="warn"></mat-spinner>
     <button (click)="save()">{{edit ? 'Update product info' : 'Add new product'}}</button>
   </div>
 </form>

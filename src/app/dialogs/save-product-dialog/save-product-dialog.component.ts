@@ -2,6 +2,8 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ManageProductsService} from '../../services/manage-products.service';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {environment} from '../../../environments/environment';
+import {CommonService} from '../../services/common.service';
 
 @Component({
   selector: 'app-save-product-dialog',
@@ -51,10 +53,13 @@ export class SaveProductDialogComponent implements OnInit {
 
   isSubmitted = false;
 
+  productImg;
+
 
   constructor(
     private fb: FormBuilder,
     private mp: ManageProductsService,
+    public common: CommonService,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRef: MatDialogRef<SaveProductDialogComponent>
   ) {
@@ -65,9 +70,10 @@ export class SaveProductDialogComponent implements OnInit {
       sizable: [this.sizable, Validators.required],
       customizable: [this.customizable, Validators.required],
       menu_ids: [[data.menuId]],
-      productIngredients: [],
-      defaultIngredients: [],
-      optionalIngredients: [],
+      productIngredients: [[]],
+      defaultIngredients: [[]],
+      optionalIngredients: [[]],
+      image: []
     };
 
     this.saveProductForm = fb.group(this.formFields);
@@ -81,8 +87,10 @@ export class SaveProductDialogComponent implements OnInit {
     this.attachSizes();
 
     if (this.edit) {
-      this.sizable = data.product.sizable;
-      this.customizable = data.product.customizable;
+      this.sizable = this.selectedProduct.sizable;
+      this.customizable = this.selectedProduct.customizable;
+      this.changeSizable({value: this.selectedProduct.sizable});
+
       this.selectedIngrMenus = data.productIngredients;
       this.ingrMenus = this.selectedIngrMenus;
 
@@ -103,11 +111,33 @@ export class SaveProductDialogComponent implements OnInit {
         });
       });
 
+
+      if (this.selectedProduct.image) {
+        this.productImg = `${environment.staticUrl}images/${this.selectedProduct.image}`;
+      } else {
+        this.productImg = `${environment.staticUrl}images/no-image.png`;
+      }
+
+
+      const sizesArr = this.saveProductForm.controls.sizes as any;
+
       this.saveProductForm = fb.group(this.formFields);
-      this.saveProductForm.patchValue(data.product);
-      this.saveProductForm.patchValue({
-        sizes: data.product.sizes
+
+      // Check sizable product price fields before patching
+      sizesArr.controls.map(c => {
+        const f = this.selectedProduct.sizes.filter(s => s.title === c.value.title);
+
+        if (f.length === 0) {
+          c.disable();
+        } else {
+          c.patchValue({price: f[0].price});
+          c.enable();
+        }
       });
+
+      const copy = JSON.parse(JSON.stringify(this.selectedProduct));
+      delete copy.sizes;
+      this.saveProductForm.patchValue(copy);
 
       this.saveProductForm.patchValue({
         productIngredients: this.selectedProdIngredients,
@@ -190,6 +220,10 @@ export class SaveProductDialogComponent implements OnInit {
     return result;
   }
 
+  checkBoxCheck(p) {
+    return p.value;
+  }
+
 
   changeSizable(e): void {
     this.sizable = e.value;
@@ -212,61 +246,65 @@ export class SaveProductDialogComponent implements OnInit {
   save() {
     const product = this.saveProductForm.value;
     this.isSubmitted = true;
-    // console.log(product)
 
-    if (this.saveProductForm.valid) {
-
-
-      // const filteredDefIngr = [];
-      // if (product.defaultIngredients && product.defaultIngredients.length > 0) {
-      //
-      //   // Grabbing selected default ingredients data
-      //
-      //   product.defaultIngredients.map(id => {
-      //     filteredDefIngr.push(this.ingredients.filter(i => i._id === id)[0]);
-      //   });
-      //
-      //   product.defaultIngredients = filteredDefIngr;
-      //
-      // }
-      if (!this.sizable) {
-        product.sizes = [];
-      }
-
-      if (!this.edit) {
-        const fd = new FormData();
-        fd.append('image', this.newProductImg);
-        fd.append('title', product.title);
-        fd.append('sizable', product.sizable);
-        fd.append('customizable', product.customizable);
-        fd.append('menu_ids', JSON.stringify(product.menu_ids))
-        if (!this.sizable) {
-          fd.append('price', product.price);
-        }
-
-        if (this.sizable) {
-          fd.append('sizes', JSON.stringify(product.sizes));
-        }
-        if (this.customizable) {
+    // if (this.saveProductForm.valid) {
+    this.common.formProcessing = true;
 
 
-          // console.log(filteredDefIngr)
-          fd.append('prodIngr', JSON.stringify(product.productIngredients));
-          fd.append('optionalIngr', JSON.stringify(product.optionalIngredients));
-          fd.append('defaultIngr', JSON.stringify(product.defaultIngredients));
-        }
-
-
-        this.mp.addProduct(fd).subscribe(data => {
-          this.dialogRef.close();
-        });
-      } else {
-        product._id = this.selectedProduct._id;
-        this.mp.updateProduct(product).subscribe(data => {
-          this.dialogRef.close();
-        });
-      }
+    // const filteredDefIngr = [];
+    // if (product.defaultIngredients && product.defaultIngredients.length > 0) {
+    //
+    //   // Grabbing selected default ingredients data
+    //
+    //   product.defaultIngredients.map(id => {
+    //     filteredDefIngr.push(this.ingredients.filter(i => i._id === id)[0]);
+    //   });
+    //
+    //   product.defaultIngredients = filteredDefIngr;
+    //
+    // }
+    if (!this.sizable) {
+      product.sizes = [];
     }
+
+
+    const fd = new FormData();
+    fd.append('image', this.newProductImg);
+    fd.append('image_name', this.edit ? product.image : (this.newProductImg ? this.newProductImg.name : ''));
+    fd.append('title', product.title);
+    fd.append('sizable', product.sizable);
+    fd.append('customizable', product.customizable);
+    fd.append('menu_ids', JSON.stringify(product.menu_ids))
+    if (!this.sizable) {
+      fd.append('price', product.price);
+    }
+
+    if (this.sizable) {
+      fd.append('sizes', JSON.stringify(product.sizes));
+    }
+    // if (this.customizable) {
+
+
+    // console.log(filteredDefIngr)
+    fd.append('prodIngr', JSON.stringify(this.customizable ? product.productIngredients : []));
+    fd.append('optionalIngr', JSON.stringify(this.customizable ? product.optionalIngredients : []));
+    fd.append('defaultIngr', JSON.stringify(this.customizable ? product.defaultIngredients : []));
+    // }
+
+    if (!this.edit) {
+      this.mp.addProduct(fd).subscribe(data => {
+        this.common.formProcessing = false;
+        this.dialogRef.close();
+      });
+    } else {
+      product._id = this.selectedProduct._id;
+      fd.append('_id', product._id);
+      this.mp.updateProduct(fd).subscribe(data => {
+        this.common.formProcessing = false;
+        this.dialogRef.close();
+      });
+    }
+    // }
   }
 
   disablePrice(priceInput, titleInput, name): void {
@@ -279,13 +317,18 @@ export class SaveProductDialogComponent implements OnInit {
     const status = `${name}PriceEnabled`;
     this[status] = !priceInput.disabled;
 
+
     // Getting selected price input
     const sizes = this.saveProductForm.controls.sizes as FormGroup;
     const sizeControls = sizes.controls as any;
+    // console.log(sizeControls)
+    // console.log(sizeControls[0].value.title, titleInput.value)
+    // console.log(sizeControls[1].value.title, titleInput.value)
+    // console.log(sizeControls[2].value.title, titleInput.value)
     const selectedInput = sizeControls.filter(c => c.value.title.includes(titleInput.value))[0];
 
     // Setting input control as disabled or enabled
-    if (priceInput.disabled) {
+    if (priceInput.disabled && selectedInput) {
       selectedInput.disable();
     } else {
       selectedInput.enable();
@@ -322,6 +365,10 @@ export class SaveProductDialogComponent implements OnInit {
 
   get sizesArr(): FormArray {
     return this.saveProductForm.get('sizes') as FormArray;
+  }
+
+  get imageFieldCtrl(): AbstractControl {
+    return this.saveProductForm.get('image');
   }
 
 }
