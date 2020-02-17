@@ -118,7 +118,6 @@ export class SaveProductDialogComponent implements OnInit {
       }
 
 
-
       const sizesArr = this.saveProductForm.controls.sizes as any;
 
       this.saveProductForm = fb.group(this.formFields);
@@ -305,6 +304,11 @@ export class SaveProductDialogComponent implements OnInit {
       });
     }
     // }
+  }
+
+  removeProductImg() {
+    this.productImg = null;
+    this.saveProductForm.patchValue({image: ''})
   }
 
   disablePrice(priceInput, titleInput, name): void {

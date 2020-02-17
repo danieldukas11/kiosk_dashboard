@@ -7,7 +7,7 @@
 
     <div class="imgContainer" *ngIf="productImg">
       <img [src]="productImg" *ngIf="edit">
-      <i class="fa fa-times-circle" (click)="productImg = null"></i>
+      <i class="fa fa-times-circle" (click)="removeProductImg()"></i>
     </div>
 
     <div class="imgPlaceholder" *ngIf="!productImg">
