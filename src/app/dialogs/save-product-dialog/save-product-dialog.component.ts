@@ -46,6 +46,7 @@ export class SaveProductDialogComponent implements OnInit {
   formFields;
   selectedProdIngredients = [];
   selectedDefaultIngredients = [];
+  selectedOptionalIngredients = [];
 
   smallPriceEnabled = true;
   mediumPriceEnabled = true;
@@ -86,27 +87,52 @@ export class SaveProductDialogComponent implements OnInit {
 
     this.attachSizes();
 
+    this.handleEditCase(data);
+
+
+  }
+
+  ngOnInit(): void {
+    this.getIngredientMenus();
+    this.getIngredients();
+
+  }
+
+  handleEditCase(data) {
+
     if (this.edit) {
       this.sizable = this.selectedProduct.sizable;
       this.customizable = this.selectedProduct.customizable;
       this.changeSizable({value: this.selectedProduct.sizable});
+      this.changeCustomizable({value: this.selectedProduct.customizable});
+
 
       this.selectedIngrMenus = data.productIngredients;
       this.ingrMenus = this.selectedIngrMenus;
+
 
       // Getting product ingredients ids to patch "Ingredients for making product" dropdown
       data.productIngredients.forEach(i => {
         this.selectedProdIngredients.push(i._id);
       });
 
-
       // Getting default ingredient ids for selected product to patch "Default ingredients" drop down
       const defaultIngrIds = [];
+      const optionalIngrIds = [];
       data.defaultIngredients.forEach(di => {
+
+        // console.log(di)
         di.default_ids.map(id => {
           if (id === data.product._id) {
             defaultIngrIds.push(di._id)
             this.selectedDefaultIngredients.push(di);
+          }
+        });
+
+        di.optional_ids.map(id => {
+          if (id === data.product._id) {
+            optionalIngrIds.push(di._id);
+            this.selectedOptionalIngredients.push(di);
           }
         });
       });
@@ -120,7 +146,7 @@ export class SaveProductDialogComponent implements OnInit {
 
       const sizesArr = this.saveProductForm.controls.sizes as any;
 
-      this.saveProductForm = fb.group(this.formFields);
+      this.saveProductForm = this.fb.group(this.formFields);
 
       // Check sizable product price fields before patching
       sizesArr.controls.map(c => {
@@ -140,16 +166,10 @@ export class SaveProductDialogComponent implements OnInit {
 
       this.saveProductForm.patchValue({
         productIngredients: this.selectedProdIngredients,
-        defaultIngredients: defaultIngrIds
+        defaultIngredients: defaultIngrIds,
+        optionalIngredients: optionalIngrIds
       });
     }
-
-  }
-
-  ngOnInit(): void {
-    this.getIngredientMenus();
-    this.getIngredients();
-
   }
 
   getInput(title) {
@@ -203,7 +223,7 @@ export class SaveProductDialogComponent implements OnInit {
     });
   }
 
-  getOptionals(id) {
+  getOptionals() {
     const defaultIngredients = this.saveProductForm.get('defaultIngredients').value;
     let result = [];
     if (defaultIngredients) {
@@ -215,7 +235,6 @@ export class SaveProductDialogComponent implements OnInit {
 
 
     }
-    // console.log( result.filter(ingr => ingr.ingredient_ids[0] === id))
     return result;
   }
 
@@ -226,19 +245,18 @@ export class SaveProductDialogComponent implements OnInit {
 
   changeSizable(e): void {
     this.sizable = e.value;
-    this.customizable = false;
+    // this.customizable = false;
     if (this.sizable) {
       this.priceCtrl.disable();
     } else {
       this.priceCtrl.enable();
     }
-    // console.log(this.saveProductForm.value)
     this.saveProductForm.patchValue({customizable: this.customizable, sizable: this.sizable});
   }
 
   changeCustomizable(e): void {
     this.customizable = e.value;
-    this.sizable = false;
+    // this.sizable = false;
     this.saveProductForm.patchValue({sizable: this.sizable, customizable: this.customizable});
   }
 

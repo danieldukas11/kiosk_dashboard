@@ -127,7 +127,7 @@
         <mat-select formControlName="optionalIngredients" multiple
                     (selectionChange)="defaultIngrSelected($event.value)">
           <mat-optgroup *ngFor="let ingr of selectedIngrMenus" [label]="ingr.title">
-            <mat-option *ngFor="let ingr_type of getOptionals(ingr._id)"
+            <mat-option *ngFor="let ingr_type of getOptionals()"
                         [value]="ingr_type._id">
               {{ingr_type.title}}
             </mat-option>

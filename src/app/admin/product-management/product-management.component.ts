@@ -386,7 +386,7 @@ export class ProductManagementComponent implements OnInit {
     // this.dialogOpened = true;
     // this.dialogType = 'Product';
     // this.product.menu_ids[0] = menuId;
-    
+
     this.matDialog.open(SaveProductDialogComponent, {
       data: {
         menuId,
@@ -397,6 +397,9 @@ export class ProductManagementComponent implements OnInit {
     }).afterClosed().subscribe(() => {
       this.mp.getProducts().subscribe((data: any[]) => {
         this.products = data;
+      });
+      this.mp.getIngredients().subscribe((data: any[]) => {
+        this.ingredients = data;
       });
     });
   }
