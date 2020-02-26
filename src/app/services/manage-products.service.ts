@@ -128,5 +128,9 @@ export class ManageProductsService {
     return this.http.delete(`${environment.url}dashboard/admin/product/delete`, {params: {id}});
   }
 
+  updateOrder(data) {
+    return this.http.put(`${environment.url}dashboard/admin/ingr_menu/update-order`, data);
+  }
+
 
 }

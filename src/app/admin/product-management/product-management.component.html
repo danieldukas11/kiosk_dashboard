@@ -1,5 +1,5 @@
 <!-- Header tabs-->
-<mat-tab-group dynamicHeight class="wrapper" [selectedIndex]="1">
+<mat-tab-group dynamicHeight class="wrapper" [selectedIndex]="0">
   <!-- Ingredients tab -->
   <mat-tab label="Ingredients">
 
@@ -9,7 +9,7 @@
     <div class="no_ingr" *ngIf='!ingr_menus?.length'>No Ingredient Menu Yet</div>
 
     <mat-accordion *ngIf='ingr_menus&&ingr_menus.length'>
-      <mat-expansion-panel *ngFor="let ingr_menu of ingr_menus" [disabled]="disableExpansionOnPanel"
+      <mat-expansion-panel *ngFor="let ingr_menu of ingr_menus; let menuInd = index" [disabled]="disableExpansionOnPanel"
                            (click)="disableExpansionOnPanel=false">
         <mat-expansion-panel-header>
           <mat-panel-title class="menu_title">
@@ -17,6 +17,8 @@
             <div class="ingredientMenuActions">
               <i class="far fa-edit" style="color:#F2AC21 " (click)="openIngredientMenuDialog(ingr_menu)"></i>
               <i class="fas fa-trash" style="color:red " (click)="removeIngredientMenu(ingr_menu._id)"></i>
+              <i class="fas fa-arrow-up" style="color: darkgray" *ngIf="menuInd!== 0" (click)="move('up',ingr_menu)"></i>
+              <i class="fas fa-arrow-down" style="color: darkgray" *ngIf="menuInd !== ingr_menus.length - 1" (click)="move('down',ingr_menu)"></i>
             </div>
           </mat-panel-title>
         </mat-expansion-panel-header>
