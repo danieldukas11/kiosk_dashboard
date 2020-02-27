@@ -321,8 +321,9 @@ export class ProductManagementComponent implements OnInit {
     });
   }
 
-  removeIngredientMenu(id) {
+  removeIngredientMenu(e, id) {
     this.disableExpansionOnPanel = true;
+    e.stopPropagation();
 
     this.matDialog.open(ConfirmationDialogComponent, {data: {}, maxWidth: '400px'}).afterClosed().subscribe((r) => {
       if (r) {
@@ -340,7 +341,8 @@ export class ProductManagementComponent implements OnInit {
 
 
   // Ingredient menu dialog
-  openIngredientMenuDialog(menu = null) {
+  openIngredientMenuDialog(e, menu = null) {
+    e.stopPropagation();
     this.disableExpansionOnPanel = true;
     this.matDialog.open(SaveIngredientMenuDialogComponent, {data: {menu}}).afterClosed().subscribe(() => {
       this.mp.getIngredientMenus().subscribe((data: any[]) => {
@@ -508,7 +510,8 @@ export class ProductManagementComponent implements OnInit {
     });
   }
 
-  move(direction, ingrMenu) {
+  move(e, direction, ingrMenu) {
+    e.stopPropagation();
     this.mp.updateOrder({direction, _id: ingrMenu._id, order: ingrMenu.order}).subscribe(dt => {
       this.mp.getIngredientMenus().subscribe((data: any[]) => {
         this.ingr_menus = data;
