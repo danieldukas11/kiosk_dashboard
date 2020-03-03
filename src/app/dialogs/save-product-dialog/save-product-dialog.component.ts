@@ -74,6 +74,7 @@ export class SaveProductDialogComponent implements OnInit {
       productIngredients: [[]],
       defaultIngredients: [[]],
       optionalIngredients: [[]],
+      hidden: [false],
       image: ['']
     };
 
@@ -291,6 +292,7 @@ export class SaveProductDialogComponent implements OnInit {
     fd.append('title', product.title);
     fd.append('sizable', product.sizable);
     fd.append('customizable', product.customizable);
+    fd.append('hidden', product.hidden);
     fd.append('menu_ids', JSON.stringify(product.menu_ids))
     if (!this.sizable) {
       fd.append('price', product.price);
@@ -375,6 +377,11 @@ export class SaveProductDialogComponent implements OnInit {
 
   defaultIngrSelected(e) {
     this.selectedDefaultIngredients = e;
+  }
+
+  visibilityChanged(e) {
+    console.log(e.checked)
+    this.saveProductForm.patchValue({hidden: e.checked});
   }
 
   get titleCtrl(): AbstractControl {

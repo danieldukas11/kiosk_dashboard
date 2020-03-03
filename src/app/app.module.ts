@@ -33,6 +33,7 @@ import {ToastrModule} from 'ngx-toastr';
 import {RequestInterceptor} from './interceptors/http.interceptor';
 import {ConfirmationDialogComponent} from './dialogs/confirmation-dialog/confirmation-dialog.component';
 import { NotFoundComponent } from './admin/not-found/not-found.component';
+import { ManageKiosksComponent } from './admin/manage-kiosks/manage-kiosks.component';
 
 const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
   url: `${environment.url}dashboard/admin/ads/video/add`,
@@ -61,7 +62,8 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     SaveComboDialogComponent,
     ProgressManagementMonitorComponent,
     ConfirmationDialogComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    ManageKiosksComponent
   ],
   imports: [
     BrowserModule,

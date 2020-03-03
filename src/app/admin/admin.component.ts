@@ -18,25 +18,30 @@ export class AdminComponent implements OnInit {
 
   menu = [
     {
-      title: "Manage Products ",
-      icon: "fas fa-utensils-alt",
-      link: ""
+      title: 'Manage Products ',
+      icon: 'fas fa-utensils-alt',
+      link: ''
     },
     {
-      title: "Manage Progress Monitor ",
-      icon: "fas fa-video",
-      link: "manage_progress_monitor"
+      title: 'Manage Progress Monitor ',
+      icon: 'fas fa-video',
+      link: 'manage_progress_monitor'
     },
     {
-      title: "Profile",
-      icon: "fas fa-address-card",
-      link: "profile"
+      title: 'Manage Kiosks',
+      icon: 'fas fa-video',
+      link: 'manage_kiosks'
     },
-  ]
+    {
+      title: 'Profile',
+      icon: 'fas fa-address-card',
+      link: 'profile'
+    },
+  ];
 
   logout() {
-    localStorage.removeItem("usr")
-    this.router.navigate([""])
+    localStorage.removeItem('usr');
+    this.router.navigate(['']);
   }
 
 }
