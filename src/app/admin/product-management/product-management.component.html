@@ -64,7 +64,7 @@
     <button class="add_menu" (click)="openProductMenuDialog()">Add Product Menu</button>
     <div class="no_ingr" *ngIf='!prod_menus?.length'>No Product Menu Yet</div>
     <mat-accordion *ngIf='prod_menus&&prod_menus.length'>
-      <mat-expansion-panel *ngFor="let prod_menu of prod_menus" [disabled]="disableExpansionOnPanel"
+      <mat-expansion-panel *ngFor="let prod_menu of prod_menus;let menuInd = index" [disabled]="disableExpansionOnPanel"
                            (click)="disableExpansionOnPanel=false">
         <mat-expansion-panel-header>
           <mat-panel-title class="menu_title">
@@ -72,6 +72,8 @@
             <div class="productMenuActions">
               <i class="far fa-edit" style="color:#F2AC21 " (click)="openProductMenuDialog(prod_menu)"></i>
               <i class="fas fa-trash" style="color:red " (click)="removeProductMenu(prod_menu._id)"></i>
+              <i class="fas fa-arrow-up" style="color: darkgray" *ngIf="menuInd!== 0" (click)="moveProduct($event,'up',prod_menu)"></i>
+              <i class="fas fa-arrow-down" style="color: darkgray" *ngIf="menuInd !== prod_menus.length - 1" (click)="moveProduct($event,'down',prod_menu)"></i>
             </div>
           </mat-panel-title>
         </mat-expansion-panel-header>

@@ -119,9 +119,16 @@ export class ManageProductsService {
     return this.http.post(`${environment.url}dashboard/admin/ads/video/add`, fd);
   }
 
+  uploadKioskVideo(fd) {
+    return this.http.post(`${environment.url}dashboard/admin/kiosk/video/add`, fd);
+  }
+
   getAdVideos() {
     return this.http.get(`${environment.url}dashboard/admin/progress_monitor`);
+  }
 
+  getKioskVideos() {
+    return this.http.get(`${environment.url}dashboard/admin/kiosk/getdata`);
   }
 
   removeProduct(id) {
@@ -130,6 +137,10 @@ export class ManageProductsService {
 
   updateOrder(data) {
     return this.http.put(`${environment.url}dashboard/admin/ingr_menu/update-order`, data);
+  }
+
+  updateProductOrder(data) {
+    return this.http.put(`${environment.url}dashboard/admin/prod_menu/update-order`, data);
   }
 
 

@@ -519,4 +519,13 @@ export class ProductManagementComponent implements OnInit {
     });
   }
 
+  moveProduct(e, direction, prodMenu) {
+    e.stopPropagation();
+    this.mp.updateProductOrder({direction, _id: prodMenu._id, order: prodMenu.order}).subscribe(dt => {
+      this.mp.getProductMenus().subscribe((data: any[]) => {
+        this.prod_menus = data;
+      });
+    });
+  }
+
 }
