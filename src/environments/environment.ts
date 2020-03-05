@@ -8,8 +8,8 @@ export const environment = {
   // staticUrl: 'http://localhost:3500/'
   // url: 'https://kiosk3.herokuapp.com/user_kiosk/',
   // staticUrl: 'https://kiosk3.herokuapp.com/',
-  // url: 'http://64.225.3.114/',
-  url: 'http://192.168.2.190/',
+  url: 'http://64.225.3.114/',
+  // url: 'http://192.168.2.190/',
   staticUrl: 'http://64.225.3.114/',
   // staticUrl: 'http://192.168.2.190/'
 
