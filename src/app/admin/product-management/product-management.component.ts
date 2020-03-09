@@ -528,4 +528,21 @@ export class ProductManagementComponent implements OnInit {
     });
   }
 
+  toggleProdMenu(e) {
+    this.mp.toggleProdMenu({hidden: e.checked}).subscribe(() => {
+
+    });
+  }
+
+  clicked(e) {
+    e.preventDefault();
+  }
+
+  toggleProduct(e) {
+    console.log(e)
+    this.mp.toggleProduct({hidden: e.checked}).subscribe(() => {
+
+    });
+  }
+
 }
