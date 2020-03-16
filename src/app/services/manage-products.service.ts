@@ -151,5 +151,13 @@ export class ManageProductsService {
     return this.http.put(`${environment.url}dashboard/admin/prod_menu/update-visibility`, data);
   }
 
+  toggleIngredient(data) {
+    return this.http.put(`${environment.url}dashboard/admin/ingredient/update-visibility`, data);
+  }
+
+  toggleIngrMenu(data) {
+    return this.http.put(`${environment.url}dashboard/admin/ingr_menu/update-visibility`, data);
+  }
+
 
 }

@@ -1,5 +1,5 @@
 <!-- Header tabs-->
-<mat-tab-group dynamicHeight class="wrapper" [selectedIndex]="1">
+<mat-tab-group dynamicHeight class="wrapper" [selectedIndex]="0">
   <!-- Ingredients tab -->
   <mat-tab label="Ingredients">
 
@@ -17,11 +17,12 @@
             <span>{{ingr_menu.title}}</span>
             <div class="ingredientMenuActions">
               <i class="far fa-edit" style="color:#F2AC21 " (click)="openIngredientMenuDialog($event, ingr_menu)"></i>
-              <i class="fas fa-trash" style="color:red " (click)="removeIngredientMenu($event, ingr_menu._id)"></i>
               <i class="fas fa-arrow-up" style="color: darkgray" *ngIf="menuInd!== 0"
-                 (click)="move($event,'up',ingr_menu)"></i>
+              (click)="move($event,'up',ingr_menu)"></i>
+              <i class="fas fa-trash" style="color:red " (click)="removeIngredientMenu($event, ingr_menu._id)"></i>
               <i class="fas fa-arrow-down" style="color: darkgray" *ngIf="menuInd !== ingr_menus.length - 1"
                  (click)="move($event,'down',ingr_menu)"></i>
+              <mat-slide-toggle (change)="toggleIngrMenu($event,ingr_menu)"></mat-slide-toggle>
             </div>
           </mat-panel-title>
         </mat-expansion-panel-header>
@@ -44,19 +45,25 @@
               <th>Ingredient Double Price</th>
               <th></th>
               <th></th>
+              <th></th>
             </tr>
             </thead>
             <tr *ngFor="let ingr of getIngrByMenu(ingr_menu._id)">
               <td><img [src]="imgurl+'/'+(ingr.image?ingr.image:'no-image.png')" alt=""
                        style="width:50px;height:50px; object-fit: contain"></td>
               <td>{{ingr.title}}</td>
-
               <td> {{ingr.light_price || ingr.light_price === 0 ? '$' + ingr.light_price : 'n/a'}}</td>
               <td> {{ingr.price || ingr.price === 0 ? '$' + ingr.price : 'n/a'}}</td>
               <td> {{ingr.double_price || ingr.double_price === 0 ? '$' + ingr.double_price : 'n/a'}}</td>
+              <td>
+                <mat-slide-toggle (change)="toggleIngredient($event,ingr)"></mat-slide-toggle>
+              </td>
               <td><i class="far fa-edit" style="color:#F2AC21 "
                      (click)="openIngredientDialog(ingr_menu._id, ingr)"></i></td>
-              <td (click)="deleteIngredient(ingr._id)"><i class="fas fa-trash" style="color:red"></i></td>
+              <td (click)="deleteIngredient(ingr._id)">
+                <i class="fas fa-trash" style="color:red"></i>
+              </td>
+
             </tr>
           </table>
         </div>
@@ -80,7 +87,8 @@
                  (click)="moveProduct($event,'up',prod_menu)"></i>
               <i class="fas fa-arrow-down" style="color: darkgray" *ngIf="menuInd !== prod_menus.length - 1"
                  (click)="moveProduct($event,'down',prod_menu)"></i>
-                <mat-slide-toggle (change)="toggleProdMenu($event, prod_menu)" (click)="clicked($event)"></mat-slide-toggle>
+              <mat-slide-toggle (change)="toggleProdMenu($event, prod_menu)"
+                                (click)="clicked($event)"></mat-slide-toggle>
             </div>
           </mat-panel-title>
         </mat-expansion-panel-header>
