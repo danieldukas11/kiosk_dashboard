@@ -107,14 +107,16 @@ export class SaveProductDialogComponent implements OnInit {
       this.changeSizable({value: this.selectedProduct.sizable});
       this.changeCustomizable({value: this.selectedProduct.customizable});
 
-
       this.selectedIngrMenus = data.productIngredients;
       this.ingrMenus = this.selectedIngrMenus;
 
-
       // Getting product ingredients ids to patch "Ingredients for making product" dropdown
-      data.productIngredients.forEach(i => {
-        this.selectedProdIngredients.push(i._id);
+      data.productIngredients.forEach(di => {
+        if (di.product_ids.includes(this.selectedProduct._id)) {
+          console.log(this.selectedProduct._id)
+
+          this.selectedProdIngredients.push(di._id); //Ingredient menu id not ingredient id
+        }
       });
 
       // Getting default ingredient ids for selected product to patch "Default ingredients" drop down
