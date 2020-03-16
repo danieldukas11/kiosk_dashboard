@@ -80,7 +80,7 @@
                  (click)="moveProduct($event,'up',prod_menu)"></i>
               <i class="fas fa-arrow-down" style="color: darkgray" *ngIf="menuInd !== prod_menus.length - 1"
                  (click)="moveProduct($event,'down',prod_menu)"></i>
-                <mat-slide-toggle (change)="toggleProdMenu($event)" (click)="clicked($event)"></mat-slide-toggle>
+                <mat-slide-toggle (change)="toggleProdMenu($event, prod_menu)" (click)="clicked($event)"></mat-slide-toggle>
             </div>
           </mat-panel-title>
         </mat-expansion-panel-header>
@@ -107,7 +107,7 @@
               <td>{{prod.price ? '$' + prod.price : 'n/a'}}</td>
 
               <td>
-                <mat-slide-toggle (change)="toggleProduct($event)"></mat-slide-toggle>
+                <mat-slide-toggle (change)="toggleProduct($event,prod)"></mat-slide-toggle>
               </td>
               <td>
                 <i class="far fa-edit" style="color:#F2AC21 " (click)="openProductDialog(prod_menu.id, prod)"></i>
