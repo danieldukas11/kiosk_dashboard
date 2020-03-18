@@ -22,7 +22,7 @@
               (click)="moveIngrMenu($event,'up',ingr_menu)"></i>
               <i class="fas fa-arrow-down" style="color: darkgray" *ngIf="menuInd !== ingr_menus.length - 1"
                  (click)="moveIngrMenu($event,'down',ingr_menu)"></i>
-              <mat-slide-toggle (change)="toggleIngrMenu($event,ingr_menu)"></mat-slide-toggle>
+              <mat-slide-toggle (change)="toggleIngrMenu($event,ingr_menu)" [checked]="!ingr_menu.hidden"></mat-slide-toggle>
             </div>
           </mat-panel-title>
         </mat-expansion-panel-header>
@@ -58,7 +58,7 @@
               <td> {{ingr.price || ingr.price === 0 ? '$' + ingr.price : 'n/a'}}</td>
               <td> {{ingr.double_price || ingr.double_price === 0 ? '$' + ingr.double_price : 'n/a'}}</td>
               <td>
-                <mat-slide-toggle (change)="toggleIngredient($event,ingr)"></mat-slide-toggle>
+                <mat-slide-toggle (change)="toggleIngredient($event,ingr)" [checked]="!ingr.hidden"></mat-slide-toggle>
               </td>
               <td><i class="far fa-edit" style="color:#F2AC21"
                      (click)="openIngredientDialog(ingr_menu._id, ingr)"></i></td>
@@ -98,7 +98,7 @@
                  (click)="moveProductMenu($event,'up',prod_menu)"></i>
               <i class="fas fa-arrow-down" style="color: darkgray" *ngIf="menuInd !== prod_menus.length - 1"
                  (click)="moveProductMenu($event,'down',prod_menu)"></i>
-              <mat-slide-toggle (change)="toggleProdMenu($event, prod_menu)"
+              <mat-slide-toggle (change)="toggleProdMenu($event, prod_menu)" [checked]="!prod_menu.hidden"
                                 (click)="clicked($event)"></mat-slide-toggle>
             </div>
           </mat-panel-title>
@@ -129,7 +129,7 @@
               <td>{{prod.price ? '$' + prod.price : 'n/a'}}</td>
 
               <td>
-                <mat-slide-toggle (change)="toggleProduct($event,prod)"></mat-slide-toggle>
+                <mat-slide-toggle (change)="toggleProduct($event,prod)" [checked]="!prod.hidden"></mat-slide-toggle>
               </td>
               <td>
                 <i class="far fa-edit" style="color:#F2AC21 " (click)="openProductDialog(prod_menu.id, prod)"></i>

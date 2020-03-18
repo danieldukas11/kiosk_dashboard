@@ -549,7 +549,7 @@ export class ProductManagementComponent implements OnInit {
 
 
   toggleProdMenu(e, prodMenu) {
-    this.mp.toggleProdMenu({hidden: e.checked, _id: prodMenu._id}).subscribe(() => {
+    this.mp.toggleProdMenu({hidden: !e.checked, _id: prodMenu._id}).subscribe(() => {
 
     });
   }
@@ -560,19 +560,19 @@ export class ProductManagementComponent implements OnInit {
 
   toggleProduct(e, product) {
     console.log(e)
-    this.mp.toggleProduct({hidden: e.checked, _id: product._id}).subscribe(() => {
+    this.mp.toggleProduct({hidden: !e.checked, _id: product._id}).subscribe(() => {
 
     });
   }
 
   toggleIngrMenu(e, ingrMenu) {
-    this.mp.toggleIngrMenu({hidden: e.checked, _id: ingrMenu._id}).subscribe(() => {
+    this.mp.toggleIngrMenu({hidden: !e.checked, _id: ingrMenu._id}).subscribe(() => {
 
     });
   }
 
   toggleIngredient(e, ingredient) {
-    this.mp.toggleIngredient({hidden: e.checked, _id: ingredient._id}).subscribe(() => {
+    this.mp.toggleIngredient({hidden: !e.checked, _id: ingredient._id}).subscribe(() => {
 
     });
   }

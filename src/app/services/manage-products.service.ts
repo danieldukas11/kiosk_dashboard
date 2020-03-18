@@ -144,7 +144,7 @@ export class ManageProductsService {
   }
 
   updateProductOrder(data) {
-    return this.http.put(`${environment.url}dashboard/admin/prod_menu/update-order`, data);
+    return this.http.put(`${environment.url}dashboard/admin/product/update-order`, data);
   }
 
   toggleProduct(data) {
