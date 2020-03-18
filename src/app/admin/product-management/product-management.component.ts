@@ -510,16 +510,25 @@ export class ProductManagementComponent implements OnInit {
     });
   }
 
-  move(e, direction, ingrMenu) {
+  moveIngrMenu(e, direction, ingrMenu) {
     e.stopPropagation();
-    this.mp.updateOrder({direction, _id: ingrMenu._id, order: ingrMenu.order}).subscribe(dt => {
+    this.mp.updateIngrMenuOrder({direction, _id: ingrMenu._id, order: ingrMenu.order}).subscribe(dt => {
       this.mp.getIngredientMenus().subscribe((data: any[]) => {
         this.ingr_menus = data;
       });
     });
   }
 
-  moveProduct(e, direction, prodMenu) {
+  moveIngredient(e, direction, ingr) {
+    e.stopPropagation();
+    this.mp.updateIngrOrder({direction, _id: ingr._id, order: ingr.order}).subscribe(dt => {
+      this.mp.getIngredients().subscribe((data: any[]) => {
+        this.ingredients = data;
+      });
+    });
+  }
+
+  moveProductMenu(e, direction, prodMenu) {
     e.stopPropagation();
     this.mp.updateProductOrder({direction, _id: prodMenu._id, order: prodMenu.order}).subscribe(dt => {
       this.mp.getProductMenus().subscribe((data: any[]) => {
@@ -527,6 +536,17 @@ export class ProductManagementComponent implements OnInit {
       });
     });
   }
+
+  moveProduct(e, direction, prod) {
+    e.stopPropagation();
+    this.mp.updateProductOrder({direction, _id: prod._id, order: prod.order}).subscribe(dt => {
+      this.mp.getProducts().subscribe((data: any[]) => {
+        this.products = data;
+      });
+    });
+  }
+
+
 
   toggleProdMenu(e, prodMenu) {
     this.mp.toggleProdMenu({hidden: e.checked, _id: prodMenu._id}).subscribe(() => {

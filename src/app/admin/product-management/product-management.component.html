@@ -17,11 +17,11 @@
             <span>{{ingr_menu.title}}</span>
             <div class="ingredientMenuActions">
               <i class="far fa-edit" style="color:#F2AC21 " (click)="openIngredientMenuDialog($event, ingr_menu)"></i>
-              <i class="fas fa-arrow-up" style="color: darkgray" *ngIf="menuInd!== 0"
-              (click)="move($event,'up',ingr_menu)"></i>
               <i class="fas fa-trash" style="color:red " (click)="removeIngredientMenu($event, ingr_menu._id)"></i>
+              <i class="fas fa-arrow-up" style="color: darkgray" *ngIf="menuInd!== 0"
+              (click)="moveIngrMenu($event,'up',ingr_menu)"></i>
               <i class="fas fa-arrow-down" style="color: darkgray" *ngIf="menuInd !== ingr_menus.length - 1"
-                 (click)="move($event,'down',ingr_menu)"></i>
+                 (click)="moveIngrMenu($event,'down',ingr_menu)"></i>
               <mat-slide-toggle (change)="toggleIngrMenu($event,ingr_menu)"></mat-slide-toggle>
             </div>
           </mat-panel-title>
@@ -46,9 +46,10 @@
               <th></th>
               <th></th>
               <th></th>
+              <th></th>
             </tr>
             </thead>
-            <tr *ngFor="let ingr of getIngrByMenu(ingr_menu._id)">
+            <tr *ngFor="let ingr of getIngrByMenu(ingr_menu._id);let ingrIndex = index">
               <td><img [src]="imgurl+'/'+(ingr.image?ingr.image:'no-image.png')" alt=""
                        style="width:50px;height:50px; object-fit: contain"></td>
               <td>{{ingr.title}}</td>
@@ -58,10 +59,17 @@
               <td>
                 <mat-slide-toggle (change)="toggleIngredient($event,ingr)"></mat-slide-toggle>
               </td>
-              <td><i class="far fa-edit" style="color:#F2AC21 "
+              <td><i class="far fa-edit" style="color:#F2AC21"
                      (click)="openIngredientDialog(ingr_menu._id, ingr)"></i></td>
               <td (click)="deleteIngredient(ingr._id)">
                 <i class="fas fa-trash" style="color:red"></i>
+              </td>
+
+              <td>
+                <i class="fas fa-arrow-up" style="color: darkgray" *ngIf="ingrIndex!== 0"
+                   (click)="moveIngredient($event,'up',ingr)"></i>
+                <i class="fas fa-arrow-down" style="color: darkgray" *ngIf="ingrIndex !== getIngrByMenu(ingr_menu._id).length - 1"
+                   (click)="moveIngredient($event,'down',ingr)"></i>
               </td>
 
             </tr>
@@ -84,9 +92,9 @@
               <i class="far fa-edit" style="color:#F2AC21 " (click)="openProductMenuDialog(prod_menu)"></i>
               <i class="fas fa-trash" style="color:red " (click)="removeProductMenu(prod_menu._id)"></i>
               <i class="fas fa-arrow-up" style="color: darkgray" *ngIf="menuInd!== 0"
-                 (click)="moveProduct($event,'up',prod_menu)"></i>
+                 (click)="moveProductMenu($event,'up',prod_menu)"></i>
               <i class="fas fa-arrow-down" style="color: darkgray" *ngIf="menuInd !== prod_menus.length - 1"
-                 (click)="moveProduct($event,'down',prod_menu)"></i>
+                 (click)="moveProductMenu($event,'down',prod_menu)"></i>
               <mat-slide-toggle (change)="toggleProdMenu($event, prod_menu)"
                                 (click)="clicked($event)"></mat-slide-toggle>
             </div>
@@ -106,9 +114,11 @@
               <th>Product Price</th>
               <th></th>
               <th></th>
+              <th></th>
+              <th></th>
             </tr>
             </thead>
-            <tr *ngFor="let prod of getProdByMenu(prod_menu._id)">
+            <tr *ngFor="let prod of getProdByMenu(prod_menu._id);let prodIndex = index">
               <td><img [src]="imgurl+'/'+(prod.image?prod.image:'no-image.png')" alt=""
                        style="width:50px;height:50px; object-fit: contain;"></td>
               <td>{{prod.title}}</td>
@@ -122,6 +132,12 @@
               </td>
               <td>
                 <i class="fas fa-trash" (click)="removeProduct(prod._id)" style="color:red"></i>
+              </td>
+              <td>
+                <i class="fas fa-arrow-up" style="color: darkgray" *ngIf="prodIndex!== 0"
+                   (click)="moveProduct($event,'up',prod)"></i>
+                <i class="fas fa-arrow-down" style="color: darkgray" *ngIf="prodIndex !== getIngrByMenu(prod_menu._id).length - 1"
+                   (click)="moveProduct($event,'down',prod)"></i>
               </td>
             </tr>
           </table>

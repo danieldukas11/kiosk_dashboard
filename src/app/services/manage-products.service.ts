@@ -135,8 +135,12 @@ export class ManageProductsService {
     return this.http.delete(`${environment.url}dashboard/admin/product/delete`, {params: {id}});
   }
 
-  updateOrder(data) {
+  updateIngrMenuOrder(data) {
     return this.http.put(`${environment.url}dashboard/admin/ingr_menu/update-order`, data);
+  }
+
+  updateIngrOrder(data) {
+    return this.http.put(`${environment.url}dashboard/admin/ingredient/update-order`, data);
   }
 
   updateProductOrder(data) {
