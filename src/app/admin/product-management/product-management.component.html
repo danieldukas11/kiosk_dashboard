@@ -47,6 +47,7 @@
               <th></th>
               <th></th>
               <th></th>
+              <th></th>
             </tr>
             </thead>
             <tr *ngFor="let ingr of getIngrByMenu(ingr_menu._id);let ingrIndex = index">
@@ -68,6 +69,8 @@
               <td>
                 <i class="fas fa-arrow-up" style="color: darkgray" *ngIf="ingrIndex!== 0"
                    (click)="moveIngredient($event,'up',ingr)"></i>
+              </td>
+              <td>
                 <i class="fas fa-arrow-down" style="color: darkgray" *ngIf="ingrIndex !== getIngrByMenu(ingr_menu._id).length - 1"
                    (click)="moveIngredient($event,'down',ingr)"></i>
               </td>
@@ -116,6 +119,7 @@
               <th></th>
               <th></th>
               <th></th>
+              <th></th>
             </tr>
             </thead>
             <tr *ngFor="let prod of getProdByMenu(prod_menu._id);let prodIndex = index">
@@ -136,6 +140,9 @@
               <td>
                 <i class="fas fa-arrow-up" style="color: darkgray" *ngIf="prodIndex!== 0"
                    (click)="moveProduct($event,'up',prod)"></i>
+
+              </td>
+              <td>
                 <i class="fas fa-arrow-down" style="color: darkgray" *ngIf="prodIndex !== getIngrByMenu(prod_menu._id).length - 1"
                    (click)="moveProduct($event,'down',prod)"></i>
               </td>
