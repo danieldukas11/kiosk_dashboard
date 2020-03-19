@@ -521,7 +521,7 @@ export class ProductManagementComponent implements OnInit {
 
   moveIngredient(e, direction, ingr) {
     e.stopPropagation();
-    this.mp.updateIngrOrder({direction, _id: ingr._id, order: ingr.order}).subscribe(dt => {
+    this.mp.updateIngrOrder({direction, _id: ingr._id, order: ingr.order, menuId: ingr.menu_ids[0]}).subscribe(dt => {
       this.mp.getIngredients().subscribe((data: any[]) => {
         this.ingredients = data;
       });
@@ -530,7 +530,7 @@ export class ProductManagementComponent implements OnInit {
 
   moveProductMenu(e, direction, prodMenu) {
     e.stopPropagation();
-    this.mp.updateProductOrder({direction, _id: prodMenu._id, order: prodMenu.order}).subscribe(dt => {
+    this.mp.updateProductMenuOrder({direction, _id: prodMenu._id, order: prodMenu.order}).subscribe(dt => {
       this.mp.getProductMenus().subscribe((data: any[]) => {
         this.prod_menus = data;
       });
@@ -539,13 +539,14 @@ export class ProductManagementComponent implements OnInit {
 
   moveProduct(e, direction, prod) {
     e.stopPropagation();
-    this.mp.updateProductOrder({direction, _id: prod._id, order: prod.order}).subscribe(dt => {
+    console.log(prod)
+    const sendData = {direction, _id: prod._id, order: prod.order, menuId: prod.menu_ids[0]};
+    this.mp.updateProductOrder(sendData).subscribe(dt => {
       this.mp.getProducts().subscribe((data: any[]) => {
         this.products = data;
       });
     });
   }
-
 
 
   toggleProdMenu(e, prodMenu) {
