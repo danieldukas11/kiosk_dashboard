@@ -5,7 +5,7 @@
   <mat-dialog-content>
 
     <!-- Image area -->
-    <div class="imageArea">
+    <div class="imageArea" *ngIf="isIngredient">
 
       <div class="imgContainer" *ngIf="ingredientImg">
         <img [src]="ingredientImg" *ngIf="edit">
@@ -29,41 +29,48 @@
 
     <div class="ingredientInfo">
 
+      <mat-checkbox [checked]="isIngredient" (change)="isIngredientChanged()" formControlName="isIngredient">Is
+        Ingredient
+      </mat-checkbox>
+
       <input type="text" placeholder="Ingredient Title" name="it" formControlName="title"
              autocomplete="off">
       <mat-error *ngIf="titleCtrl.touched && titleCtrl.hasError('required')">
         Title is <strong>required</strong>
       </mat-error>
 
-      <div class="light-price-container">
-        <input type="text" placeholder="Ingredient Light price" name="it" formControlName="light_price" #light
-               autocomplete="off">
-        <mat-error *ngIf="lightPriceCtrl.touched && lightPriceCtrl.hasError('required')">
-          Light price is <strong>required</strong>
-        </mat-error>
-        <mat-checkbox [checked]="lightPriceEnabled" [value]="lightPriceEnabled"
-                      (change)="disableInput(light,'light_price','lightPriceEnabled')"></mat-checkbox>
-      </div>
+      <ng-container *ngIf="isIngredient">
 
-      <div class="normal-price-container">
-        <input type="text" placeholder="Ingredient Normal price" #normal name="it" formControlName="price"
-               autocomplete="off">
-        <mat-checkbox [checked]="normalPriceEnabled"
-                      (change)="disableInput(normal,'price','normalPriceEnabled')"></mat-checkbox>
-        <mat-error *ngIf="priceCtrl.touched && priceCtrl.hasError('required')">
-          Price is <strong>required</strong>
-        </mat-error>
-      </div>
+        <div class="light-price-container">
+          <input type="text" placeholder="Ingredient Light price" name="it" formControlName="light_price" #light
+                 autocomplete="off">
+          <mat-error *ngIf="lightPriceCtrl.touched && lightPriceCtrl.hasError('required')">
+            Light price is <strong>required</strong>
+          </mat-error>
+          <mat-checkbox [checked]="lightPriceEnabled" [value]="lightPriceEnabled"
+                        (change)="disableInput(light,'light_price','lightPriceEnabled')"></mat-checkbox>
+        </div>
 
-      <div class="double-price-container">
-        <input type="text" placeholder="Ingredient Double price" #dbl name="it" formControlName="double_price"
-               autocomplete="off">
-        <mat-error *ngIf="doublePriceCtrl.touched && doublePriceCtrl.hasError('required')">
-          Double price is <strong>required</strong>
-        </mat-error>
-        <mat-checkbox [checked]="doublePriceEnabled"
-                      (change)="disableInput(dbl,'double_price','doublePriceEnabled')"></mat-checkbox>
-      </div>
+        <div class="normal-price-container">
+          <input type="text" placeholder="Ingredient Normal price" #normal name="it" formControlName="price"
+                 autocomplete="off">
+          <mat-checkbox [checked]="normalPriceEnabled"
+                        (change)="disableInput(normal,'price','normalPriceEnabled')"></mat-checkbox>
+          <mat-error *ngIf="priceCtrl.touched && priceCtrl.hasError('required')">
+            Price is <strong>required</strong>
+          </mat-error>
+        </div>
+
+        <div class="double-price-container">
+          <input type="text" placeholder="Ingredient Double price" #dbl name="it" formControlName="double_price"
+                 autocomplete="off">
+          <mat-error *ngIf="doublePriceCtrl.touched && doublePriceCtrl.hasError('required')">
+            Double price is <strong>required</strong>
+          </mat-error>
+          <mat-checkbox [checked]="doublePriceEnabled"
+                        (change)="disableInput(dbl,'double_price','doublePriceEnabled')"></mat-checkbox>
+        </div>
+      </ng-container>
     </div>
 
 

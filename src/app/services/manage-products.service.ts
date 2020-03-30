@@ -123,6 +123,10 @@ export class ManageProductsService {
     return this.http.post(`${environment.url}dashboard/admin/kiosk/video/add`, fd);
   }
 
+  uploadKioskImage(fd) {
+    return this.http.post(`${environment.url}dashboard/admin/kiosk/image/add`, fd);
+  }
+
   getAdVideos() {
     return this.http.get(`${environment.url}dashboard/admin/progress_monitor`);
   }

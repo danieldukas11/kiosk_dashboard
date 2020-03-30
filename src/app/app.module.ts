@@ -38,7 +38,6 @@ import { ManageKiosksComponent } from './admin/manage-kiosks/manage-kiosks.compo
 const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
   url: `${environment.url}dashboard/admin/ads/video/add`,
   maxFilesize: 50,
-  acceptedFiles: 'video/*',
   maxFiles: 1
 };
 

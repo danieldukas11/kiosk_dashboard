@@ -23,6 +23,7 @@ export class SaveIngredientDialogComponent implements OnInit, OnDestroy {
   lightPriceEnabled = true;
   normalPriceEnabled = true;
   doublePriceEnabled = true;
+  isIngredient = true;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -44,7 +45,8 @@ export class SaveIngredientDialogComponent implements OnInit, OnDestroy {
       price: ['', Validators.required],
       light_price: ['', Validators.required],
       ingredient_ids: [[data.menuId], Validators.required],
-      image: [this.ingredientImg]
+      image: [this.ingredientImg],
+      isIngredient: [this.isIngredient]
     });
 
     if (this.edit) {
@@ -112,6 +114,7 @@ export class SaveIngredientDialogComponent implements OnInit, OnDestroy {
       fd.append('light_price', ingredient.light_price);
       fd.append('double_price', ingredient.double_price);
       fd.append('ingredient_ids', ingredient.ingredient_ids);
+      fd.append('isingredient', ingredient.isIngredient);
 
       if (!this.edit) {
 
@@ -138,6 +141,11 @@ export class SaveIngredientDialogComponent implements OnInit, OnDestroy {
     this.saveIngredientForm.patchValue({title: this.newIngredientImg.name.split('.').slice(0, -1).join('.')});
     this.ingredientImg = `${environment.staticUrl}images/${this.newIngredientImg.name}`;
     // this.saveIngredientForm.patchValue({image: this.newIngredientImg.name});
+  }
+
+  isIngredientChanged() {
+    this.isIngredient = !this.isIngredient;
+    this.saveIngredientForm.patchValue({isIngredient: this.isIngredient});
   }
 
   get titleCtrl(): AbstractControl {

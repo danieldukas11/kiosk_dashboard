@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ManageProductsService} from '../../services/manage-products.service';
 import {environment} from '../../../environments/environment';
 
@@ -16,9 +16,9 @@ export class ManageKiosksComponent implements OnInit {
   };
   dropzoneFile;
   videoFiles;
-  addVideo = false;
+  addVideo = true;
   showVideos = false;
-
+  uploadVideos = false;
 
   constructor(
     private mp: ManageProductsService
@@ -36,11 +36,19 @@ export class ManageKiosksComponent implements OnInit {
   upload() {
     const fd = new FormData();
 
-    fd.append('kioskVideo', this.dropzoneFile);
+    if (this.uploadVideos) {
 
-    this.mp.uploadKioskVideo(fd).subscribe(dt => {
-      this.getAdVideos();
-    });
+      fd.append('kioskVideo', this.dropzoneFile);
+
+      this.mp.uploadKioskVideo(fd).subscribe(dt => {
+        this.getAdVideos();
+      });
+    } else {
+      fd.append('kioskImage', this.dropzoneFile);
+      this.mp.uploadKioskImage(fd).subscribe(dt => {
+
+      });
+    }
   }
 
   getAdVideos() {

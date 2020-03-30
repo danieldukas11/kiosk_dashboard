@@ -1,20 +1,32 @@
-<div class="actions">
-  <button mat-raised-button (click)="addVideo = !addVideo">Add</button>
-  <button mat-raised-button color="warn" (click)="showVideos = !showVideos">Show</button>
-</div>
+<mat-tab-group>
+  <mat-tab label="Home Page">
+    <div class="actions">
+      <button mat-raised-button (click)="addVideo = !addVideo">Add</button>
+      <button mat-raised-button color="warn" (click)="showVideos = !showVideos">Show</button>
+    </div>
 
-<div class="videosDropzone" *ngIf="addVideo">
-  <dropzone [config]="config" (addedFile)="getFile($event)"
-            [message]="'Click or drag video files here to upload'"></dropzone>
-  <div>
-    <button mat-raised-button color="primary" (click)="upload()">Upload</button>
-  </div>
-</div>
+    <div class="filesDropzone" *ngIf="addVideo">
 
-<div class="videoList" *ngIf="showVideos">
-  <ul>
-    <li *ngFor="let v of videoFiles">
-      <a target="_blank" [href]="getVideoUrl(v.adVideo)">{{v.adVideo}}</a>
-    </li>
-  </ul>
-</div>
+      Images
+      <mat-slide-toggle (change)="uploadVideos = !uploadVideos"></mat-slide-toggle>
+      Videos
+      <dropzone [config]="config" (addedFile)="getFile($event)"
+                [message]="'Click or drag '+(uploadVideos?'video':'image')+ ' files here to upload'"></dropzone>
+      <div>
+        <button mat-raised-button color="primary" (click)="upload()">Upload</button>
+      </div>
+    </div>
+
+    <div class="videoList" *ngIf="showVideos">
+      <ul>
+        <li *ngFor="let v of videoFiles">
+          <a target="_blank" [href]="getVideoUrl(v.adVideo)">{{v.adVideo}}</a>
+        </li>
+      </ul>
+    </div>
+  </mat-tab>
+  <mat-tab label="Second"> Content 2</mat-tab>
+  <mat-tab label="Third"> Content 3</mat-tab>
+</mat-tab-group>
+
+
