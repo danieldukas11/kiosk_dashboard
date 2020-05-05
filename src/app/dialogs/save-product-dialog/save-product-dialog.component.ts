@@ -17,9 +17,16 @@ export class SaveProductDialogComponent implements OnInit {
   edit = false;
   selectedProduct;
 
+
+  optionalFilterCtrl = new FormControl();
+  searchOptional;
+
+  defaultFilterCtrl = new FormControl();
+  searchDefault;
+
   ingrMenus = [];
   ingredients = [];
-  selectedIngrMenus = [];
+  selectedMenus = [];
   sizes = [
     {
       title: 'Small',
@@ -47,6 +54,10 @@ export class SaveProductDialogComponent implements OnInit {
   selectedProdIngredients = [];
   selectedDefaultIngredients = [];
   selectedOptionalIngredients = [];
+
+  optionalIngredients = [];
+  defaultIngredients = [];
+
 
   smallPriceEnabled = true;
   mediumPriceEnabled = true;
@@ -88,7 +99,10 @@ export class SaveProductDialogComponent implements OnInit {
 
     this.attachSizes();
 
-    this.handleEditCase(data);
+    if (this.edit) {
+      this.handleEditCase(data);
+    }
+    this.handleIngredientsFiltering();
 
 
   }
@@ -101,78 +115,76 @@ export class SaveProductDialogComponent implements OnInit {
 
   handleEditCase(data) {
 
-    if (this.edit) {
-      this.sizable = this.selectedProduct.sizable;
-      this.customizable = this.selectedProduct.customizable;
-      this.changeSizable({value: this.selectedProduct.sizable});
-      this.changeCustomizable({value: this.selectedProduct.customizable});
+    this.sizable = this.selectedProduct.sizable;
+    this.customizable = this.selectedProduct.customizable;
+    this.changeSizable({value: this.selectedProduct.sizable});
+    this.changeCustomizable({value: this.selectedProduct.customizable});
 
-      this.selectedIngrMenus = data.productIngredients;
-      this.ingrMenus = this.selectedIngrMenus;
+    this.selectedMenus = data.productIngredients;
+    this.ingrMenus = this.selectedMenus;
 
-      // Getting product ingredients ids to patch "Ingredients for making product" dropdown
-      data.productIngredients.forEach(di => {
-        if (di.product_ids.includes(this.selectedProduct._id)) {
-          console.log(this.selectedProduct._id)
+    // Getting product ingredients ids to patch "Ingredients for making product" dropdown
+    data.productIngredients.forEach(di => {
+      if (di.product_ids.includes(this.selectedProduct._id)) {
 
-          this.selectedProdIngredients.push(di._id); //Ingredient menu id not ingredient id
-        }
-      });
-
-      // Getting default ingredient ids for selected product to patch "Default ingredients" drop down
-      const defaultIngrIds = [];
-      const optionalIngrIds = [];
-      data.defaultIngredients.forEach(di => {
-
-        // console.log(di)
-        di.default_ids.map(id => {
-          if (id === data.product._id) {
-            defaultIngrIds.push(di._id)
-            this.selectedDefaultIngredients.push(di);
-          }
-        });
-
-        di.optional_ids.map(id => {
-          if (id === data.product._id) {
-            optionalIngrIds.push(di._id);
-            this.selectedOptionalIngredients.push(di);
-          }
-        });
-      });
-
-      if (this.selectedProduct.image) {
-        this.productImg = `${environment.staticUrl}images/${this.selectedProduct.image}`;
-      } else {
-        this.productImg = `${environment.staticUrl}images/no-image.png`;
+        this.selectedProdIngredients.push(di._id); //Ingredient menu id not ingredient id
       }
+    });
 
+    // Getting default ingredient ids for selected product to patch "Default ingredients" drop down
+    const defaultIngrIds = [];
+    const optionalIngrIds = [];
+    data.defaultIngredients.forEach(di => {
 
-      const sizesArr = this.saveProductForm.controls.sizes as any;
-
-      this.saveProductForm = this.fb.group(this.formFields);
-
-      // Check sizable product price fields before patching
-      sizesArr.controls.map(c => {
-        const f = this.selectedProduct.sizes.filter(s => s.title === c.value.title);
-
-        if (f.length === 0) {
-          c.disable();
-        } else {
-          c.patchValue({price: f[0].price});
-          c.enable();
+      // console.log(di)
+      di.default_ids.map(id => {
+        if (id === data.product._id) {
+          defaultIngrIds.push(di._id)
+          this.selectedDefaultIngredients.push(di);
         }
       });
 
-      const copy = JSON.parse(JSON.stringify(this.selectedProduct));
-      delete copy.sizes;
-      this.saveProductForm.patchValue(copy);
-
-      this.saveProductForm.patchValue({
-        productIngredients: this.selectedProdIngredients,
-        defaultIngredients: defaultIngrIds,
-        optionalIngredients: optionalIngrIds
+      di.optional_ids.map(id => {
+        if (id === data.product._id) {
+          optionalIngrIds.push(di._id);
+          this.selectedOptionalIngredients.push(di);
+        }
       });
+    });
+
+    if (this.selectedProduct.image) {
+      this.productImg = `${environment.staticUrl}images/${this.selectedProduct.image}`;
+    } else {
+      this.productImg = `${environment.staticUrl}images/no-image.png`;
     }
+
+
+    const sizesArr = this.saveProductForm.controls.sizes as any;
+
+    this.saveProductForm = this.fb.group(this.formFields);
+
+    // Check sizable product price fields before patching
+    sizesArr.controls.map(c => {
+      const f = this.selectedProduct.sizes.filter(s => s.title === c.value.title);
+
+      if (f.length === 0) {
+        c.disable();
+      } else {
+        c.patchValue({price: f[0].price});
+        c.enable();
+      }
+    });
+
+    const copy = JSON.parse(JSON.stringify(this.selectedProduct));
+    delete copy.sizes;
+    this.saveProductForm.patchValue(copy);
+
+    this.saveProductForm.patchValue({
+      productIngredients: this.selectedProdIngredients,
+      defaultIngredients: defaultIngrIds,
+      optionalIngredients: optionalIngrIds
+    });
+
   }
 
   getInput(title) {
@@ -226,19 +238,49 @@ export class SaveProductDialogComponent implements OnInit {
     });
   }
 
-  getOptionals() {
-    const defaultIngredients = this.saveProductForm.get('defaultIngredients').value;
-    let result = [];
-    if (defaultIngredients) {
-      // console.log(defaultIngredients, this.ingredients);
-
-      result = this.ingredients.filter((a) => {
-        return defaultIngredients.indexOf(a._id) === -1;
+  menuSelected(menus): void {
+    this.selectedMenus = [];
+    menus.map(menu => {
+      this.ingrMenus.map(m => {
+        if (m._id === menu) {
+          this.selectedMenus.push(m);
+        }
       });
+    });
+
+  }
 
 
-    }
-    return result;
+  defaultIngrSelected(ids) {
+    this.selectedDefaultIngredients = ids;
+  }
+
+  optionalIngredientSelected(e) {
+
+  }
+
+  handleIngredientsFiltering() {
+    this.optionalFilterCtrl.valueChanges.subscribe((dt) => {
+      this.searchOptional = dt;
+    });
+
+    this.defaultFilterCtrl.valueChanges.subscribe((dt) => {
+      this.searchDefault = dt;
+    });
+  }
+
+
+  getOptionals(selectedMenu) {
+    const defaultIngredients = this.saveProductForm.get('defaultIngredients').value;
+
+    const optionals = [];
+    const is = this.getIngredientsByMenu(selectedMenu._id);
+    is.map(i => {
+      if (defaultIngredients.indexOf(i._id) === -1) {
+        optionals.push(i);
+      }
+    });
+    return optionals;
   }
 
   checkBoxCheck(p) {
@@ -267,65 +309,65 @@ export class SaveProductDialogComponent implements OnInit {
     const product = this.saveProductForm.value;
     this.isSubmitted = true;
 
-    // if (this.saveProductForm.valid) {
-    this.common.formProcessing = true;
+    if (this.saveProductForm.valid) {
+      this.common.formProcessing = true;
 
 
-    // const filteredDefIngr = [];
-    // if (product.defaultIngredients && product.defaultIngredients.length > 0) {
-    //
-    //   // Grabbing selected default ingredients data
-    //
-    //   product.defaultIngredients.map(id => {
-    //     filteredDefIngr.push(this.ingredients.filter(i => i._id === id)[0]);
-    //   });
-    //
-    //   product.defaultIngredients = filteredDefIngr;
-    //
-    // }
-    if (!this.sizable) {
-      product.sizes = [];
+      // const filteredDefIngr = [];
+      // if (product.defaultIngredients && product.defaultIngredients.length > 0) {
+      //
+      //   // Grabbing selected default ingredients data
+      //
+      //   product.defaultIngredients.map(id => {
+      //     filteredDefIngr.push(this.ingredients.filter(i => i._id === id)[0]);
+      //   });
+      //
+      //   product.defaultIngredients = filteredDefIngr;
+      //
+      // }
+      if (!this.sizable) {
+        product.sizes = [];
+      }
+
+
+      const fd = new FormData();
+      fd.append('image', this.newProductImg);
+      fd.append('image_name', this.edit ? product.image : (this.newProductImg ? this.newProductImg.name : ''));
+      fd.append('title', product.title);
+      fd.append('sizable', product.sizable);
+      fd.append('customizable', product.customizable);
+      fd.append('hidden', product.hidden);
+      fd.append('menu_ids', JSON.stringify(product.menu_ids))
+      if (!this.sizable) {
+        fd.append('price', product.price);
+      }
+
+      if (this.sizable) {
+        fd.append('sizes', JSON.stringify(product.sizes));
+      }
+      // if (this.customizable) {
+
+
+      // console.log(filteredDefIngr)
+      fd.append('prodIngr', JSON.stringify(this.customizable ? product.productIngredients : []));
+      fd.append('optionalIngr', JSON.stringify(this.customizable ? product.optionalIngredients : []));
+      fd.append('defaultIngr', JSON.stringify(this.customizable ? product.defaultIngredients : []));
+      // }
+
+      if (!this.edit) {
+        this.mp.addProduct(fd).subscribe(data => {
+          this.common.formProcessing = false;
+          this.dialogRef.close();
+        });
+      } else {
+        product._id = this.selectedProduct._id;
+        fd.append('_id', product._id);
+        this.mp.updateProduct(fd).subscribe(data => {
+          this.common.formProcessing = false;
+          this.dialogRef.close();
+        });
+      }
     }
-
-
-    const fd = new FormData();
-    fd.append('image', this.newProductImg);
-    fd.append('image_name', this.edit ? product.image : (this.newProductImg ? this.newProductImg.name : ''));
-    fd.append('title', product.title);
-    fd.append('sizable', product.sizable);
-    fd.append('customizable', product.customizable);
-    fd.append('hidden', product.hidden);
-    fd.append('menu_ids', JSON.stringify(product.menu_ids))
-    if (!this.sizable) {
-      fd.append('price', product.price);
-    }
-
-    if (this.sizable) {
-      fd.append('sizes', JSON.stringify(product.sizes));
-    }
-    // if (this.customizable) {
-
-
-    // console.log(filteredDefIngr)
-    fd.append('prodIngr', JSON.stringify(this.customizable ? product.productIngredients : []));
-    fd.append('optionalIngr', JSON.stringify(this.customizable ? product.optionalIngredients : []));
-    fd.append('defaultIngr', JSON.stringify(this.customizable ? product.defaultIngredients : []));
-    // }
-
-    if (!this.edit) {
-      this.mp.addProduct(fd).subscribe(data => {
-        this.common.formProcessing = false;
-        this.dialogRef.close();
-      });
-    } else {
-      product._id = this.selectedProduct._id;
-      fd.append('_id', product._id);
-      this.mp.updateProduct(fd).subscribe(data => {
-        this.common.formProcessing = false;
-        this.dialogRef.close();
-      });
-    }
-    // }
   }
 
   removeProductImg() {
@@ -365,21 +407,6 @@ export class SaveProductDialogComponent implements OnInit {
     this.saveProductForm.patchValue({sizable: allDisabled});
   }
 
-
-  menuSelected(menus): void {
-    this.selectedIngrMenus = [];
-    menus.map(menu => {
-      this.ingrMenus.map(m => {
-        if (m._id === menu) {
-          this.selectedIngrMenus.push(m);
-        }
-      });
-    });
-  }
-
-  defaultIngrSelected(e) {
-    this.selectedDefaultIngredients = e;
-  }
 
   visibilityChanged(e) {
     console.log(e.checked)

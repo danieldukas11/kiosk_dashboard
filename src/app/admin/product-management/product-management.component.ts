@@ -555,9 +555,7 @@ export class ProductManagementComponent implements OnInit {
     });
   }
 
-  clicked(e) {
-    e.preventDefault();
-  }
+
 
   toggleProduct(e, product) {
     console.log(e)

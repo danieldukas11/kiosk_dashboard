@@ -98,8 +98,7 @@
                  (click)="moveProductMenu($event,'up',prod_menu)"></i>
               <i class="fas fa-arrow-down" style="color: darkgray" *ngIf="menuInd !== prod_menus.length - 1"
                  (click)="moveProductMenu($event,'down',prod_menu)"></i>
-              <mat-slide-toggle (change)="toggleProdMenu($event, prod_menu)" [checked]="!prod_menu.hidden"
-                                (click)="clicked($event)"></mat-slide-toggle>
+              <mat-slide-toggle (change)="toggleProdMenu($event, prod_menu)" [checked]="!prod_menu.hidden"></mat-slide-toggle>
             </div>
           </mat-panel-title>
         </mat-expansion-panel-header>

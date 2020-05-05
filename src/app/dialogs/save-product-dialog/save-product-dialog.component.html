@@ -93,9 +93,9 @@
                     formControlName="productIngredients" multiple
                     (selectionChange)="menuSelected($event.value)">
           <!--                    <mat-select-trigger>-->
-          <!--                      {{selectedIngrMenus.length > 0 ? selectedIngrMenus[0].title : ''}}-->
-          <!--                      <span *ngIf="selectedIngrMenus?.length > 1" class="example-additional-selection">-->
-          <!--                        (+{{selectedIngrMenus.length - 1}} {{selectedIngrMenus?.length === 2 ? 'other' : 'others'}})-->
+          <!--                      {{selectedMenus.length > 0 ? selectedMenus[0].title : ''}}-->
+          <!--                      <span *ngIf="selectedMenus?.length > 1" class="example-additional-selection">-->
+          <!--                        (+{{selectedMenus.length - 1}} {{selectedMenus?.length === 2 ? 'other' : 'others'}})-->
           <!--                      </span>-->
           <!--                    </mat-select-trigger>-->
           <mat-option *ngFor="let ingr of ingrMenus" [value]="ingr._id">{{ingr.title}}</mat-option>
@@ -104,15 +104,25 @@
       <mat-form-field
         style="display:block;  width:calc(100% - 32px); margin:auto">
         <mat-label>Default Ingredients</mat-label>
-        <!--        <ng-container *ngFor="let ingr of selectedIngrMenus">-->
+        <!--        <ng-container *ngFor="let ingr of selectedMenus">-->
         <!--          <span>{{ingr.title}}</span>-->
         <!--        </ng-container>-->
         <mat-select formControlName="defaultIngredients" multiple (selectionChange)="defaultIngrSelected($event.value)">
-          <mat-optgroup *ngFor="let ingr of selectedIngrMenus" [label]="ingr.title">
-            <mat-option *ngFor="let ingr_type of getIngredientsByMenu(ingr._id)" [value]="ingr_type._id">
-              {{ingr_type.title}}
-            </mat-option>
-          </mat-optgroup>
+          <mat-option>
+            <ngx-mat-select-search [formControl]="defaultFilterCtrl"
+                                   placeholderLabel="Search..."></ngx-mat-select-search>
+          </mat-option>
+          <ng-container *ngFor="let menu of selectedMenus">
+
+            <mat-optgroup [label]="menu.title"
+                          *ngIf="(getIngredientsByMenu(menu._id)|stringFilterBy:searchDefault:'title').length > 0">
+              <mat-option
+                *ngFor="let defaultIngredient of getIngredientsByMenu(menu._id)|stringFilterBy:searchDefault:'title'"
+                [value]="defaultIngredient._id">
+                {{defaultIngredient.title}}
+              </mat-option>
+            </mat-optgroup>
+          </ng-container>
 
           <!--                  <mat-option *ngFor="let ingr of ingredients" [value]="ingr._id">{{ingr.title}}</mat-option>-->
         </mat-select>
@@ -121,17 +131,25 @@
       <mat-form-field
         style="display:block;  width:calc(100% - 32px); margin:auto">
         <mat-label>Optional Ingredients</mat-label>
-        <!--        <ng-container *ngFor="let ingr of selectedIngrMenus">-->
+        <!--        <ng-container *ngFor="let ingr of selectedMenus">-->
         <!--          <span>{{ingr.title}}</span>-->
         <!--        </ng-container>-->
         <mat-select formControlName="optionalIngredients" multiple
-                    (selectionChange)="defaultIngrSelected($event.value)">
-          <mat-optgroup *ngFor="let ingr of selectedIngrMenus" [label]="ingr.title">
-            <mat-option *ngFor="let ingr_type of getOptionals()"
-                        [value]="ingr_type._id">
-              {{ingr_type.title}}
-            </mat-option>
-          </mat-optgroup>
+                    (selectionChange)="optionalIngredientSelected($event.value)">
+          <mat-option>
+            <ngx-mat-select-search [formControl]="optionalFilterCtrl" noEntriesFoundLabel="No results found"
+                                   placeholderLabel="Search..."></ngx-mat-select-search>
+          </mat-option>
+          <ng-container *ngFor="let menu of selectedMenus">
+            <mat-optgroup *ngIf="(getOptionals(menu)|stringFilterBy:searchOptional:'title').length > 0"
+                          [label]="menu.title">
+              <ng-container *ngFor="let optionalIngredient of getOptionals(menu)|stringFilterBy:searchOptional:'title'">
+                <mat-option [value]="optionalIngredient._id">
+                  {{optionalIngredient.title}}
+                </mat-option>
+              </ng-container>
+            </mat-optgroup>
+          </ng-container>
 
           <!--                  <mat-option *ngFor="let ingr of ingredients" [value]="ingr._id">{{ingr.title}}</mat-option>-->
         </mat-select>
@@ -140,7 +158,9 @@
     </ng-container>
   </ng-container>
 
-  <mat-slide-toggle [checked]="false" class="visibility" (change)="visibilityChanged($event)" formControlName="hidden">Hidden</mat-slide-toggle>
+  <!--  <mat-slide-toggle [checked]="false" class="visibility" (change)="visibilityChanged($event)" formControlName="hidden">-->
+  <!--    Hidden-->
+  <!--  </mat-slide-toggle>-->
   <div class="actions">
     <mat-spinner [diameter]="20" *ngIf="common.formProcessing" color="warn"></mat-spinner>
     <button (click)="save()">{{edit ? 'Update product info' : 'Add new product'}}</button>
