@@ -117,7 +117,7 @@
             <mat-optgroup [label]="menu.title"
                           *ngIf="(getIngredientsByMenu(menu._id)|stringFilterBy:searchDefault:'title').length > 0">
               <mat-option
-                *ngFor="let defaultIngredient of getIngredientsByMenu(menu._id)|stringFilterBy:searchDefault:'title'"
+                *ngFor="let defaultIngredient of getDefaults(menu)|stringFilterBy:searchDefault:'title'"
                 [value]="defaultIngredient._id">
                 {{defaultIngredient.title}}
               </mat-option>

@@ -255,8 +255,7 @@ export class SaveProductDialogComponent implements OnInit {
     this.selectedDefaultIngredients = ids;
   }
 
-  optionalIngredientSelected(e) {
-
+  optionalIngredientSelected(ids) {
   }
 
   handleIngredientsFiltering() {
@@ -267,6 +266,19 @@ export class SaveProductDialogComponent implements OnInit {
     this.defaultFilterCtrl.valueChanges.subscribe((dt) => {
       this.searchDefault = dt;
     });
+  }
+
+  getDefaults(selectedMenu) {
+    const optionalIngredients = this.saveProductForm.get('optionalIngredients').value;
+
+    const defaults = [];
+    const is = this.getIngredientsByMenu(selectedMenu._id);
+    is.map(i => {
+      if (optionalIngredients.indexOf(i._id) === -1) {
+        defaults.push(i);
+      }
+    });
+    return defaults;
   }
 
 
