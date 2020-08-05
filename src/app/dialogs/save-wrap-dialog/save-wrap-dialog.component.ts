@@ -22,7 +22,6 @@ export class SaveWrapDialogComponent implements OnInit, OnDestroy {
     public dialogRef: MatDialogRef<SaveWrapDialogComponent>,
     private toastr: ToastrService
   ) {
-    console.log(data)
     this.edit = !!data.wrap;
 
     this.saveWrapForm = fb.group({title: ['', Validators.required], _id: ['']});
