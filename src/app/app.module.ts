@@ -38,6 +38,7 @@ import {ManageKiosksComponent} from './admin/manage-kiosks/manage-kiosks.compone
 
 import {NgxMatSelectSearchModule} from 'ngx-mat-select-search';
 import {StringFilterByPipe} from './pipes/string-filter-by.pipe';
+import { SaveWrapDialogComponent } from './dialogs/save-wrap-dialog/save-wrap-dialog.component';
 
 const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
   url: `${environment.url}dashboard/admin/ads/video/add`,
@@ -67,7 +68,8 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     ConfirmationDialogComponent,
     NotFoundComponent,
     ManageKiosksComponent,
-    StringFilterByPipe
+    StringFilterByPipe,
+    SaveWrapDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -107,7 +109,8 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     SaveProductDialogComponent,
     SaveComboProductDialogComponent,
     SaveComboDialogComponent,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    SaveWrapDialogComponent
   ]
 })
 

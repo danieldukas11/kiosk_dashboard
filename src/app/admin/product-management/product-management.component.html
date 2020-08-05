@@ -1,5 +1,5 @@
 <!-- Header tabs-->
-<mat-tab-group dynamicHeight class="wrapper" [selectedIndex]="0">
+<mat-tab-group dynamicHeight class="wrapper" [selectedIndex]="2">
   <!-- Ingredients tab -->
   <mat-tab label="Ingredients">
 
@@ -19,10 +19,11 @@
               <i class="far fa-edit" style="color:#F2AC21 " (click)="openIngredientMenuDialog($event, ingr_menu)"></i>
               <i class="fas fa-trash" style="color:red " (click)="removeIngredientMenu($event, ingr_menu._id)"></i>
               <i class="fas fa-arrow-up" style="color: darkgray" *ngIf="menuInd!== 0"
-              (click)="moveIngrMenu($event,'up',ingr_menu)"></i>
+                 (click)="moveIngrMenu($event,'up',ingr_menu)"></i>
               <i class="fas fa-arrow-down" style="color: darkgray" *ngIf="menuInd !== ingr_menus.length - 1"
                  (click)="moveIngrMenu($event,'down',ingr_menu)"></i>
-              <mat-slide-toggle (change)="toggleIngrMenu($event,ingr_menu)" [checked]="!ingr_menu.hidden"></mat-slide-toggle>
+              <mat-slide-toggle (change)="toggleIngrMenu($event,ingr_menu)"
+                                [checked]="!ingr_menu.hidden"></mat-slide-toggle>
             </div>
           </mat-panel-title>
         </mat-expansion-panel-header>
@@ -71,7 +72,8 @@
                    (click)="moveIngredient($event,'up',ingr)"></i>
               </td>
               <td>
-                <i class="fas fa-arrow-down" style="color: darkgray" *ngIf="ingrIndex !== getIngrByMenu(ingr_menu._id).length - 1"
+                <i class="fas fa-arrow-down" style="color: darkgray"
+                   *ngIf="ingrIndex !== getIngrByMenu(ingr_menu._id).length - 1"
                    (click)="moveIngredient($event,'down',ingr)"></i>
               </td>
 
@@ -98,7 +100,8 @@
                  (click)="moveProductMenu($event,'up',prod_menu)"></i>
               <i class="fas fa-arrow-down" style="color: darkgray" *ngIf="menuInd !== prod_menus.length - 1"
                  (click)="moveProductMenu($event,'down',prod_menu)"></i>
-              <mat-slide-toggle (change)="toggleProdMenu($event, prod_menu)" [checked]="!prod_menu.hidden"></mat-slide-toggle>
+              <mat-slide-toggle (change)="toggleProdMenu($event, prod_menu)"
+                                [checked]="!prod_menu.hidden"></mat-slide-toggle>
             </div>
           </mat-panel-title>
         </mat-expansion-panel-header>
@@ -142,7 +145,8 @@
 
               </td>
               <td>
-                <i class="fas fa-arrow-down" style="color: darkgray" *ngIf="prodIndex !== getProdByMenu(prod_menu._id).length - 1"
+                <i class="fas fa-arrow-down" style="color: darkgray"
+                   *ngIf="prodIndex !== getProdByMenu(prod_menu._id).length - 1"
                    (click)="moveProduct($event,'down',prod)"></i>
               </td>
             </tr>
@@ -150,6 +154,21 @@
         </div>
       </mat-expansion-panel>
     </mat-accordion>
+  </mat-tab>
+
+  <mat-tab label="Wraps">
+    <button class="add-wrap" (click)="openWrapsDialog()">Add Wrap</button>
+    <ul *ngIf="wraps && wraps.length > 0" class="wraps">
+      <li *ngFor="let wrap of wraps" class="wrap">
+        <div class="wrap-title">
+          <h3>{{wrap.title}}</h3>
+        </div>
+        <div class="wrap-actions">
+          <i class="far fa-edit" style="color:#F2AC21 " (click)="openWrapsDialog(wrap)"></i>
+          <i class="fas fa-trash remove-wrap" style="color:red " (click)="removeWrap(wrap._id)"></i>
+        </div>
+      </li>
+    </ul>
   </mat-tab>
 
   <!-- Combo menus tab -->

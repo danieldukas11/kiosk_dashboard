@@ -1,0 +1,14 @@
+<form [formGroup]="saveWrapForm" class="saveWrapForm">
+  <h1 mat-dialog-title>{{edit ? 'Edit' : 'Add new'}} wrap</h1>
+
+  <mat-dialog-content>
+    <input type="text" placeholder="Menu Title" name="mt" autocomplete="off" formControlName="title">
+    <mat-error *ngIf="titleCtrl.touched && titleCtrl.hasError('required')">
+      Title is <strong>required</strong>
+    </mat-error>
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <button (click)="save()">{{edit ? 'Update' : 'Add'}} wrap</button>
+  </mat-dialog-actions>
+</form>

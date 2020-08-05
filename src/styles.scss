@@ -23,7 +23,8 @@ body {
 }
 
 
-.saveProductMenuForm, .saveIngredientMenuForm, .saveComboMenuForm, .saveIngredientForm, .saveProductForm, .saveComboProductForm, .saveComboForm {
+.saveProductMenuForm, .saveIngredientMenuForm, .saveComboMenuForm, .saveIngredientForm, .saveProductForm,
+.saveComboProductForm, .saveComboForm, .saveWrapForm {
   input:not([type='checkbox']) {
     display: block;
     width: calc(100% - 32px);

@@ -174,3 +174,37 @@
 .mat-slide-toggle {
   margin-left: 10px !important;
 }
+
+.add-wrap {
+  margin: 20px;
+  font-size: 24px;
+  padding: 20px;
+  border-radius: 100px;
+  border: 0;
+  background-color: #F2AC21;
+  color: white;
+  outline: 0;
+}
+
+.wraps {
+  margin-left: 30px;
+  list-style: none;
+  padding: 30px;;
+
+  li {
+    margin: 20px;
+    display: flex;
+  }
+
+  .wrap-actions {
+    margin-left: 40px;
+
+    i {
+      cursor: pointer;
+    }
+
+    .remove-wrap {
+      margin-left: 15px;
+    }
+  }
+}

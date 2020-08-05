@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {environment} from "../../environments/environment"
+import {environment} from '../../environments/environment'
 
 
 @Injectable({
@@ -171,5 +171,20 @@ export class ManageProductsService {
     return this.http.put(`${environment.url}dashboard/admin/ingr_menu/update-visibility`, data);
   }
 
+  getWraps() {
+    return this.http.get(`${environment.url}dashboard/admin/wraps`);
+  }
+
+  addWrap(params) {
+    return this.http.post(`${environment.url}dashboard/admin/wraps/add`, params)
+  }
+
+  updateWrap(params) {
+    return this.http.put(`${environment.url}dashboard/admin/wraps/update`, params);
+  }
+
+  removeWrap(id) {
+    return this.http.delete(`${environment.url}dashboard/admin/wraps/remove`, {params: {id}});
+  }
 
 }

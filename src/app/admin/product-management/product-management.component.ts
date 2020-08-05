@@ -13,6 +13,7 @@ import {SaveComboProductDialogComponent} from '../../dialogs/save-combo-product-
 import {SaveComboDialogComponent} from '../../dialogs/save-combo-dialog/save-combo-dialog.component';
 import {ToastrService} from 'ngx-toastr';
 import {ConfirmationDialogComponent} from '../../dialogs/confirmation-dialog/confirmation-dialog.component';
+import {SaveWrapDialogComponent} from '../../dialogs/save-wrap-dialog/save-wrap-dialog.component';
 
 @Component({
   selector: 'app-product-management',
@@ -20,10 +21,10 @@ import {ConfirmationDialogComponent} from '../../dialogs/confirmation-dialog/con
   styleUrls: ['./product-management.component.scss']
 })
 export class ProductManagementComponent implements OnInit {
-  imgurl = environment.staticUrl + "images";
+  imgurl = environment.staticUrl + 'images';
 
   dialogOpened = false;
-  dialogType = "";
+  dialogType = '';
 
   ingr_menus = [];
   ingredients = [];
@@ -33,54 +34,56 @@ export class ProductManagementComponent implements OnInit {
   comboMenus = []
   ComboProds = []
 
+  wraps = [];
+
   prodIngr = new FormControl();
   defaultIngr = new FormControl();
   combo_prod = new FormControl();
   combo_menu = new FormControl();
   combo_default = new FormControl();
-  ingrMenuTitle = "";
+  ingrMenuTitle = '';
   img;
   disableExpansionOnPanel = false;
 
   ingredient = {
-    title: "",
-    light_price: "",
-    price: "",
-    double_price: "",
-    ingredient_ids: "",
+    title: '',
+    light_price: '',
+    price: '',
+    double_price: '',
+    ingredient_ids: '',
 
   };
   product = {
-    title: "",
-    price: "",
-    sizable: "false",
-    customizable: "false",
+    title: '',
+    price: '',
+    sizable: 'false',
+    customizable: 'false',
     menu_ids: [],
     sizes: [
       {
-        title: "Small",
-        price: ""
+        title: 'Small',
+        price: ''
       },
       {
-        title: "Medium",
-        price: ""
+        title: 'Medium',
+        price: ''
       },
       {
-        title: "Large",
-        price: ""
+        title: 'Large',
+        price: ''
       }
     ]
   };
   comboMenu = {
-    title: "",
-    configurable: "false"
+    title: '',
+    configurable: 'false'
   }
   combo = {
-    title: "",
+    title: '',
   };
   comboProd = {
     products: [],
-    special_menu_id: ""
+    special_menu_id: ''
 
   }
 
@@ -109,46 +112,50 @@ export class ProductManagementComponent implements OnInit {
       this.products = data
     })
     this.mp.getComboMenu().subscribe((data: any[]) => {
-      this.comboMenus = data
+      this.comboMenus = data;
     })
 
     this.mp.getCombos().subscribe((data: any[]) => {
       this.combos = data;
     });
+
+    this.mp.getWraps().subscribe((data: any[]) => {
+      this.wraps = data;
+    });
   }
 
   resetform() {
-    this.ingrMenuTitle = ""
-    this.ingredient.title = ""
-    this.ingredient.light_price = ""
-    this.ingredient.price = ""
-    this.ingredient.double_price = ""
-    this.ingredient.ingredient_ids = ""
+    this.ingrMenuTitle = ''
+    this.ingredient.title = ''
+    this.ingredient.light_price = ''
+    this.ingredient.price = ''
+    this.ingredient.double_price = ''
+    this.ingredient.ingredient_ids = ''
     this.prodIngr = new FormControl();
     this.defaultIngr = new FormControl();
-    this.product.customizable = "false"
-    this.product.price = ""
-    this.product.title = ""
-    this.product.sizable = "false"
+    this.product.customizable = 'false'
+    this.product.price = ''
+    this.product.title = ''
+    this.product.sizable = 'false'
     this.product.menu_ids = [];
     this.combo_prod = new FormControl();
     this.combo_menu = new FormControl();
     this.comboProd.products = [],
-      this.comboProd.special_menu_id = "";
-    this.comboMenu.title = "",
-      this.comboMenu.configurable = "false"
+      this.comboProd.special_menu_id = '';
+    this.comboMenu.title = '',
+      this.comboMenu.configurable = 'false'
     this.product.sizes = [
       {
-        title: "Small",
-        price: ""
+        title: 'Small',
+        price: ''
       },
       {
-        title: "Medium",
-        price: ""
+        title: 'Medium',
+        price: ''
       },
       {
-        title: "Large",
-        price: ""
+        title: 'Large',
+        price: ''
       }
     ]
     this.img = null
@@ -157,67 +164,67 @@ export class ProductManagementComponent implements OnInit {
   add(type) {
     let frm = new FormData();
     switch (type) {
-      case "Ingredient Menu":
+      case 'Ingredient Menu':
         let ingrmenu = this.mp.addIngredientMenu(this.ingrMenuTitle).subscribe(data => {
           this.ingr_menus.push(data);
           this.dialogOpened = false
-          this.dialogType = ""
+          this.dialogType = ''
           this.resetform()
           ingrmenu.unsubscribe()
         })
         break;
-      case "Ingredient":
+      case 'Ingredient':
 
-        frm.append("image", this.img);
-        frm.append("title", this.ingredient.title)
-        frm.append("price", this.ingredient.price)
-        frm.append("light_price", this.ingredient.light_price)
-        frm.append("double_price", this.ingredient.double_price)
-        frm.append("ingredient_ids", this.ingredient.ingredient_ids)
+        frm.append('image', this.img);
+        frm.append('title', this.ingredient.title)
+        frm.append('price', this.ingredient.price)
+        frm.append('light_price', this.ingredient.light_price)
+        frm.append('double_price', this.ingredient.double_price)
+        frm.append('ingredient_ids', this.ingredient.ingredient_ids)
         let ingrs = this.mp.addIngredient(frm).subscribe((data => {
           console.log(data)
           this.ingredients.push(data)
           this.dialogOpened = false
-          this.dialogType = ""
+          this.dialogType = ''
           this.resetform()
           ingrs.unsubscribe()
         }))
         break;
-      case "Product Menu":
+      case 'Product Menu':
         let prodm = this.mp.addProductMenu(this.ingrMenuTitle).subscribe((data) => {
           this.prod_menus.push(data);
           this.dialogOpened = false
-          this.dialogType = ""
+          this.dialogType = ''
           this.resetform()
           prodm.unsubscribe()
         })
         break
-      case "Product":
+      case 'Product':
         console.log(this.product.menu_ids)
-        frm.append("image", this.img);
-        frm.append("title", this.product.title);
-        frm.append("sizable", this.product.sizable);
-        frm.append("customizable", this.product.customizable);
-        frm.append("menu_ids", JSON.stringify(this.product.menu_ids))
-        if (this.product.sizable == "false" && this.product.customizable == "false") {
-          frm.append("price", this.product.price);
+        frm.append('image', this.img);
+        frm.append('title', this.product.title);
+        frm.append('sizable', this.product.sizable);
+        frm.append('customizable', this.product.customizable);
+        frm.append('menu_ids', JSON.stringify(this.product.menu_ids))
+        if (this.product.sizable == 'false' && this.product.customizable == 'false') {
+          frm.append('price', this.product.price);
         }
 
-        if (this.product.sizable == "true") {
-          frm.append("sizes", JSON.stringify(this.product.sizes))
+        if (this.product.sizable == 'true') {
+          frm.append('sizes', JSON.stringify(this.product.sizes))
         }
-        if (this.product.customizable == "true") {
-          frm.append("prodIngr", JSON.stringify(this.prodIngr.value));
-          frm.append("defaultIngr", JSON.stringify(this.defaultIngr.value))
+        if (this.product.customizable == 'true') {
+          frm.append('prodIngr', JSON.stringify(this.prodIngr.value));
+          frm.append('defaultIngr', JSON.stringify(this.defaultIngr.value))
         }
         this.mp.addProduct(frm).subscribe(data => {
           this.products.push(data)
           this.dialogOpened = false
-          this.dialogType = ""
+          this.dialogType = ''
           this.resetform()
         })
         break;
-      case "Combo":
+      case 'Combo':
         let price = 0
         if (this.combo_default.value && this.combo_default.value.length) {
           this.combo_default.value.forEach(d => {
@@ -226,31 +233,31 @@ export class ProductManagementComponent implements OnInit {
           console.log(price)
 
         }
-        frm.append("image", this.img);
-        frm.append("title", this.combo.title);
-        frm.append("price", JSON.stringify(price));
-        frm.append("products", JSON.stringify(this.combo_prod.value));
-        frm.append("comboMenu", JSON.stringify(this.combo_menu.value));
-        frm.append("defaults", JSON.stringify(this.combo_default.value));
+        frm.append('image', this.img);
+        frm.append('title', this.combo.title);
+        frm.append('price', JSON.stringify(price));
+        frm.append('products', JSON.stringify(this.combo_prod.value));
+        frm.append('comboMenu', JSON.stringify(this.combo_menu.value));
+        frm.append('defaults', JSON.stringify(this.combo_default.value));
         console.log(this.combo_default.value)
         this.mp.addCombo(frm).subscribe(data => {
           this.dialogOpened = false
-          this.dialogType = ""
+          this.dialogType = ''
           this.resetform()
           console.log(data)
           this.combos.push(data)
         })
         break
-      case "Combo Menu":
+      case 'Combo Menu':
         this.mp.addComboMenu(this.comboMenu).subscribe(data => {
           console.log(data)
           this.comboMenus.push(data);
           this.dialogOpened = false
-          this.dialogType = ""
+          this.dialogType = ''
           this.resetform()
         })
         break;
-      case "Combo Product":
+      case 'Combo Product':
         this.combo_prod.value.forEach(dat => {
           this.comboProd.products.push(dat._id)
         });
@@ -258,7 +265,7 @@ export class ProductManagementComponent implements OnInit {
         this.mp.addComboProd(this.comboProd).subscribe(data => {
           console.log(data)
           this.dialogOpened = false
-          this.dialogType = ""
+          this.dialogType = ''
           this.resetform()
         })
         break
@@ -522,7 +529,12 @@ export class ProductManagementComponent implements OnInit {
   moveIngredient(e, direction, ingr) {
     e.stopPropagation();
     console.log(ingr)
-    this.mp.updateIngrOrder({direction, _id: ingr._id, order: ingr.order, menuId: ingr.ingredient_ids[0]}).subscribe(dt => {
+    this.mp.updateIngrOrder({
+      direction,
+      _id: ingr._id,
+      order: ingr.order,
+      menuId: ingr.ingredient_ids[0]
+    }).subscribe(dt => {
       this.mp.getIngredients().subscribe((data: any[]) => {
         this.ingredients = data;
       });
@@ -556,7 +568,6 @@ export class ProductManagementComponent implements OnInit {
   }
 
 
-
   toggleProduct(e, product) {
     console.log(e)
     this.mp.toggleProduct({hidden: !e.checked, _id: product._id}).subscribe(() => {
@@ -573,6 +584,34 @@ export class ProductManagementComponent implements OnInit {
   toggleIngredient(e, ingredient) {
     this.mp.toggleIngredient({hidden: !e.checked, _id: ingredient._id}).subscribe(() => {
 
+    });
+  }
+
+  getWraps() {
+
+  }
+
+  openWrapsDialog(wrap = null) {
+    this.matDialog.open(SaveWrapDialogComponent, {
+      width: '500px',
+      data: {
+        wrap
+      }
+    }).afterClosed().subscribe(() => {
+      this.mp.getWraps().subscribe((dt: any) => {
+        this.wraps = dt;
+      });
+    });
+  }
+
+  removeWrap(id) {
+    this.matDialog.open(ConfirmationDialogComponent, {data: {}, maxWidth: '400px'}).afterClosed().subscribe((r) => {
+      if (r) {
+        this.mp.removeWrap(id).subscribe((dt: any) => {
+          this.toastr.success('The wrap info has been removed successfully', 'Removed!');
+          this.wraps = dt;
+        });
+      }
     });
   }
 
