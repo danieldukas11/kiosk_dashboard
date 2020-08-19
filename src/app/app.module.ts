@@ -119,4 +119,4 @@ export class AppModule {
 
 }
 
-console.log(`${environment.staticUrl}dashboard/admin/ads/video/add`);
+// console.log(`${environment.staticUrl}dashboard/admin/ads/video/add`);

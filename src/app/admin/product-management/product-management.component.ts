@@ -111,13 +111,13 @@ export class ProductManagementComponent implements OnInit {
     this.mp.getProducts().subscribe((data: any[]) => {
       this.products = data
     })
-    this.mp.getComboMenu().subscribe((data: any[]) => {
-      this.comboMenus = data;
-    })
-
-    this.mp.getCombos().subscribe((data: any[]) => {
-      this.combos = data;
-    });
+    // this.mp.getComboMenu().subscribe((data: any[]) => {
+    //   this.comboMenus = data;
+    // })
+    //
+    // this.mp.getCombos().subscribe((data: any[]) => {
+    //   this.combos = data;
+    // });
 
     this.mp.getWraps().subscribe((data: any[]) => {
       this.wraps = data;

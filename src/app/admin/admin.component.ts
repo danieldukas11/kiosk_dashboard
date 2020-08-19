@@ -25,6 +25,16 @@ export class AdminComponent implements OnInit {
     {
       title: 'Fleet Management',
       icon: 'fas fa-video',
+      link: 'manage_progress_monitor'
+    },
+    {
+      title: 'Sales',
+      icon: 'fas fa-user',
+      link: ''
+    },
+    {
+      title: 'Employees',
+      icon: 'fas fa-users',
       link: ''
     },
     // {

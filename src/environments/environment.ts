@@ -11,7 +11,8 @@ export const environment = {
   // url: 'http://64.225.3.114/',
   url: 'http://localhost/',
   // url: 'http://192.168.2.190/',
-  staticUrl: 'http://64.225.3.114/',
+  // staticUrl: 'http://64.225.3.114/',
+  staticUrl: 'http://localhost/',
   // staticUrl: 'http://192.168.2.190/'
 
 };
